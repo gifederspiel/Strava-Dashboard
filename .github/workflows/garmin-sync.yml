@@ -2,9 +2,8 @@ name: Garmin Sync
 
 on:
   schedule:
-    # run every hour (change if you like)
     - cron: "0 * * * *"
-  workflow_dispatch: {}  # lets you run it manually
+  workflow_dispatch: {}
 
 jobs:
   fetch-and-process:
@@ -26,10 +25,8 @@ jobs:
 
       - name: Run Garmin fetch
         env:
-          # session first
           GARMIN_SESSION_B64: ${{ secrets.GARMIN_SESSION_B64 }}
-          # optional fallback creds
           GARMIN_USERNAME: ${{ secrets.GARMIN_USERNAME }}
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
         run: |
-            python scripts/fetch_garmin.py
+          python scripts/fetch_garmin.py

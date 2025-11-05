@@ -9,29 +9,29 @@ from garminconnect import Garmin
 
 
 def get_client():
-    # 1) try session from base64
+    # 1) try session from base64 (best for GitHub Actions)
     session_b64 = os.environ.get("GARMIN_SESSION_B64")
     if session_b64:
         try:
-            # decode base64 → json string
             raw = base64.b64decode(session_b64)
             data = json.loads(raw.decode())
 
-            # create a temp dir and write the json there
+            # garth expects a directory with specific file names, at least oauth1_token.json
             tmp_dir = Path("/tmp/garth_session")
             tmp_dir.mkdir(parents=True, exist_ok=True)
-            session_file = tmp_dir / "session.json"
-            session_file.write_text(json.dumps(data))
 
-            # now tell garth to load that directory
+            # write exactly the name garth asked for in your error: oauth1_token.json
+            (tmp_dir / "oauth1_token.json").write_text(json.dumps(data))
+
+            # now load that directory
             garth.client.load(str(tmp_dir))
 
-            # create Garmin client that uses current garth session
+            # create Garmin client that uses the already-loaded garth session
             return Garmin()
         except Exception as e:
             print("⚠️ Failed to load session from GARMIN_SESSION_B64, will try username/password:", e)
 
-    # 2) fallback to username/password (may fail on GitHub IPs, but we try)
+    # 2) fallback to username/password
     username = os.environ.get("GARMIN_USERNAME")
     password = os.environ.get("GARMIN_PASSWORD")
     if username and password:
