@@ -1,6 +1,0 @@
-# Core Garmin Connect libraries
-garminconnect==0.2.15
-garth==0.4.46
-
-# (Optional but helpful if you want to handle JSON/HTTP safely)
-requests>=2.31.0
