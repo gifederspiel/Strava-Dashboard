@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strava Run Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-content">
+        <div class="header-text">
+          <p class="header-kicker">Gian's training log</p>
+          <h1>Strava Sessions Dashboard</h1>
+          <p class="header-subtitle">
+            A single view for weekly mileage, route recaps, heart-rate trends, and the strength work that keeps the engine
+            running.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="panel overview">
+        <div class="section-header">
+          <h2>Overview</h2>
+          <div class="range-toggle" id="range-toggle">
+            <button type="button" class="toggle-button toggle-button--active" data-range="week">
+              This Week
+            </button>
+            <button type="button" class="toggle-button" data-range="month">
+              This Month
+            </button>
+          </div>
+        </div>
+        <div id="summary-status" class="status status--inline"></div>
+        <div id="summary-cards" class="summary-cards"></div>
+      </section>
+
+      <section class="panel runs-section">
+        <div class="section-header">
+          <h2>Recent Runs</h2>
+        </div>
+        <div id="status" class="status"></div>
+        <div id="activities" class="activities"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>
+        API target:
+        <button id="api-target" type="button" class="api-target-button"></button>
+      </span>
+    </footer>
+
+    <script>
+      window.__STRAVA_API_BASE_URL__ = localStorage.getItem('STRAVA_API_BASE_URL') || undefined;
+    </script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
