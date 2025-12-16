@@ -22,6 +22,16 @@ Monorepo that contains a small Express proxy (`src/`) plus the Strava dashboard 
    ```
    The server refreshes the access token automatically using the refresh token.
 
+## Request caching
+To avoid Strava's 15-minute/24-hour rate limits, the proxy caches expensive responses for a short window (activities list ~30s, run/workout detail ~2min, summaries ~2min). Override the defaults via environment variables when needed:
+```ini
+LATEST_ACTIVITIES_CACHE_MS=30000
+LATEST_RUNS_CACHE_MS=120000
+LATEST_WORKOUTS_CACHE_MS=120000
+RUN_SUMMARY_CACHE_MS=120000
+```
+Set any value to `0` to disable caching for that endpoint.
+
 ## Running locally
 ```bash
 npm run dev     # start the proxy with watch mode

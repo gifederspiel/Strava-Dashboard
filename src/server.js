@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const stravaClient = require('./stravaClient');
+const { createCache } = require('./cache');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -30,6 +31,16 @@ const EXPANDED_CLIENT_ORIGINS = CLIENT_ORIGINS.flatMap((origin) => {
 const UNIQUE_ALLOWED_ORIGINS = Array.from(new Set(EXPANDED_CLIENT_ORIGINS));
 const RUN_SUMMARY_PAGE_SIZE = Number(process.env.RUN_SUMMARY_PAGE_SIZE || 100);
 const RUN_SUMMARY_MAX_PAGES = Number(process.env.RUN_SUMMARY_MAX_PAGES || 5);
+
+const LATEST_ACTIVITIES_CACHE_MS = Number(process.env.LATEST_ACTIVITIES_CACHE_MS || 30_000);
+const LATEST_RUNS_CACHE_MS = Number(process.env.LATEST_RUNS_CACHE_MS || 120_000);
+const LATEST_WORKOUTS_CACHE_MS = Number(process.env.LATEST_WORKOUTS_CACHE_MS || 120_000);
+const RUN_SUMMARY_CACHE_MS = Number(process.env.RUN_SUMMARY_CACHE_MS || 120_000);
+
+const latestActivitiesCache = createCache(LATEST_ACTIVITIES_CACHE_MS);
+const latestRunsCache = createCache(LATEST_RUNS_CACHE_MS);
+const latestWorkoutsCache = createCache(LATEST_WORKOUTS_CACHE_MS);
+const runSummaryCache = createCache(RUN_SUMMARY_CACHE_MS);
 
 app.use(express.json());
 app.use(
@@ -75,12 +86,20 @@ app.get('/api/strava/activities', async (req, res) => {
 
 app.get('/api/strava/activities/latest', async (req, res) => {
   const count = clampCount(req.query.count);
+  const cacheKey = `activities_latest:${count}`;
+
+  const cachedActivities = latestActivitiesCache.get(cacheKey);
+  if (cachedActivities !== undefined) {
+    res.json(cachedActivities);
+    return;
+  }
 
   try {
     const activities = await stravaClient.fetchActivities({
       perPage: count,
       page: 1,
     });
+    latestActivitiesCache.set(cacheKey, activities);
     res.json(activities);
   } catch (error) {
     handleStravaError(error, res);
@@ -89,6 +108,13 @@ app.get('/api/strava/activities/latest', async (req, res) => {
 
 app.get('/api/strava/runs/latest', async (req, res) => {
   const count = clampCount(req.query.count);
+  const cacheKey = `runs_latest:${count}`;
+
+  const cachedRuns = latestRunsCache.get(cacheKey);
+  if (cachedRuns !== undefined) {
+    res.json(cachedRuns);
+    return;
+  }
 
   try {
     const activities = await stravaClient.fetchActivities({
@@ -122,6 +148,7 @@ app.get('/api/strava/runs/latest', async (req, res) => {
       })
     );
 
+    latestRunsCache.set(cacheKey, enrichedRuns);
     res.json(enrichedRuns);
   } catch (error) {
     handleStravaError(error, res);
@@ -130,37 +157,13 @@ app.get('/api/strava/runs/latest', async (req, res) => {
 
 app.get('/api/strava/workouts/latest', async (req, res) => {
   const count = clampCount(req.query.count);
+  const cacheKey = `workouts_latest:${count}`;
 
-  try {
-    const activities = await stravaClient.fetchActivities({
-      perPage: Math.min(count * 3, 50),
-      page: 1,
-    });
-
-    const workouts = activities.filter(isStrengthActivity).slice(0, count);
-
-    const enrichedWorkouts = await Promise.all(
-      workouts.map(async (workout) => {
-        try {
-          const activity = await stravaClient.fetchActivityById(workout.id);
-          return activity;
-        } catch (error) {
-          if (error.response && error.response.status === 404) {
-            return workout;
-          }
-          throw error;
-        }
-      })
-    );
-
-    res.json(enrichedWorkouts);
-  } catch (error) {
-    handleStravaError(error, res);
+  const cachedWorkouts = latestWorkoutsCache.get(cacheKey);
+  if (cachedWorkouts !== undefined) {
+    res.json(cachedWorkouts);
+    return;
   }
-});
-
-app.get('/api/strava/workouts/latest', async (req, res) => {
-  const count = clampCount(req.query.count);
 
   try {
     const activities = await stravaClient.fetchActivities({
@@ -184,6 +187,7 @@ app.get('/api/strava/workouts/latest', async (req, res) => {
       })
     );
 
+    latestWorkoutsCache.set(cacheKey, enrichedWorkouts);
     res.json(enrichedWorkouts);
   } catch (error) {
     handleStravaError(error, res);
@@ -193,6 +197,13 @@ app.get('/api/strava/workouts/latest', async (req, res) => {
 app.get('/api/strava/runs/summary', async (req, res) => {
   const { range: rangeParam } = req.query;
   const { key: rangeKey, start, end } = resolveRangeWindow(rangeParam);
+  const cacheKey = `run_summary:${rangeKey}:${start.toISOString()}:${end.toISOString()}`;
+
+  const cachedSummary = runSummaryCache.get(cacheKey);
+  if (cachedSummary !== undefined) {
+    res.json(cachedSummary);
+    return;
+  }
 
   try {
     const runs = await fetchRunsInRange({
@@ -202,7 +213,7 @@ app.get('/api/strava/runs/summary', async (req, res) => {
 
     const summary = summariseRuns(runs);
 
-    res.json({
+    const payload = {
       range: rangeKey,
       from: start.toISOString(),
       to: end.toISOString(),
@@ -210,7 +221,10 @@ app.get('/api/strava/runs/summary', async (req, res) => {
       totals: summary.totals,
       averages: summary.averages,
       longestRun: summary.longestRun,
-    });
+    };
+
+    runSummaryCache.set(cacheKey, payload);
+    res.json(payload);
   } catch (error) {
     handleStravaError(error, res);
   }

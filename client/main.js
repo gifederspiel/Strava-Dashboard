@@ -12,6 +12,7 @@ const statusEl = document.getElementById('status');
 const summaryStatusEl = document.getElementById('summary-status');
 const summaryCardsEl = document.getElementById('summary-cards');
 const activitiesEl = document.getElementById('activities');
+const headerProfileEl = document.getElementById('header-profile');
 const toggleButtons = Array.from(document.querySelectorAll('#range-toggle [data-range]'));
 
 let currentRange = 'week';
@@ -32,6 +33,7 @@ function init() {
   updateRangeButtons();
   loadSummary();
   loadActivities();
+  loadAthleteProfile();
 }
 
 function updateRangeButtons() {
@@ -88,6 +90,20 @@ async function loadActivities() {
   } catch (error) {
     console.error('Failed to load sessions', error);
     setStatus(`Failed to load activities: ${error.message}`, 'error');
+  }
+}
+
+async function loadAthleteProfile() {
+  if (!headerProfileEl) {
+    return;
+  }
+
+  try {
+    const url = new URL('/api/strava/athlete', API_BASE_URL);
+    const athlete = await fetchFromApi(url);
+    renderHeaderProfile(athlete);
+  } catch (error) {
+    console.error('Failed to load athlete profile', error);
   }
 }
 
@@ -190,6 +206,57 @@ function renderActivities(entries) {
   });
 }
 
+function renderHeaderProfile(athlete) {
+  if (!headerProfileEl || !athlete) {
+    return;
+  }
+
+  headerProfileEl.innerHTML = '';
+
+  const profileLink = document.createElement('a');
+  profileLink.className = 'header-profile__link';
+  const athleteId = athlete.id;
+  profileLink.href =
+    athleteId !== undefined && athleteId !== null
+      ? `https://www.strava.com/athletes/${athleteId}`
+      : 'https://www.strava.com/';
+  profileLink.target = '_blank';
+  profileLink.rel = 'noopener noreferrer';
+  profileLink.title = 'View Strava profile';
+
+  const avatar = document.createElement('span');
+  avatar.className = 'header-profile__avatar';
+
+  const avatarUrl = athlete.profile_medium || athlete.profile;
+  if (avatarUrl && /^https?:\/\//i.test(avatarUrl)) {
+    const img = document.createElement('img');
+    img.src = avatarUrl;
+    img.alt = '';
+    img.loading = 'lazy';
+    avatar.appendChild(img);
+  } else {
+    avatar.textContent = getAthleteInitials(athlete);
+  }
+
+  const meta = document.createElement('span');
+  meta.className = 'header-profile__meta';
+
+  const label = document.createElement('span');
+  label.className = 'header-profile__label';
+  label.textContent = 'Strava profile';
+
+  const name = document.createElement('span');
+  name.className = 'header-profile__name';
+  name.textContent = getAthleteDisplayName(athlete);
+
+  meta.appendChild(label);
+  meta.appendChild(name);
+
+  profileLink.appendChild(avatar);
+  profileLink.appendChild(meta);
+  headerProfileEl.appendChild(profileLink);
+}
+
 function prepareSessions(runEntries, workoutEntries) {
   const runSessions = runEntries
     .map((entry) => {
@@ -255,9 +322,22 @@ function buildRunCard(activity, streams) {
   const titleBlock = document.createElement('div');
   titleBlock.className = 'activity-card__title-block';
 
+  const headingRow = document.createElement('div');
+  headingRow.className = 'activity-card__title-row';
+
   const heading = document.createElement('h2');
   heading.textContent = name || 'Untitled Run';
-  titleBlock.appendChild(heading);
+  headingRow.appendChild(heading);
+
+  const locationText = formatActivityLocation(activity);
+  if (locationText) {
+    const locationEl = document.createElement('span');
+    locationEl.className = 'activity-card__location';
+    locationEl.textContent = locationText;
+    headingRow.appendChild(locationEl);
+  }
+
+  titleBlock.appendChild(headingRow);
 
   const dateEl = document.createElement('p');
   dateEl.className = 'activity-card__date';
@@ -266,10 +346,20 @@ function buildRunCard(activity, streams) {
 
   header.appendChild(titleBlock);
 
+  const meta = document.createElement('div');
+  meta.className = 'activity-card__meta';
+
   const sportEl = document.createElement('span');
   sportEl.className = 'activity-card__sport';
   sportEl.textContent = sportType || type || 'Run';
-  header.appendChild(sportEl);
+  meta.appendChild(sportEl);
+
+  const headerLink = createActivityLink(id);
+  if (headerLink) {
+    meta.appendChild(headerLink);
+  }
+
+  header.appendChild(meta);
 
   card.appendChild(header);
 
@@ -321,19 +411,6 @@ function buildRunCard(activity, streams) {
     details.hidden = !expanded;
   });
 
-  const footer = document.createElement('div');
-  footer.className = 'activity-footer';
-
-  const link = document.createElement('a');
-  link.href = `https://www.strava.com/activities/${id}`;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  link.className = 'activity-link';
-  link.textContent = 'View on Strava';
-  footer.appendChild(link);
-
-  card.appendChild(footer);
-
   return card;
 }
 
@@ -359,9 +436,22 @@ function buildWorkoutCard(activity) {
   const titleBlock = document.createElement('div');
   titleBlock.className = 'activity-card__title-block';
 
+  const headingRow = document.createElement('div');
+  headingRow.className = 'activity-card__title-row';
+
   const heading = document.createElement('h2');
   heading.textContent = name || 'Workout Session';
-  titleBlock.appendChild(heading);
+  headingRow.appendChild(heading);
+
+  const locationText = formatActivityLocation(activity);
+  if (locationText) {
+    const locationEl = document.createElement('span');
+    locationEl.className = 'activity-card__location';
+    locationEl.textContent = locationText;
+    headingRow.appendChild(locationEl);
+  }
+
+  titleBlock.appendChild(headingRow);
 
   const dateEl = document.createElement('p');
   dateEl.className = 'activity-card__date';
@@ -370,10 +460,20 @@ function buildWorkoutCard(activity) {
 
   header.appendChild(titleBlock);
 
+  const meta = document.createElement('div');
+  meta.className = 'activity-card__meta';
+
   const sportEl = document.createElement('span');
   sportEl.className = 'activity-card__sport activity-card__sport--workout';
   sportEl.textContent = 'Workout';
-  header.appendChild(sportEl);
+  meta.appendChild(sportEl);
+
+  const headerLink = createActivityLink(id);
+  if (headerLink) {
+    meta.appendChild(headerLink);
+  }
+
+  header.appendChild(meta);
 
   card.appendChild(header);
 
@@ -391,21 +491,6 @@ function buildWorkoutCard(activity) {
     notes.innerHTML = linkify(escapeHtml(description));
     card.appendChild(notes);
   }
-
-  const footer = document.createElement('div');
-  footer.className = 'activity-footer';
-
-  if (id) {
-    const link = document.createElement('a');
-    link.href = `https://www.strava.com/activities/${id}`;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.className = 'activity-link';
-    link.textContent = 'View on Strava';
-    footer.appendChild(link);
-  }
-
-  card.appendChild(footer);
 
   return card;
 }
@@ -543,15 +628,48 @@ function createLongestRunCard(run) {
   )}`;
   card.appendChild(caption);
 
-  const link = document.createElement('a');
-  link.href = `https://www.strava.com/activities/${run.id}`;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  link.className = 'activity-link';
-  link.textContent = run.name || 'View on Strava';
-  card.appendChild(link);
+  const link = createActivityLink(run.id);
+  if (link) {
+    const label = link.querySelector('.sr-only');
+    if (label) {
+      label.textContent = run.name ? `View ${run.name} on Strava` : 'View on Strava';
+    }
+    card.appendChild(link);
+  }
 
   return card;
+}
+
+function createActivityLink(activityId) {
+  if (!activityId) {
+    return null;
+  }
+
+  const link = document.createElement('a');
+  link.href = `https://www.strava.com/activities/${activityId}`;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.className = 'activity-link activity-link--strava';
+  link.title = 'View on Strava';
+  const label = document.createElement('span');
+  label.className = 'sr-only';
+  label.textContent = 'View on Strava';
+  link.appendChild(label);
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const icon = document.createElementNS(svgNS, 'svg');
+  icon.setAttribute('viewBox', '0 0 32 32');
+  icon.setAttribute('aria-hidden', 'true');
+  icon.classList.add('activity-link__icon');
+  const leftPeak = document.createElementNS(svgNS, 'path');
+  leftPeak.setAttribute('d', 'M10 3L2 19h5.5L10 12l2.5 7H18L10 3z');
+  leftPeak.setAttribute('fill', 'currentColor');
+  const rightPeak = document.createElementNS(svgNS, 'path');
+  rightPeak.setAttribute('d', 'M22 13l-4 9h3.8L23 19.2 24.2 22H28l-4-9h-2z');
+  rightPeak.setAttribute('fill', 'currentColor');
+  icon.appendChild(leftPeak);
+  icon.appendChild(rightPeak);
+  link.appendChild(icon);
+  return link;
 }
 
 function createHiDPICanvas(width, height) {
@@ -742,6 +860,70 @@ function formatSummaryStatus(data) {
   const label = RANGE_LABELS[data.range] || 'Range';
   const rangeText = `${formatDateShort(data.from)} – ${formatDateShort(data.to)}`;
   return `${label} • ${rangeText}`;
+}
+
+function formatActivityLocation(activity) {
+  if (!activity) {
+    return '';
+  }
+
+  const {
+    location_city: city,
+    location_state: state,
+    location_country: country,
+  } = activity;
+
+  const parts = [city, state, country]
+    .map((value) => (typeof value === 'string' ? value.trim() : ''))
+    .filter(Boolean);
+
+  const uniqueParts = parts.filter((part, index) => parts.indexOf(part) === index);
+
+  if (uniqueParts.length > 0) {
+    return uniqueParts.join(', ');
+  }
+
+  return '';
+}
+
+function getAthleteDisplayName(athlete) {
+  if (!athlete) {
+    return 'Strava Athlete';
+  }
+
+  const parts = [athlete.firstname, athlete.lastname]
+    .map((value) => (typeof value === 'string' ? value.trim() : ''))
+    .filter(Boolean);
+
+  if (parts.length > 0) {
+    return parts.join(' ');
+  }
+
+  if (athlete.username) {
+    return athlete.username;
+  }
+
+  return 'Strava Athlete';
+}
+
+function getAthleteInitials(athlete) {
+  if (!athlete) {
+    return 'S';
+  }
+
+  const first = (athlete.firstname || '').trim();
+  const last = (athlete.lastname || '').trim();
+  const initials = `${first.charAt(0)}${last.charAt(0)}`.trim();
+  if (initials) {
+    return initials.toUpperCase();
+  }
+
+  const usernameInitial = (athlete.username || '').trim().charAt(0);
+  if (usernameInitial) {
+    return usernameInitial.toUpperCase();
+  }
+
+  return 'S';
 }
 
 function getActivityTimestamp(activity) {
