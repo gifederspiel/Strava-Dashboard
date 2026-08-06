@@ -6,10 +6,11 @@ the page reads pre-generated JSON from `client/data/`.
 
 ## How the data flows
 
-1. A daily **Claude cloud routine** calls the COROS connector, transcribes recent
-   activities into `client/data/raw.json`, and runs `scripts/build-coros.js`.
-2. `build-coros.js` turns `raw.json` into the files the page reads:
-   `runs.json`, `workouts.json`, `summary-week.json`, `summary-month.json`.
+1. A daily **Claude cloud routine** (120-day window) calls the COROS connector,
+   transcribes activities into `client/data/raw.json`, and runs `scripts/build-coros.js`.
+2. `build-coros.js` normalises `raw.json` into `client/data/activities.json` — one
+   sorted array, each run classified easy / quality / trail. The dashboard reads
+   that single file and computes every metric and chart client-side.
 3. The routine commits `client/data/` to `main`; the push triggers the Pages
    deploy in `.github/workflows/main.yml`.
 
@@ -18,10 +19,13 @@ Manage the routine at https://claude.ai/code/routines
 ## Local development
 
 ```bash
-npm run build     # rebuild client/data/*.json from client/data/raw.json
-npm test          # build-coros self-check (asserts the summary math)
+npm run build     # rebuild client/data/activities.json from client/data/raw.json
+npm test          # build-coros self-check (asserts classification + duration)
 npm run client    # serve client/ at http://localhost:5173
 ```
+
+The dashboard is a static page using Chart.js (CDN) and Google Fonts; it reads only
+`./data/activities.json`. Dark is the default theme with a light toggle.
 
 To refresh `raw.json` yourself, ask Claude (with the COROS connector) to pull your
 recent COROS activities in the shape documented at the top of `scripts/build-coros.js`.

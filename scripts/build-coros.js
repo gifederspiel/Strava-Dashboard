@@ -1,129 +1,76 @@
 // Turns client/data/raw.json (flat COROS fields, transcribed by the daily agent)
-// into the dashboard JSON the client already renders. All math lives here so the
-// agent only has to transcribe numbers, never compute summaries.
+// into client/data/activities.json: one normalized, sorted array the dashboard
+// reads and analyses entirely client-side. Keep this deterministic — the agent
+// only transcribes numbers, this file does the classifying.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
 const DATA_DIR = path.join(__dirname, '..', 'client', 'data');
-const RUN_COUNT = 10;
-const WORKOUT_COUNT = 5;
 
-const SPORT_NAMES = {
-  100: 'Run', 101: 'Indoor Run', 102: 'Trail Run', 103: 'Track Run',
+const SPORT = {
+  100: 'Road', 101: 'Treadmill', 102: 'Trail', 103: 'Track',
   400: 'Cardio', 401: 'Cardio', 402: 'Strength',
 };
 const RUN_TYPES = new Set([100, 101, 102, 103]);
 const STRENGTH_TYPES = new Set([400, 401, 402]);
+// Names COROS gives structured sessions. Track runs (103) are always quality.
+const QUALITY_RE = /interval|tempo|threshold|vo2|fartlek|\bstrides?\b|\d+\s*[x×]\s*\d|pace\b/i;
 
-// COROS activity -> the Strava-ish shape client/main.js already reads.
-function toActivity(a) {
-  const distanceMeters = Number(a.distanceKm || 0) * 1000;
-  const movingTime = a.durationSec ?? (Number(a.endTimestamp || 0) - Number(a.startTimestamp || 0));
-  const hr = Number(a.avgHr || 0);
+function normalise(a) {
+  const durationSec = a.endTimestamp && a.startTimestamp
+    ? a.endTimestamp - a.startTimestamp
+    : a.durationSec || 0;
+  const distanceKm = Number(a.distanceKm || 0);
+  const paceSecPerKm = a.paceSecPerKm || (distanceKm > 0 ? durationSec / distanceKm : 0);
+  const quality = a.sportType === 103 || QUALITY_RE.test(a.name || '');
   return {
-    id: a.labelId,
-    name: a.name || SPORT_NAMES[a.sportType] || 'Activity',
-    sport_type: SPORT_NAMES[a.sportType] || 'Workout',
-    type: SPORT_NAMES[a.sportType] || 'Workout',
-    start_date: new Date(Number(a.startTimestamp) * 1000).toISOString(),
-    distance: distanceMeters,
-    moving_time: movingTime,
-    elapsed_time: movingTime,
-    total_elevation_gain: Number(a.elevGainM || 0),
-    average_speed: movingTime > 0 ? distanceMeters / movingTime : 0,
-    average_heartrate: hr,
-    has_heartrate: hr > 0,
+    id: String(a.labelId),
+    date: new Date(Number(a.startTimestamp) * 1000).toISOString(),
+    sportType: a.sportType,
+    sport: SPORT[a.sportType] || 'Run',
+    name: a.name || SPORT[a.sportType] || 'Session',
+    distanceKm,
+    durationSec,
+    paceSecPerKm,
+    avgHr: Number(a.avgHr || 0),
     calories: Number(a.calories || 0),
-    suffer_score: Number(a.trainingLoad || 0),
-    description: '',
+    kind: STRENGTH_TYPES.has(a.sportType) ? 'workout' : 'run',
+    quality,
+    trail: a.sportType === 102,
   };
-}
-
-function summarise(activities, key, sinceDays) {
-  const cutoff = Date.now() - sinceDays * 86400 * 1000;
-  const runs = activities.filter((a) => new Date(a.start_date).getTime() >= cutoff);
-
-  const totals = { distanceMeters: 0, movingTimeSeconds: 0, elapsedTimeSeconds: 0, elevationGainMeters: 0 };
-  let hrWeightedSum = 0;
-  let hrWeight = 0;
-  let longest = null;
-
-  for (const a of runs) {
-    totals.distanceMeters += a.distance;
-    totals.movingTimeSeconds += a.moving_time;
-    totals.elapsedTimeSeconds += a.elapsed_time;
-    totals.elevationGainMeters += a.total_elevation_gain;
-    if (a.average_heartrate > 0 && a.moving_time > 0) {
-      hrWeightedSum += a.average_heartrate * a.moving_time;
-      hrWeight += a.moving_time;
-    }
-    if (!longest || a.distance > longest.distance) longest = a;
-  }
-
-  return {
-    range: key,
-    from: new Date(cutoff).toISOString(),
-    to: new Date().toISOString(),
-    runCount: runs.length,
-    totals,
-    averages: {
-      paceSecondsPerKm: totals.distanceMeters > 0 ? totals.movingTimeSeconds / (totals.distanceMeters / 1000) : null,
-      heartRateBpm: hrWeight > 0 ? hrWeightedSum / hrWeight : null,
-    },
-    longestRun: longest
-      ? {
-          id: longest.id, name: longest.name, startDate: longest.start_date,
-          distanceMeters: longest.distance, movingTimeSeconds: longest.moving_time,
-          averagePaceSecondsPerKm: longest.distance > 0 ? longest.moving_time / (longest.distance / 1000) : null,
-        }
-      : null,
-  };
-}
-
-function write(name, data) {
-  fs.writeFileSync(path.join(DATA_DIR, name), JSON.stringify(data));
 }
 
 function main() {
   const raw = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'raw.json'), 'utf8'));
   const activities = (raw.activities || [])
-    .map((a) => ({ ...toActivity(a), __sportType: a.sportType }))
-    .sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
+    .filter((a) => a.labelId && a.startTimestamp)
+    .map(normalise)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  const runs = activities.filter((a) => RUN_TYPES.has(a.__sportType));
-  const workouts = activities.filter((a) => STRENGTH_TYPES.has(a.__sportType));
+  fs.writeFileSync(
+    path.join(DATA_DIR, 'activities.json'),
+    JSON.stringify({ generatedAt: raw.generatedAt || new Date().toISOString(), activities })
+  );
 
-  write('runs.json', runs.slice(0, RUN_COUNT).map(({ __sportType, ...activity }) => ({ activity, streams: {} })));
-  write('workouts.json', workouts.slice(0, WORKOUT_COUNT).map(({ __sportType, ...activity }) => activity));
-  write('summary-week.json', summarise(runs, 'week', 7));
-  write('summary-month.json', summarise(runs, 'month', 30));
-  console.log(`Built ${runs.length} runs, ${workouts.length} workouts from ${(raw.activities || []).length} activities`);
+  const runs = activities.filter((a) => a.kind === 'run').length;
+  console.log(`Built activities.json: ${activities.length} activities (${runs} runs)`);
 }
 
 function selfCheck() {
-  const raw = {
-    activities: [
-      { labelId: '1', sportType: 100, name: 'A', startTimestamp: Math.floor(Date.now() / 1000) - 3600, endTimestamp: Math.floor(Date.now() / 1000) - 3300, distanceKm: 1, avgHr: 150, calories: 60 },
-      { labelId: '2', sportType: 103, name: 'B', startTimestamp: Math.floor(Date.now() / 1000) - 7200, durationSec: 600, distanceKm: 2, avgHr: 160, calories: 120 },
-      { labelId: '3', sportType: 402, name: 'Lift', startTimestamp: Math.floor(Date.now() / 1000) - 100, durationSec: 1800, distanceKm: 0, avgHr: 110, calories: 200, trainingLoad: 40 },
-    ],
-  };
-  const activities = raw.activities.map((a) => ({ ...toActivity(a), __sportType: a.sportType }));
-  const runs = activities.filter((a) => RUN_TYPES.has(a.__sportType));
-  const workouts = activities.filter((a) => STRENGTH_TYPES.has(a.__sportType));
-
-  assert.strictEqual(runs.length, 2, 'two runs classified');
-  assert.strictEqual(workouts.length, 1, 'one strength workout classified');
-  assert.strictEqual(runs.find((r) => r.id === '1').moving_time, 300, 'duration from end-start');
-  assert.strictEqual(runs.find((r) => r.id === '2').moving_time, 600, 'duration from durationSec');
-
-  const week = summarise(runs, 'week', 7);
-  assert.strictEqual(week.runCount, 2, 'both runs within a week');
-  assert.strictEqual(week.totals.distanceMeters, 3000, 'distance total 3km');
-  assert.strictEqual(week.averages.paceSecondsPerKm, 300, 'pace 900s / 3km = 300');
-  assert.strictEqual(week.longestRun.id, '2', 'longest is 2km run');
-  assert.ok(workouts[0].suffer_score === 40, 'trainingLoad -> suffer_score');
+  const now = Math.floor(Date.now() / 1000);
+  const rows = [
+    normalise({ labelId: 'a', sportType: 100, name: 'Lucerne Run', startTimestamp: now - 3600, endTimestamp: now - 3300, distanceKm: 1, paceSecPerKm: 300, avgHr: 150, calories: 60 }),
+    normalise({ labelId: 'b', sportType: 103, name: '5K Pace Intervals', startTimestamp: now - 7200, endTimestamp: now - 6600, distanceKm: 2, paceSecPerKm: 300, avgHr: 165, calories: 120 }),
+    normalise({ labelId: 'c', sportType: 100, name: '4 x 1600m tempo', startTimestamp: now - 100, endTimestamp: now, distanceKm: 6, paceSecPerKm: 345, avgHr: 171, calories: 500 }),
+    normalise({ labelId: 'd', sportType: 102, name: 'Calvi Trail Run', startTimestamp: now - 200, endTimestamp: now - 100, distanceKm: 14, paceSecPerKm: 768, avgHr: 137, calories: 1600 }),
+  ];
+  assert.strictEqual(rows[0].quality, false, 'plain road run is not quality');
+  assert.strictEqual(rows[1].quality, true, 'track run is quality');
+  assert.strictEqual(rows[2].quality, true, 'name "tempo" is quality');
+  assert.strictEqual(rows[3].trail, true, 'sportType 102 is trail');
+  assert.strictEqual(rows[0].durationSec, 300, 'duration from timestamps');
+  assert.strictEqual(rows[0].kind, 'run', 'road run classified as run');
   console.log('selfcheck ok');
 }
 

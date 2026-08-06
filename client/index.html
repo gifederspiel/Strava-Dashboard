@@ -3,63 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Strava Run Dashboard</title>
+    <title>run.gianfederspiel — running telemetry</title>
+    <meta name="description" content="Personal running telemetry from a COROS watch: volume, pace, and heart-rate trends." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
+    <script>
+      // Apply saved theme before paint to avoid a flash.
+      (function () {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
   <body>
-    <header class="app-header">
-      <div class="header-content">
-        <div class="header-text">
-          <p class="header-kicker">Gian's training log</p>
-          <h1>Strava Sessions Dashboard</h1>
-          <p class="header-subtitle">
-            A single view for weekly mileage, route recaps, heart-rate trends, and the strength work that keeps the engine
-            running.
-          </p>
-          <p class="app-disclaimer" role="status">
-            First API call can take ~50 seconds while the Render backend spins up.
-          </p>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <div class="brand">
+          <span class="brand__mark">run.gianfederspiel</span>
+          <span class="brand__sub" id="synced">Running telemetry</span>
         </div>
-        <div class="header-profile" id="header-profile">
-          <div class="header-profile__placeholder">
-            <span class="header-profile__avatar header-profile__avatar--placeholder"></span>
-            <div class="header-profile__meta">
-              <span class="header-profile__label">Strava profile</span>
-              <span class="header-profile__name">Loading…</span>
-            </div>
+        <div class="controls">
+          <div class="range" id="range" role="tablist" aria-label="Time range">
+            <button class="range__btn" data-range="30" role="tab">30d</button>
+            <button class="range__btn range__btn--active" data-range="90" role="tab" aria-selected="true">90d</button>
+            <button class="range__btn" data-range="all" role="tab">All</button>
           </div>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme">
+            <span class="theme-toggle__dot"></span>
+          </button>
         </div>
       </div>
     </header>
 
-    <main class="content">
-      <section class="panel overview">
-        <div class="section-header">
-          <h2>Overview</h2>
-          <div class="range-toggle" id="range-toggle">
-            <button type="button" class="toggle-button toggle-button--active" data-range="week">
-              This Week
-            </button>
-            <button type="button" class="toggle-button" data-range="month">
-              This Month
-            </button>
-          </div>
-        </div>
-        <div id="summary-status" class="status status--inline"></div>
-        <div id="summary-cards" class="summary-cards"></div>
+    <main class="page" id="app">
+      <section class="strip" id="tiles" aria-label="Summary metrics"></section>
+
+      <section class="grid">
+        <figure class="card card--wide">
+          <figcaption class="card__head">
+            <h2 class="card__title">Weekly volume</h2>
+            <div class="legend" id="volume-legend"></div>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-volume"></canvas></div>
+        </figure>
+
+        <figure class="card">
+          <figcaption class="card__head">
+            <h2 class="card__title">Easy-run pace</h2>
+            <span class="card__note">higher is faster</span>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-pace"></canvas></div>
+        </figure>
+
+        <figure class="card">
+          <figcaption class="card__head">
+            <h2 class="card__title">Efficiency</h2>
+            <span class="card__note">pace vs heart rate</span>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-efficiency"></canvas></div>
+        </figure>
+
+        <figure class="card">
+          <figcaption class="card__head">
+            <h2 class="card__title">Distance mix</h2>
+            <span class="card__note">runs by length</span>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-distance"></canvas></div>
+        </figure>
       </section>
 
-      <section class="panel runs-section">
-        <div class="section-header">
-          <h2>Recent Activities</h2>
+      <section class="card card--table">
+        <div class="card__head">
+          <h2 class="card__title">Session log</h2>
+          <span class="card__note" id="log-count"></span>
         </div>
-        <div id="status" class="status"></div>
-        <div id="activities" class="activities"></div>
+        <div class="table-scroll">
+          <table class="log">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Session</th>
+                <th>Type</th>
+                <th class="num">Dist</th>
+                <th class="num">Pace</th>
+                <th class="num">HR</th>
+                <th class="num">Time</th>
+              </tr>
+            </thead>
+            <tbody id="log-body"></tbody>
+          </table>
+        </div>
       </section>
+
+      <p class="status" id="status" role="status" hidden></p>
     </main>
-    <script>
-      window.__STRAVA_API_BASE_URL__ = localStorage.getItem('STRAVA_API_BASE_URL') || undefined;
-    </script>
+
+    <footer class="foot">
+      <span>Data from COROS · refreshed daily</span>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

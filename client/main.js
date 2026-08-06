@@ -1,1056 +1,354 @@
-import { API_BASE_URL, LATEST_ACTIVITY_COUNT } from './config.js';
+// Running telemetry dashboard. Reads one static ./data/activities.json
+// (normalised COROS data) and computes every metric client-side.
 
-const RUNS_ENDPOINT = './data/runs.json';
-const WORKOUTS_ENDPOINT = './data/workouts.json';
-const ATHLETE_ENDPOINT = './data/athlete.json';
-const summaryEndpoint = (range) => `./data/summary-${range}.json`;
-const RANGE_LABELS = {
-  week: 'This Week',
-  month: 'This Month',
-};
-
-const statusEl = document.getElementById('status');
-const summaryStatusEl = document.getElementById('summary-status');
-const summaryCardsEl = document.getElementById('summary-cards');
-const activitiesEl = document.getElementById('activities');
-const headerProfileEl = document.getElementById('header-profile');
-const toggleButtons = Array.from(document.querySelectorAll('#range-toggle [data-range]'));
-
-let currentRange = 'week';
+const state = { all: [], range: '90', charts: {} };
 
 init();
 
-function init() {
-  toggleButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const { range } = button.dataset;
-      if (!range || range === currentRange) return;
-      currentRange = range;
-      updateRangeButtons();
-      loadSummary();
+async function init() {
+  wireControls();
+  try {
+    const res = await fetch('./data/activities.json', { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    state.all = (data.activities || []).filter((a) => a.kind === 'run');
+    setSynced(data.generatedAt);
+    render();
+  } catch (err) {
+    const el = document.getElementById('status');
+    el.hidden = false;
+    el.textContent = `Couldn't load activity data (${err.message}). The daily sync may not have run yet.`;
+  }
+}
+
+function wireControls() {
+  document.getElementById('range').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-range]');
+    if (!btn || btn.dataset.range === state.range) return;
+    state.range = btn.dataset.range;
+    document.querySelectorAll('.range__btn').forEach((b) => {
+      const on = b.dataset.range === state.range;
+      b.classList.toggle('range__btn--active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
     });
+    render();
   });
 
-  updateRangeButtons();
-  loadSummary();
-  loadActivities();
-  loadAthleteProfile();
-}
-
-function updateRangeButtons() {
-  toggleButtons.forEach((button) => {
-    button.classList.toggle('toggle-button--active', button.dataset.range === currentRange);
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    render(); // re-theme charts
   });
 }
 
-async function loadSummary() {
-  setSummaryStatus('Loading overview…');
-
-  try {
-    const data = await fetchFromApi(summaryEndpoint(currentRange));
-    renderSummary(data);
-    setSummaryStatus(formatSummaryStatus(data), 'success');
-  } catch (error) {
-    console.error('Failed to load run summary', error);
-    summaryCardsEl.innerHTML = '';
-    setSummaryStatus(`Failed to load overview: ${error.message}`, 'error');
-  }
+// ── Filtering ────────────────────────────────────────────────────────────
+function inRange(activities) {
+  if (state.range === 'all') return activities;
+  const days = Number(state.range);
+  const cutoff = Date.now() - days * 86400 * 1000;
+  return activities.filter((a) => new Date(a.date).getTime() >= cutoff);
 }
 
-async function loadActivities() {
-  setStatus('Fetching recent sessions…');
+function previousWindow(activities, days) {
+  const now = Date.now();
+  const start = now - days * 86400 * 1000;
+  const prevStart = start - days * 86400 * 1000;
+  return activities.filter((a) => {
+    const t = new Date(a.date).getTime();
+    return t >= prevStart && t < start;
+  });
+}
 
-  try {
-    const [runsData, workoutsData] = await Promise.all([
-      fetchFromApi(RUNS_ENDPOINT),
-      fetchFromApi(WORKOUTS_ENDPOINT),
-    ]);
+// ── Render ───────────────────────────────────────────────────────────────
+function render() {
+  const runs = inRange(state.all);
+  renderTiles(runs);
+  renderVolume(runs);
+  renderPace(runs);
+  renderEfficiency(runs);
+  renderDistance(runs);
+  renderLog(runs);
+}
 
-    const { sessions, runCount, workoutCount } = prepareSessions(
-      Array.isArray(runsData) ? runsData : [],
-      Array.isArray(workoutsData) ? workoutsData : []
-    );
+function renderTiles(runs) {
+  const totalKm = sum(runs.map((r) => r.distanceKm));
+  const totalSec = sum(runs.map((r) => r.durationSec));
+  const quality = runs.filter((r) => r.quality);
+  const easy = runs.filter((r) => !r.quality && !r.trail);
 
-    renderActivities(sessions);
-
-    if (!sessions.length) {
-      setStatus('No recent sessions returned. Check Strava permissions or try refreshing.', 'error');
-      return;
+  let deltaHtml = '';
+  if (state.range !== 'all') {
+    const prevKm = sum(previousWindow(state.all, Number(state.range)).map((r) => r.distanceKm));
+    if (prevKm > 0) {
+      const pct = Math.round(((totalKm - prevKm) / prevKm) * 100);
+      const up = pct >= 0;
+      deltaHtml = `<span class="tile__delta ${up ? 'tile__delta--up' : 'tile__delta--down'}">${up ? '▲' : '▼'} ${Math.abs(pct)}% vs prev</span>`;
     }
-
-    setStatus(
-      `Showing ${sessions.length} sessions (${runCount} run${runCount === 1 ? '' : 's'} · ${workoutCount} workout${workoutCount === 1 ? '' : 's'})`,
-      'success'
-    );
-  } catch (error) {
-    console.error('Failed to load sessions', error);
-    setStatus(`Failed to load activities: ${error.message}`, 'error');
   }
+
+  const tiles = [
+    { label: 'Distance', value: fmt1(totalKm), unit: 'km', dot: 'var(--series-easy)', extra: deltaHtml },
+    { label: 'Runs', value: String(runs.length), unit: '' },
+    { label: 'Time', value: fmtHours(totalSec), unit: '' },
+    { label: 'Easy pace', value: fmtPace(weightedPace(easy)), unit: '/km', dot: 'var(--series-easy)' },
+    { label: 'Avg HR', value: String(Math.round(weightedHr(runs)) || 0), unit: 'bpm' },
+    { label: 'Quality', value: String(quality.length), unit: 'sessions', dot: 'var(--series-quality)' },
+  ];
+
+  document.getElementById('tiles').innerHTML = tiles
+    .map(
+      (t) => `<div class="tile" ${t.dot ? `style="--dot:${t.dot}"` : ''}>
+        <span class="tile__label">${t.label}</span>
+        <span class="tile__value">${t.value}${t.unit ? `<small>${t.unit}</small>` : ''}</span>
+        ${t.extra || ''}
+      </div>`
+    )
+    .join('');
 }
 
-async function loadAthleteProfile() {
-  if (!headerProfileEl) {
-    return;
-  }
-
-  try {
-    const athlete = await fetchFromApi(ATHLETE_ENDPOINT);
-    renderHeaderProfile(athlete);
-  } catch (error) {
-    console.error('Failed to load athlete profile', error);
-  }
+// ── Charts ───────────────────────────────────────────────────────────────
+function theme() {
+  const s = getComputedStyle(document.documentElement);
+  const v = (n) => s.getPropertyValue(n).trim();
+  return {
+    easy: v('--series-easy'),
+    quality: v('--series-quality'),
+    text: v('--text-2'),
+    muted: v('--muted'),
+    grid: v('--grid'),
+    surface: v('--surface'),
+  };
 }
 
-async function fetchFromApi(urlOrString) {
-  const url = urlOrString instanceof URL ? urlOrString : new URL(urlOrString, API_BASE_URL);
+function baseOptions(t) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: { duration: 300 },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: t.surface,
+        titleColor: t.text,
+        bodyColor: t.text,
+        borderColor: t.grid,
+        borderWidth: 1,
+        padding: 10,
+        cornerRadius: 8,
+        titleFont: { family: 'JetBrains Mono' },
+        bodyFont: { family: 'JetBrains Mono' },
+      },
+    },
+    font: { family: 'Space Grotesk' },
+  };
+}
 
-  const response = await fetch(url.toString(), {
-    headers: {
-      Accept: 'application/json',
+function mount(id, config) {
+  if (state.charts[id]) state.charts[id].destroy();
+  state.charts[id] = new Chart(document.getElementById(id), config);
+}
+
+function renderVolume(runs) {
+  const t = theme();
+  const weeks = groupByWeek(runs);
+  const labels = weeks.map((w) => w.label);
+  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: t.grid, drawTicks: false } };
+
+  mount('chart-volume', {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Easy', data: weeks.map((w) => round1(w.easyKm)), backgroundColor: t.easy, borderRadius: 3, stack: 'v' },
+        { label: 'Quality', data: weeks.map((w) => round1(w.qualityKm)), backgroundColor: t.quality, borderRadius: 3, stack: 'v' },
+      ],
+    },
+    options: {
+      ...baseOptions(t),
+      scales: {
+        x: { ...axis, stacked: true, grid: { display: false } },
+        y: { ...axis, stacked: true, border: { display: false }, title: { display: true, text: 'km', color: t.muted, font: { size: 10 } } },
+      },
+      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { label: (c) => `${c.dataset.label}: ${c.raw} km` } } },
     },
   });
 
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`);
-  }
-
-  return response.json();
+  document.getElementById('volume-legend').innerHTML = legend([
+    ['Easy', t.easy],
+    ['Quality', t.quality],
+  ]);
 }
 
-function renderSummary(data) {
-  summaryCardsEl.innerHTML = '';
+function renderPace(runs) {
+  const t = theme();
+  const easy = runs.filter((r) => !r.quality && !r.trail && r.distanceKm >= 2)
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+  const points = easy.map((r) => ({ x: new Date(r.date).getTime(), y: r.paceSecPerKm }));
+  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: t.grid, drawTicks: false } };
 
-  if (!data || data.runCount === 0) {
-    const card = createSummaryCard(
-      RANGE_LABELS[currentRange] || 'Overview',
-      '0 km',
-      'No runs recorded in this period.'
-    );
-    summaryCardsEl.appendChild(card);
-    return;
-  }
+  mount('chart-pace', {
+    type: 'line',
+    data: { datasets: [{ data: points, borderColor: t.easy, backgroundColor: t.easy, borderWidth: 2, pointRadius: 2.5, pointHoverRadius: 5, tension: 0.3 }] },
+    options: {
+      ...baseOptions(t),
+      parsing: false,
+      scales: {
+        x: { ...axis, type: 'linear', grid: { display: false }, ticks: { ...axis.ticks, callback: (v) => shortDate(v), maxTicksLimit: 6 } },
+        // pace axis reversed so a faster (lower) pace sits higher = improvement up
+        y: { ...axis, reverse: true, border: { display: false }, ticks: { ...axis.ticks, callback: (v) => fmtPace(v) } },
+      },
+      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { title: (c) => shortDate(c[0].parsed.x), label: (c) => `${fmtPace(c.parsed.y)} /km` } } },
+    },
+  });
+}
 
-  const totals = data.totals || {};
-  const averages = data.averages || {};
+function renderEfficiency(runs) {
+  const t = theme();
+  const usable = runs.filter((r) => !r.trail && r.distanceKm >= 2 && r.avgHr > 0);
+  const easy = usable.filter((r) => !r.quality).map((r) => ({ x: r.paceSecPerKm, y: r.avgHr }));
+  const quality = usable.filter((r) => r.quality).map((r) => ({ x: r.paceSecPerKm, y: r.avgHr }));
+  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: t.grid, drawTicks: false } };
 
-  const cards = [
-    createSummaryCard(
-      'Total Distance',
-      formatKilometers(totals.distanceMeters),
-      `${data.runCount} run${data.runCount === 1 ? '' : 's'}`
-    ),
-    createSummaryCard(
-      'Moving Time',
-      formatDuration(totals.movingTimeSeconds),
-      'All runs in range'
-    ),
-    createSummaryCard(
-      'Average Pace',
-      formatPaceFromSeconds(averages.paceSecondsPerKm),
-      'Weighted by distance'
-    ),
-    createSummaryCard(
-      'Elevation Gain',
-      formatElevation(totals.elevationGainMeters),
-      'Total ascent'
-    ),
-    createSummaryCard(
-      'Avg Heart Rate',
-      formatHeartRate(averages.heartRateBpm),
-      'Weighted by moving time'
-    ),
+  mount('chart-efficiency', {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: 'Easy', data: easy, backgroundColor: t.easy, pointRadius: 4, pointHoverRadius: 6 },
+        { label: 'Quality', data: quality, backgroundColor: t.quality, pointRadius: 4, pointHoverRadius: 6 },
+      ],
+    },
+    options: {
+      ...baseOptions(t),
+      scales: {
+        x: { ...axis, reverse: true, border: { display: false }, title: { display: true, text: 'pace  (faster →)', color: t.muted, font: { size: 10 } }, ticks: { ...axis.ticks, callback: (v) => fmtPace(v) } },
+        y: { ...axis, border: { display: false }, title: { display: true, text: 'avg HR', color: t.muted, font: { size: 10 } } },
+      },
+      plugins: {
+        ...baseOptions(t).plugins,
+        tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { label: (c) => `${fmtPace(c.parsed.x)} /km · ${c.parsed.y} bpm` } },
+      },
+    },
+  });
+}
+
+function renderDistance(runs) {
+  const t = theme();
+  const buckets = [
+    { label: '<2', min: 0, max: 2 },
+    { label: '2–4', min: 2, max: 4 },
+    { label: '4–6', min: 4, max: 6 },
+    { label: '6–8', min: 6, max: 8 },
+    { label: '8–12', min: 8, max: 12 },
+    { label: '12+', min: 12, max: Infinity },
   ];
+  const counts = buckets.map((b) => runs.filter((r) => r.distanceKm >= b.min && r.distanceKm < b.max).length);
+  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 }, precision: 0 }, grid: { color: t.grid, drawTicks: false } };
 
-  cards.forEach((card) => summaryCardsEl.appendChild(card));
-
-  if (data.longestRun) {
-    summaryCardsEl.appendChild(createLongestRunCard(data.longestRun));
-  }
-}
-
-function renderActivities(entries) {
-  activitiesEl.innerHTML = '';
-
-  if (!entries.length) {
-    const empty = document.createElement('div');
-    empty.className = 'status status--error';
-    empty.textContent = 'No recent sessions returned. Check Strava permissions or try refreshing.';
-    activitiesEl.appendChild(empty);
-    return;
-  }
-
-  entries.forEach((entry) => {
-    const activity = entry?.activity;
-    if (!activity) {
-      return;
-    }
-
-    if (entry.kind === 'workout') {
-      const workoutCard = buildWorkoutCard(activity);
-      if (workoutCard) {
-        activitiesEl.appendChild(workoutCard);
-      }
-      return;
-    }
-
-    const runCard = buildRunCard(activity, entry.streams || {});
-    if (runCard) {
-      activitiesEl.appendChild(runCard);
-    }
+  mount('chart-distance', {
+    type: 'bar',
+    data: { labels: buckets.map((b) => b.label), datasets: [{ data: counts, backgroundColor: t.easy, borderRadius: 3 }] },
+    options: {
+      ...baseOptions(t),
+      scales: {
+        x: { ...axis, grid: { display: false }, title: { display: true, text: 'km', color: t.muted, font: { size: 10 } } },
+        y: { ...axis, border: { display: false }, title: { display: true, text: 'runs', color: t.muted, font: { size: 10 } } },
+      },
+      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { label: (c) => `${c.raw} run${c.raw === 1 ? '' : 's'}` } } },
+    },
   });
 }
 
-function renderHeaderProfile(athlete) {
-  if (!headerProfileEl || !athlete) {
-    return;
-  }
-
-  headerProfileEl.innerHTML = '';
-
-  const profileLink = document.createElement('a');
-  profileLink.className = 'header-profile__link';
-  const athleteId = athlete.id;
-  profileLink.href =
-    athleteId !== undefined && athleteId !== null
-      ? `https://www.strava.com/athletes/${athleteId}`
-      : 'https://www.strava.com/';
-  profileLink.target = '_blank';
-  profileLink.rel = 'noopener noreferrer';
-  profileLink.title = 'View Strava profile';
-
-  const avatar = document.createElement('span');
-  avatar.className = 'header-profile__avatar';
-
-  const avatarUrl = athlete.profile_medium || athlete.profile;
-  if (avatarUrl && /^https?:\/\//i.test(avatarUrl)) {
-    const img = document.createElement('img');
-    img.src = avatarUrl;
-    img.alt = '';
-    img.loading = 'lazy';
-    avatar.appendChild(img);
-  } else {
-    avatar.textContent = getAthleteInitials(athlete);
-  }
-
-  const meta = document.createElement('span');
-  meta.className = 'header-profile__meta';
-
-  const label = document.createElement('span');
-  label.className = 'header-profile__label';
-  label.textContent = 'Strava profile';
-
-  const name = document.createElement('span');
-  name.className = 'header-profile__name';
-  name.textContent = getAthleteDisplayName(athlete);
-
-  meta.appendChild(label);
-  meta.appendChild(name);
-
-  profileLink.appendChild(avatar);
-  profileLink.appendChild(meta);
-  headerProfileEl.appendChild(profileLink);
-}
-
-function prepareSessions(runEntries, workoutEntries) {
-  const runSessions = runEntries
-    .map((entry) => {
-      const activity = entry?.activity;
-      if (!activity) {
-        return null;
-      }
-
-      return {
-        kind: 'run',
-        activity,
-        streams: entry?.streams || {},
-      };
+function renderLog(runs) {
+  const rows = runs.slice(0, 25);
+  document.getElementById('log-count').textContent = `${runs.length} runs`;
+  document.getElementById('log-body').innerHTML = rows
+    .map((r) => {
+      const tag = r.trail ? 'trail' : r.quality ? 'quality' : 'easy';
+      return `<tr>
+        <td class="num">${shortDate(new Date(r.date).getTime())}</td>
+        <td><div class="log__name">${escapeHtml(r.name)}</div><div class="log__loc">${r.sport}</div></td>
+        <td><span class="tag tag--${tag}">${tag}</span></td>
+        <td class="num">${fmt1(r.distanceKm)}</td>
+        <td class="num">${r.trail ? '—' : fmtPace(r.paceSecPerKm)}</td>
+        <td class="num">${r.avgHr || '—'}</td>
+        <td class="num">${fmtClock(r.durationSec)}</td>
+      </tr>`;
     })
-    .filter(Boolean);
-
-  const workoutSessions = workoutEntries
-    .map((activity) => {
-      if (!activity) {
-        return null;
-      }
-      return {
-        kind: 'workout',
-        activity,
-      };
-    })
-    .filter(Boolean);
-
-  const sessions = [...runSessions, ...workoutSessions].sort(
-    (a, b) => getActivityTimestamp(b.activity) - getActivityTimestamp(a.activity)
-  );
-
-  return {
-    sessions,
-    runCount: runSessions.length,
-    workoutCount: workoutSessions.length,
-  };
+    .join('');
 }
 
-function buildRunCard(activity, streams) {
-  const {
-    id,
-    name,
-    sport_type: sportType,
-    type,
-    start_date: startDate,
-    distance,
-    moving_time: movingTime,
-    total_elevation_gain: elevationGain,
-    average_speed: averageSpeed,
-    average_heartrate: averageHeartRate,
-    description,
-    has_heartrate: hasHeartRate,
-  } = activity;
-
-  const card = document.createElement('article');
-  card.className = 'activity-card activity-card--run';
-  card.dataset.activityId = id;
-
-  const header = document.createElement('div');
-  header.className = 'activity-card__header';
-
-  const titleBlock = document.createElement('div');
-  titleBlock.className = 'activity-card__title-block';
-
-  const headingRow = document.createElement('div');
-  headingRow.className = 'activity-card__title-row';
-
-  const heading = document.createElement('h2');
-  heading.textContent = name || 'Untitled Run';
-  headingRow.appendChild(heading);
-
-  const locationText = formatActivityLocation(activity);
-  if (locationText) {
-    const locationEl = document.createElement('span');
-    locationEl.className = 'activity-card__location';
-    locationEl.textContent = locationText;
-    headingRow.appendChild(locationEl);
+// ── Helpers ──────────────────────────────────────────────────────────────
+function groupByWeek(runs) {
+  const map = new Map();
+  for (const r of runs) {
+    const d = new Date(r.date);
+    const monday = new Date(d);
+    const day = (d.getDay() + 6) % 7; // Mon=0
+    monday.setDate(d.getDate() - day);
+    monday.setHours(0, 0, 0, 0);
+    const key = monday.getTime();
+    if (!map.has(key)) map.set(key, { key, label: shortDate(key), easyKm: 0, qualityKm: 0 });
+    const w = map.get(key);
+    if (r.quality) w.qualityKm += r.distanceKm;
+    else w.easyKm += r.distanceKm;
   }
-
-  titleBlock.appendChild(headingRow);
-
-  const dateEl = document.createElement('p');
-  dateEl.className = 'activity-card__date';
-  dateEl.textContent = formatDateFriendly(startDate);
-  titleBlock.appendChild(dateEl);
-
-  header.appendChild(titleBlock);
-
-  const meta = document.createElement('div');
-  meta.className = 'activity-card__meta';
-
-  const sportEl = document.createElement('span');
-  sportEl.className = 'activity-card__sport';
-  sportEl.textContent = sportType || type || 'Run';
-  meta.appendChild(sportEl);
-
-  const headerLink = createActivityLink(id);
-  if (headerLink) {
-    meta.appendChild(headerLink);
-  }
-
-  header.appendChild(meta);
-
-  card.appendChild(header);
-
-  const summary = createActivitySummary([
-    { label: 'Distance', value: formatDistance(distance) },
-    { label: 'Duration', value: formatDuration(movingTime) },
-    { label: 'Pace', value: formatPace(averageSpeed) },
-    { label: 'Avg HR', value: formatHeartRate(averageHeartRate) },
-    { label: 'Elevation', value: formatElevation(elevationGain) },
-  ]);
-  card.appendChild(summary);
-
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'activity-card__toggle';
-  toggle.textContent = 'Show details';
-  toggle.setAttribute('aria-expanded', 'false');
-  card.appendChild(toggle);
-
-  const details = document.createElement('div');
-  details.className = 'activity-card__details';
-  details.hidden = true;
-
-  if (description) {
-    const notes = document.createElement('p');
-    notes.className = 'activity-notes';
-    notes.innerHTML = linkify(escapeHtml(description));
-    details.appendChild(notes);
-  }
-
-  const visuals = document.createElement('div');
-  visuals.className = 'activity-visuals';
-
-  const latLngStream = streams?.latlng?.data || [];
-  visuals.appendChild(createRouteBlock(latLngStream));
-
-  const heartRateStream = streams?.heartrate?.data || [];
-  const timeStream = streams?.time?.data || [];
-  visuals.appendChild(createHeartRateBlock(heartRateStream, timeStream, hasHeartRate));
-
-  details.appendChild(visuals);
-  card.appendChild(details);
-
-  toggle.addEventListener('click', () => {
-    const expanded = !card.classList.contains('activity-card--expanded');
-    card.classList.toggle('activity-card--expanded', expanded);
-    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    toggle.textContent = expanded ? 'Hide details' : 'Show details';
-    details.hidden = !expanded;
-  });
-
-  return card;
+  return [...map.values()].sort((a, b) => a.key - b.key);
 }
 
-function buildWorkoutCard(activity) {
-  const {
-    id,
-    name,
-    start_date: startDate,
-    moving_time: movingTime,
-    average_heartrate: averageHeartRate,
-    calories,
-    suffer_score: relativeEffort,
-    description,
-  } = activity;
-
-  const card = document.createElement('article');
-  card.className = 'activity-card activity-card--workout';
-  card.dataset.activityId = id;
-
-  const header = document.createElement('div');
-  header.className = 'activity-card__header';
-
-  const titleBlock = document.createElement('div');
-  titleBlock.className = 'activity-card__title-block';
-
-  const headingRow = document.createElement('div');
-  headingRow.className = 'activity-card__title-row';
-
-  const heading = document.createElement('h2');
-  heading.textContent = name || 'Workout Session';
-  headingRow.appendChild(heading);
-
-  const locationText = formatActivityLocation(activity);
-  if (locationText) {
-    const locationEl = document.createElement('span');
-    locationEl.className = 'activity-card__location';
-    locationEl.textContent = locationText;
-    headingRow.appendChild(locationEl);
-  }
-
-  titleBlock.appendChild(headingRow);
-
-  const dateEl = document.createElement('p');
-  dateEl.className = 'activity-card__date';
-  dateEl.textContent = formatDateFriendly(startDate);
-  titleBlock.appendChild(dateEl);
-
-  header.appendChild(titleBlock);
-
-  const meta = document.createElement('div');
-  meta.className = 'activity-card__meta';
-
-  const sportEl = document.createElement('span');
-  sportEl.className = 'activity-card__sport activity-card__sport--workout';
-  sportEl.textContent = 'Workout';
-  meta.appendChild(sportEl);
-
-  const headerLink = createActivityLink(id);
-  if (headerLink) {
-    meta.appendChild(headerLink);
-  }
-
-  header.appendChild(meta);
-
-  card.appendChild(header);
-
-  const summary = createActivitySummary([
-    { label: 'Duration', value: formatDuration(movingTime) },
-    { label: 'Avg HR', value: formatHeartRate(averageHeartRate) },
-    { label: 'Calories', value: formatCalories(calories) },
-    { label: 'Rel. Effort', value: formatRelativeEffort(relativeEffort) },
-  ]);
-  card.appendChild(summary);
-
-  if (description) {
-    const notes = document.createElement('p');
-    notes.className = 'activity-notes';
-    notes.innerHTML = linkify(escapeHtml(description));
-    card.appendChild(notes);
-  }
-
-  return card;
+function legend(items) {
+  return items
+    .map(([name, color]) => `<span class="legend__item"><span class="legend__swatch" style="background:${color}"></span>${name}</span>`)
+    .join('');
 }
 
-function createActivitySummary(items) {
-  const container = document.createElement('div');
-  container.className = 'activity-summary';
+const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+const round1 = (n) => Math.round(n * 10) / 10;
 
-  items.forEach(({ label, value }) => {
-    const item = document.createElement('div');
-    item.className = 'activity-summary__item';
-
-    const itemLabel = document.createElement('span');
-    itemLabel.className = 'activity-summary__label';
-    itemLabel.textContent = label;
-
-    const itemValue = document.createElement('span');
-    itemValue.className = 'activity-summary__value';
-    itemValue.textContent = value;
-
-    item.appendChild(itemLabel);
-    item.appendChild(itemValue);
-    container.appendChild(item);
-  });
-
-  return container;
+function weightedPace(runs) {
+  const dist = sum(runs.map((r) => r.distanceKm));
+  if (!dist) return 0;
+  return sum(runs.map((r) => r.paceSecPerKm * r.distanceKm)) / dist;
+}
+function weightedHr(runs) {
+  const withHr = runs.filter((r) => r.avgHr > 0);
+  const time = sum(withHr.map((r) => r.durationSec));
+  if (!time) return 0;
+  return sum(withHr.map((r) => r.avgHr * r.durationSec)) / time;
 }
 
-function createRouteBlock(latLngStream) {
-  const block = document.createElement('section');
-  block.className = 'visual-block';
-
-  const title = document.createElement('h3');
-  title.textContent = 'Route';
-  block.appendChild(title);
-
-  const body = document.createElement('div');
-  body.className = 'visual-block__body';
-
-  if (Array.isArray(latLngStream) && latLngStream.length >= 2) {
-    const { canvas, ctx, width, height } = createHiDPICanvas(360, 220);
-    canvas.className = 'route-canvas';
-    drawRoute(ctx, latLngStream, width, height);
-    body.appendChild(canvas);
-  } else {
-    body.appendChild(createEmptyVisual('No GPS track available for this run.'));
-  }
-
-  block.appendChild(body);
-  return block;
+function fmt1(n) {
+  return (Math.round(n * 10) / 10).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 }
-
-function createHeartRateBlock(heartRateStream, timeStream, hasHeartRate) {
-  const block = document.createElement('section');
-  block.className = 'visual-block';
-
-  const title = document.createElement('h3');
-  title.textContent = 'Heart Rate';
-  block.appendChild(title);
-
-  const body = document.createElement('div');
-  body.className = 'visual-block__body';
-
-  if (Array.isArray(heartRateStream) && heartRateStream.length >= 2) {
-    const { canvas, ctx, width, height } = createHiDPICanvas(360, 220);
-    canvas.className = 'heart-rate-canvas';
-    drawHeartRate(ctx, heartRateStream, timeStream, width, height);
-    body.appendChild(canvas);
-
-    const summary = summariseHeartRate(heartRateStream);
-    if (summary) {
-      const summaryEl = document.createElement('p');
-      summaryEl.className = 'heart-rate-summary';
-      summaryEl.textContent = `Avg ${summary.avg} bpm · Min ${summary.min} · Max ${summary.max}`;
-      body.appendChild(summaryEl);
-    }
-  } else {
-    const message = hasHeartRate
-      ? 'Heart rate stream unavailable for this activity.'
-      : 'No heart rate recorded.';
-    body.appendChild(createEmptyVisual(message));
-  }
-
-  block.appendChild(body);
-  return block;
+function fmtPace(sec) {
+  if (!sec || !isFinite(sec)) return '—';
+  const m = Math.floor(sec / 60);
+  const s = Math.round(sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
 }
-
-function createEmptyVisual(message) {
-  const el = document.createElement('div');
-  el.className = 'visual-empty';
-  el.textContent = message;
-  return el;
+function fmtHours(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.round((sec % 3600) / 60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
 }
-
-function createSummaryCard(title, value, caption) {
-  const card = document.createElement('div');
-  card.className = 'summary-card';
-
-  const heading = document.createElement('h3');
-  heading.textContent = title;
-  card.appendChild(heading);
-
-  const valueEl = document.createElement('div');
-  valueEl.className = 'summary-card__value';
-  valueEl.textContent = value;
-  card.appendChild(valueEl);
-
-  if (caption) {
-    const captionEl = document.createElement('p');
-    captionEl.className = 'summary-card__caption';
-    captionEl.textContent = caption;
-    card.appendChild(captionEl);
-  }
-
-  return card;
+function fmtClock(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = Math.floor(sec % 60);
+  if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  return `${m}:${s.toString().padStart(2, '0')}`;
 }
-
-function createLongestRunCard(run) {
-  const card = document.createElement('div');
-  card.className = 'summary-card summary-card--highlight';
-
-  const heading = document.createElement('h3');
-  heading.textContent = 'Longest Run';
-  card.appendChild(heading);
-
-  const valueEl = document.createElement('div');
-  valueEl.className = 'summary-card__value';
-  valueEl.textContent = formatDistance(run.distanceMeters);
-  card.appendChild(valueEl);
-
-  const caption = document.createElement('p');
-  caption.className = 'summary-card__caption';
-  caption.textContent = `${formatDateShort(run.startDate)} · ${formatDuration(
-    run.movingTimeSeconds
-  )}`;
-  card.appendChild(caption);
-
-  const link = createActivityLink(run.id);
-  if (link) {
-    const label = link.querySelector('.sr-only');
-    if (label) {
-      label.textContent = run.name ? `View ${run.name} on Strava` : 'View on Strava';
-    }
-    card.appendChild(link);
-  }
-
-  return card;
+function shortDate(ms) {
+  return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date(ms));
 }
-
-function createActivityLink(activityId) {
-  if (!activityId) {
-    return null;
-  }
-
-  const link = document.createElement('a');
-  link.href = `https://www.strava.com/activities/${activityId}`;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  link.className = 'activity-link activity-link--strava';
-  link.title = 'View on Strava';
-  const label = document.createElement('span');
-  label.className = 'sr-only';
-  label.textContent = 'View on Strava';
-  link.appendChild(label);
-  const svgNS = 'http://www.w3.org/2000/svg';
-  const icon = document.createElementNS(svgNS, 'svg');
-  icon.setAttribute('viewBox', '0 0 32 32');
-  icon.setAttribute('aria-hidden', 'true');
-  icon.classList.add('activity-link__icon');
-  const leftPeak = document.createElementNS(svgNS, 'path');
-  leftPeak.setAttribute('d', 'M10 3L2 19h5.5L10 12l2.5 7H18L10 3z');
-  leftPeak.setAttribute('fill', 'currentColor');
-  const rightPeak = document.createElementNS(svgNS, 'path');
-  rightPeak.setAttribute('d', 'M22 13l-4 9h3.8L23 19.2 24.2 22H28l-4-9h-2z');
-  rightPeak.setAttribute('fill', 'currentColor');
-  icon.appendChild(leftPeak);
-  icon.appendChild(rightPeak);
-  link.appendChild(icon);
-  return link;
+function setSynced(iso) {
+  if (!iso) return;
+  const d = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date(iso));
+  document.getElementById('synced').textContent = `Running telemetry · synced ${d}`;
 }
-
-function createHiDPICanvas(width, height) {
-  const ratio = Math.min(window.devicePixelRatio || 1, 2);
-  const canvas = document.createElement('canvas');
-  canvas.width = Math.floor(width * ratio);
-  canvas.height = Math.floor(height * ratio);
-  canvas.style.width = `${width}px`;
-  canvas.style.height = `${height}px`;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(ratio, ratio);
-  return { canvas, ctx, width, height };
-}
-
-function drawRoute(ctx, latLngStream, width, height) {
-  const padding = 18;
-  const coords = latLngStream.map(([lat, lon]) => ({ lat, lon }));
-
-  const lats = coords.map((p) => p.lat);
-  const lons = coords.map((p) => p.lon);
-  const minLat = Math.min(...lats);
-  const maxLat = Math.max(...lats);
-  const minLon = Math.min(...lons);
-  const maxLon = Math.max(...lons);
-
-  const meanLatRad = ((minLat + maxLat) / 2) * (Math.PI / 180);
-  const lonFactor = Math.cos(meanLatRad) || 1;
-
-  const projected = coords.map(({ lat, lon }) => ({
-    x: (lon - minLon) * lonFactor,
-    y: lat - minLat,
-  }));
-
-  const xs = projected.map((p) => p.x);
-  const ys = projected.map((p) => p.y);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
-
-  const rangeX = Math.max(maxX - minX, 1e-6);
-  const rangeY = Math.max(maxY - minY, 1e-6);
-  const scale = Math.min(
-    (width - padding * 2) / rangeX,
-    (height - padding * 2) / rangeY
-  );
-
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = '#f8fafc';
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = '#f97316';
-
-  ctx.beginPath();
-  projected.forEach((point, index) => {
-    const x = padding + (point.x - minX) * scale;
-    const y = height - padding - (point.y - minY) * scale;
-
-    if (index === 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
-    }
-  });
-  ctx.stroke();
-
-  const startPoint = projected[0];
-  const endPoint = projected[projected.length - 1];
-  const startX = padding + (startPoint.x - minX) * scale;
-  const startY = height - padding - (startPoint.y - minY) * scale;
-  const endX = padding + (endPoint.x - minX) * scale;
-  const endY = height - padding - (endPoint.y - minY) * scale;
-
-  ctx.fillStyle = '#22c55e';
-  ctx.beginPath();
-  ctx.arc(startX, startY, 4, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = '#ef4444';
-  ctx.beginPath();
-  ctx.arc(endX, endY, 4, 0, Math.PI * 2);
-  ctx.fill();
-}
-
-function drawHeartRate(ctx, heartRateStream, timeStream, width, height) {
-  const padding = 22;
-  const times =
-    Array.isArray(timeStream) && timeStream.length === heartRateStream.length
-      ? timeStream
-      : heartRateStream.map((_, index) => index);
-
-  const minTime = Math.min(...times);
-  const maxTime = Math.max(...times);
-  const minHR = Math.min(...heartRateStream);
-  const maxHR = Math.max(...heartRateStream);
-
-  const timeRange = Math.max(maxTime - minTime, 1);
-  const hrRange = Math.max(maxHR - minHR, 1);
-  const chartWidth = width - padding * 2;
-  const chartHeight = height - padding * 2;
-
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = '#f8fafc';
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.strokeStyle = '#e2e8f0';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(padding, padding);
-  ctx.lineTo(padding, height - padding);
-  ctx.lineTo(width - padding, height - padding);
-  ctx.stroke();
-
-  const gradient = ctx.createLinearGradient(0, padding, 0, height - padding);
-  gradient.addColorStop(0, 'rgba(248, 113, 113, 0.35)');
-  gradient.addColorStop(1, 'rgba(248, 113, 113, 0)');
-
-  ctx.beginPath();
-  let lastX = padding;
-
-  heartRateStream.forEach((hr, index) => {
-    const t = times[index];
-    const x = padding + ((t - minTime) / timeRange) * chartWidth;
-    const y = height - padding - ((hr - minHR) / hrRange) * chartHeight;
-
-    if (index === 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
-    }
-
-    lastX = x;
-  });
-
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = '#f97316';
-  ctx.stroke();
-
-  ctx.lineTo(lastX, height - padding);
-  ctx.lineTo(padding, height - padding);
-  ctx.closePath();
-  ctx.fillStyle = gradient;
-  ctx.fill();
-
-  ctx.fillStyle = '#475569';
-  ctx.font = '12px "Inter", "Segoe UI", sans-serif';
-  ctx.fillText(`${Math.round(maxHR)} bpm`, padding + 6, padding + 12);
-  ctx.fillText(`${Math.round(minHR)} bpm`, padding + 6, height - padding - 6);
-}
-
-function summariseHeartRate(data) {
-  if (!Array.isArray(data) || !data.length) {
-    return null;
-  }
-
-  const total = data.reduce((sum, value) => sum + value, 0);
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const avg = Math.round(total / data.length);
-
-  return {
-    min: Math.round(min),
-    max: Math.round(max),
-    avg,
-  };
-}
-
-function setStatus(message, tone) {
-  statusEl.textContent = message;
-  statusEl.classList.toggle('status--error', tone === 'error');
-  statusEl.classList.toggle('status--success', tone === 'success');
-}
-
-function setSummaryStatus(message, tone) {
-  summaryStatusEl.textContent = message;
-  summaryStatusEl.classList.toggle('status--error', tone === 'error');
-  summaryStatusEl.classList.toggle('status--success', tone === 'success');
-}
-
-function formatSummaryStatus(data) {
-  if (!data) {
-    return '';
-  }
-
-  const label = RANGE_LABELS[data.range] || 'Range';
-  const rangeText = `${formatDateShort(data.from)} – ${formatDateShort(data.to)}`;
-  return `${label} • ${rangeText}`;
-}
-
-function formatActivityLocation(activity) {
-  if (!activity) {
-    return '';
-  }
-
-  const {
-    location_city: city,
-    location_state: state,
-    location_country: country,
-  } = activity;
-
-  const parts = [city, state, country]
-    .map((value) => (typeof value === 'string' ? value.trim() : ''))
-    .filter(Boolean);
-
-  const uniqueParts = parts.filter((part, index) => parts.indexOf(part) === index);
-
-  if (uniqueParts.length > 0) {
-    return uniqueParts.join(', ');
-  }
-
-  return '';
-}
-
-function getAthleteDisplayName(athlete) {
-  if (!athlete) {
-    return 'Strava Athlete';
-  }
-
-  const parts = [athlete.firstname, athlete.lastname]
-    .map((value) => (typeof value === 'string' ? value.trim() : ''))
-    .filter(Boolean);
-
-  if (parts.length > 0) {
-    return parts.join(' ');
-  }
-
-  if (athlete.username) {
-    return athlete.username;
-  }
-
-  return 'Strava Athlete';
-}
-
-function getAthleteInitials(athlete) {
-  if (!athlete) {
-    return 'S';
-  }
-
-  const first = (athlete.firstname || '').trim();
-  const last = (athlete.lastname || '').trim();
-  const initials = `${first.charAt(0)}${last.charAt(0)}`.trim();
-  if (initials) {
-    return initials.toUpperCase();
-  }
-
-  const usernameInitial = (athlete.username || '').trim().charAt(0);
-  if (usernameInitial) {
-    return usernameInitial.toUpperCase();
-  }
-
-  return 'S';
-}
-
-function getActivityTimestamp(activity) {
-  if (!activity) {
-    return 0;
-  }
-
-  const value = activity.start_date || activity.start_date_local;
-  if (!value) {
-    return 0;
-  }
-
-  const date = new Date(value);
-  const time = date.getTime();
-  return Number.isNaN(time) ? 0 : time;
-}
-
-function formatKilometers(meters) {
-  if (!Number.isFinite(meters)) return '0 km';
-  const kilometers = meters / 1000;
-  return `${kilometers.toFixed(kilometers >= 100 ? 0 : 1)} km`;
-}
-
-function formatHeartRate(bpm) {
-  if (!Number.isFinite(bpm) || bpm <= 0) {
-    return '—';
-  }
-  return `${Math.round(bpm)} bpm`;
-}
-
-function formatCalories(calories) {
-  if (!Number.isFinite(calories) || calories <= 0) {
-    return '—';
-  }
-  return `${Math.round(calories)} kcal`;
-}
-
-function formatRelativeEffort(value) {
-  if (!Number.isFinite(value) || value <= 0) {
-    return '—';
-  }
-  return `${Math.round(value)}`;
-}
-
-function formatDateFriendly(value) {
-  if (!value) return 'Unknown date';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return 'Unknown date';
-  }
-  const weekday = new Intl.DateTimeFormat(undefined, { weekday: 'short' }).format(date);
-  const datePart = new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(date);
-  const timePart = new Intl.DateTimeFormat(undefined, {
-    hour: 'numeric',
-    minute: 'numeric',
-  }).format(date);
-  return `${weekday}, ${datePart} • ${timePart}`;
-}
-
-function formatDateShort(value) {
-  if (!value) return '';
-  return new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(value));
-}
-
-function formatDuration(seconds) {
-  if (!Number.isFinite(seconds)) return '-';
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-  const parts = [
-    hrs > 0 ? `${hrs}h` : null,
-    mins > 0 ? `${mins}m` : null,
-    secs > 0 ? `${secs}s` : null,
-  ].filter(Boolean);
-  return parts.join(' ') || '0s';
-}
-
-function formatDistance(meters) {
-  if (!Number.isFinite(meters)) return '-';
-  const kilometers = meters / 1000;
-  return `${kilometers.toFixed(kilometers >= 10 ? 0 : 1)} km`;
-}
-
-function formatElevation(meters) {
-  if (!Number.isFinite(meters)) return '-';
-  return `${meters.toFixed(0)} m`;
-}
-
-function formatPace(speedMetersPerSecond) {
-  if (!Number.isFinite(speedMetersPerSecond) || speedMetersPerSecond <= 0) {
-    return '-';
-  }
-  const paceSeconds = 1000 / speedMetersPerSecond;
-  return formatPaceFromSeconds(paceSeconds);
-}
-
-function formatPaceFromSeconds(paceSeconds) {
-  if (!Number.isFinite(paceSeconds) || paceSeconds <= 0) {
-    return '—';
-  }
-  const mins = Math.floor(paceSeconds / 60);
-  const secs = Math.round(paceSeconds % 60)
-    .toString()
-    .padStart(2, '0');
-  return `${mins}:${secs} /km`;
-}
-
-function escapeHtml(input) {
-  const str = String(input ?? '');
-  return str.replace(/[&<>"']/g, (ch) => {
-    const escapeMap = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;',
-    };
-    return escapeMap[ch] || ch;
-  });
-}
-
-function linkify(text) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(
-    urlRegex,
-    (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
-  );
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
