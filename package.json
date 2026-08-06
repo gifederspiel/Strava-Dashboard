@@ -2,12 +2,11 @@
   "name": "my-strava-dashboard",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "scripts/build-coros.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
+    "build": "node scripts/build-coros.js",
     "client": "http-server client -p 5173 -c-1",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node scripts/build-coros.js --check"
   },
   "repository": {
     "type": "git",
@@ -20,12 +19,6 @@
     "url": "https://github.com/gifederspiel/my-strava-dashboard/issues"
   },
   "homepage": "https://github.com/gifederspiel/my-strava-dashboard#readme",
-  "dependencies": {
-    "axios": "^1.13.2",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0"
-  },
   "devDependencies": {
     "http-server": "^14.1.1"
   }

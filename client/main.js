@@ -1,8 +1,9 @@
 import { API_BASE_URL, LATEST_ACTIVITY_COUNT } from './config.js';
 
-const RUNS_ENDPOINT = '/api/strava/runs/latest';
-const WORKOUTS_ENDPOINT = '/api/strava/workouts/latest';
-const SUMMARY_ENDPOINT = '/api/strava/runs/summary';
+const RUNS_ENDPOINT = './data/runs.json';
+const WORKOUTS_ENDPOINT = './data/workouts.json';
+const ATHLETE_ENDPOINT = './data/athlete.json';
+const summaryEndpoint = (range) => `./data/summary-${range}.json`;
 const RANGE_LABELS = {
   week: 'This Week',
   month: 'This Month',
@@ -46,10 +47,7 @@ async function loadSummary() {
   setSummaryStatus('Loading overview…');
 
   try {
-    const url = new URL(SUMMARY_ENDPOINT, API_BASE_URL);
-    url.searchParams.set('range', currentRange);
-
-    const data = await fetchFromApi(url);
+    const data = await fetchFromApi(summaryEndpoint(currentRange));
     renderSummary(data);
     setSummaryStatus(formatSummaryStatus(data), 'success');
   } catch (error) {
@@ -63,13 +61,10 @@ async function loadActivities() {
   setStatus('Fetching recent sessions…');
 
   try {
-    const runsUrl = new URL(RUNS_ENDPOINT, API_BASE_URL);
-    runsUrl.searchParams.set('count', LATEST_ACTIVITY_COUNT);
-
-    const workoutsUrl = new URL(WORKOUTS_ENDPOINT, API_BASE_URL);
-    workoutsUrl.searchParams.set('count', Math.max(Math.ceil(LATEST_ACTIVITY_COUNT / 2), 3));
-
-    const [runsData, workoutsData] = await Promise.all([fetchFromApi(runsUrl), fetchFromApi(workoutsUrl)]);
+    const [runsData, workoutsData] = await Promise.all([
+      fetchFromApi(RUNS_ENDPOINT),
+      fetchFromApi(WORKOUTS_ENDPOINT),
+    ]);
 
     const { sessions, runCount, workoutCount } = prepareSessions(
       Array.isArray(runsData) ? runsData : [],
@@ -99,8 +94,7 @@ async function loadAthleteProfile() {
   }
 
   try {
-    const url = new URL('/api/strava/athlete', API_BASE_URL);
-    const athlete = await fetchFromApi(url);
+    const athlete = await fetchFromApi(ATHLETE_ENDPOINT);
     renderHeaderProfile(athlete);
   } catch (error) {
     console.error('Failed to load athlete profile', error);

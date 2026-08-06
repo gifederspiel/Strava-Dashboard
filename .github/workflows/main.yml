@@ -2,7 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]   # or your default branch
+    branches: [ main ]     # the daily COROS routine commits data here, which triggers deploy
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -23,7 +24,7 @@ jobs:
       - name: Upload client folder
         uses: actions/upload-pages-artifact@v3
         with:
-          path: client  
+          path: client
 
   deploy:
     needs: build

@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-08-06T08:30:00Z",
+  "activities": [
+    { "labelId": "479400921864896615", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1785905449, "endTimestamp": 1785907590, "distanceKm": 6.15, "avgHr": 152, "calories": 467 },
+    { "labelId": "479377992106148342", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1785822022, "endTimestamp": 1785822305, "distanceKm": 0.4, "avgHr": 145, "calories": 32 },
+    { "labelId": "479377991837712387", "sportType": 103, "name": "Half-Marathon pace intervals", "startTimestamp": 1785819036, "endTimestamp": 1785821917, "distanceKm": 8.82, "avgHr": 164, "calories": 699 },
+    { "labelId": "479377133917995011", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1785818691, "endTimestamp": 1785818962, "distanceKm": 0.797, "avgHr": 144, "calories": 51 },
+    { "labelId": "479313591221125228", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1785577149, "endTimestamp": 1785582258, "distanceKm": 13.01, "avgHr": 153, "calories": 1115 },
+    { "labelId": "479300042476257384", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1785509324, "endTimestamp": 1785511190, "distanceKm": 5.25, "avgHr": 151, "calories": 403 },
+    { "labelId": "479270508133646340", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1785421398, "endTimestamp": 1785424533, "distanceKm": 8.0, "avgHr": 154, "calories": 688 },
+    { "labelId": "479224625536991334", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1785250694, "endTimestamp": 1785250837, "distanceKm": 0.417, "avgHr": 157, "calories": 33 },
+    { "labelId": "479224370254872878", "sportType": 103, "name": "5K Pace Intervals (Intermediate)", "startTimestamp": 1785249364, "endTimestamp": 1785250507, "distanceKm": 3.53, "avgHr": 163, "calories": 286 },
+    { "labelId": "479224150406234417", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1785248530, "endTimestamp": 1785249066, "distanceKm": 1.61, "avgHr": 153, "calories": 118 },
+    { "labelId": "479205213624893548", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1785176315, "endTimestamp": 1785178512, "distanceKm": 6.11, "avgHr": 155, "calories": 485 },
+    { "labelId": "479150657610219625", "sportType": 100, "name": "Schwyz Run", "startTimestamp": 1784967195, "endTimestamp": 1784974064, "distanceKm": 14.5, "avgHr": 144, "calories": 1134 },
+    { "labelId": "479112974372471085", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1784832731, "endTimestamp": 1784834890, "distanceKm": 6.05, "avgHr": 150, "calories": 457 },
+    { "labelId": "479086529451425996", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1784733887, "endTimestamp": 1784736378, "distanceKm": 6.96, "avgHr": 156, "calories": 567 },
+    { "labelId": "479063512186913069", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1784650481, "endTimestamp": 1784650637, "distanceKm": 0.398, "avgHr": 156, "calories": 35 },
+    { "labelId": "479063399978795411", "sportType": 100, "name": "Run", "startTimestamp": 1784648743, "endTimestamp": 1784650206, "distanceKm": 5.23, "avgHr": 174, "calories": 401 },
+    { "labelId": "479062886195429579", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1784647545, "endTimestamp": 1784648023, "distanceKm": 1.49, "avgHr": 151, "calories": 102 },
+    { "labelId": "479016469946990694", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1784471068, "endTimestamp": 1784475375, "distanceKm": 12.01, "avgHr": 153, "calories": 946 },
+    { "labelId": "478971179785290028", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1784304487, "endTimestamp": 1784306673, "distanceKm": 6.01, "avgHr": 150, "calories": 466 },
+    { "labelId": "478959123273121894", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1784217929, "endTimestamp": 1784218229, "distanceKm": 0.801, "avgHr": 159, "calories": 66 },
+    { "labelId": "478959123273121893", "sportType": 100, "name": "5x 1200m", "startTimestamp": 1784215534, "endTimestamp": 1784217855, "distanceKm": 6.68, "avgHr": 154, "calories": 474 },
+    { "labelId": "478946690687074409", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1784215051, "endTimestamp": 1784215449, "distanceKm": 1.14, "avgHr": 144, "calories": 73 },
+    { "labelId": "478925752182538241", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1784134799, "endTimestamp": 1784137412, "distanceKm": 7.23, "avgHr": 153, "calories": 579 },
+    { "labelId": "478784314614513870", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1783610300, "endTimestamp": 1783610540, "distanceKm": 0.628, "avgHr": 153, "calories": 50 },
+    { "labelId": "478784314614513869", "sportType": 100, "name": "4 x 1600m tempo", "startTimestamp": 1783608134, "endTimestamp": 1783610208, "distanceKm": 5.97, "avgHr": 171, "calories": 500 },
+    { "labelId": "478783638157164546", "sportType": 100, "name": "Nottwil Run", "startTimestamp": 1783607497, "endTimestamp": 1783607918, "distanceKm": 1.32, "avgHr": 151, "calories": 86 },
+    { "labelId": "478741296490512587", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1783447728, "endTimestamp": 1783450019, "distanceKm": 6.06, "avgHr": 157, "calories": 516 }
+  ]
+}
