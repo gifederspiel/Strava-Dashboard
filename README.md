@@ -8,9 +8,11 @@ the page reads pre-generated JSON from `client/data/`.
 
 1. A daily **Claude cloud routine** (120-day window) calls the COROS connector,
    transcribes activities into `client/data/raw.json`, and runs `scripts/build-coros.js`.
-2. `build-coros.js` normalises `raw.json` into `client/data/activities.json` — one
-   sorted array, each run classified easy / quality / trail. The dashboard reads
-   that single file and computes every metric and chart client-side.
+2. `build-coros.js` normalises `raw.json` into `client/data/activities.json` — runs
+   (with a per-run aerobic-efficiency value), COROS's daily training-load series
+   (fitness / fatigue / ratio), and the current fitness snapshot (VO₂max, threshold,
+   race predictions). The dashboard reads that one file and computes the charts
+   client-side.
 3. The routine commits `client/data/` to `main`; the push triggers the Pages
    deploy in `.github/workflows/main.yml`.
 

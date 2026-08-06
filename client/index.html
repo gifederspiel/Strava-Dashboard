@@ -46,34 +46,42 @@
       <section class="grid">
         <figure class="card card--wide">
           <figcaption class="card__head">
-            <h2 class="card__title">Weekly volume</h2>
-            <div class="legend" id="volume-legend"></div>
+            <h2 class="card__title">Fitness &amp; fatigue</h2>
+            <div class="legend" id="load-legend"></div>
           </figcaption>
-          <div class="card__canvas"><canvas id="chart-volume"></canvas></div>
+          <div class="card__canvas"><canvas id="chart-load"></canvas></div>
         </figure>
 
         <figure class="card">
           <figcaption class="card__head">
-            <h2 class="card__title">Easy-run pace</h2>
-            <span class="card__note">higher is faster</span>
-          </figcaption>
-          <div class="card__canvas"><canvas id="chart-pace"></canvas></div>
-        </figure>
-
-        <figure class="card">
-          <figcaption class="card__head">
-            <h2 class="card__title">Efficiency</h2>
-            <span class="card__note">pace vs heart rate</span>
+            <h2 class="card__title">Aerobic efficiency</h2>
+            <span class="card__note">m / heartbeat · higher = fitter</span>
           </figcaption>
           <div class="card__canvas"><canvas id="chart-efficiency"></canvas></div>
         </figure>
 
         <figure class="card">
           <figcaption class="card__head">
-            <h2 class="card__title">Distance mix</h2>
-            <span class="card__note">runs by length</span>
+            <h2 class="card__title">Training balance</h2>
+            <span class="card__note">load ratio · 0.8–1.3 optimal</span>
           </figcaption>
-          <div class="card__canvas"><canvas id="chart-distance"></canvas></div>
+          <div class="card__canvas"><canvas id="chart-balance"></canvas></div>
+        </figure>
+
+        <figure class="card">
+          <figcaption class="card__head">
+            <h2 class="card__title">Weekly volume</h2>
+            <span class="card__note">km per week</span>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-volume"></canvas></div>
+        </figure>
+
+        <figure class="card card--predict">
+          <figcaption class="card__head">
+            <h2 class="card__title">Race predictions</h2>
+            <span class="card__note">from current fitness</span>
+          </figcaption>
+          <div class="predict" id="predictions"></div>
         </figure>
       </section>
 
@@ -92,6 +100,7 @@
                 <th class="num">Dist</th>
                 <th class="num">Pace</th>
                 <th class="num">HR</th>
+                <th class="num">m/beat</th>
                 <th class="num">Time</th>
               </tr>
             </thead>

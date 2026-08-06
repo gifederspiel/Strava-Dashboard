@@ -1,7 +1,24 @@
 // Running telemetry dashboard. Reads one static ./data/activities.json
-// (normalised COROS data) and computes every metric client-side.
+// (normalised COROS runs + COROS's daily training-load series + fitness
+// snapshot) and computes every metric client-side.
 
-const state = { all: [], range: '90', charts: {} };
+const state = { activities: [], load: [], fitness: null, range: '90', charts: {} };
+
+// Fills the y-band [lo,hi] on a chart — used for the load-ratio optimal zone.
+const bandPlugin = {
+  id: 'band',
+  beforeDatasetsDraw(chart, _args, opts) {
+    if (!opts || opts.lo == null) return;
+    const { ctx, chartArea, scales } = chart;
+    const y1 = scales.y.getPixelForValue(opts.hi);
+    const y2 = scales.y.getPixelForValue(opts.lo);
+    ctx.save();
+    ctx.fillStyle = opts.color;
+    ctx.fillRect(chartArea.left, y1, chartArea.right - chartArea.left, y2 - y1);
+    ctx.restore();
+  },
+};
+if (window.Chart) Chart.register(bandPlugin);
 
 init();
 
@@ -11,7 +28,9 @@ async function init() {
     const res = await fetch('./data/activities.json', { headers: { Accept: 'application/json' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    state.all = (data.activities || []).filter((a) => a.kind === 'run');
+    state.activities = (data.activities || []).filter((a) => a.kind === 'run');
+    state.load = data.load || [];
+    state.fitness = data.fitness || null;
     setSynced(data.generatedAt);
     render();
   } catch (err) {
@@ -41,87 +60,102 @@ function wireControls() {
     const next = current === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    render(); // re-theme charts
+    render();
   });
 }
 
 // ── Filtering ────────────────────────────────────────────────────────────
-function inRange(activities) {
-  if (state.range === 'all') return activities;
-  const days = Number(state.range);
-  const cutoff = Date.now() - days * 86400 * 1000;
-  return activities.filter((a) => new Date(a.date).getTime() >= cutoff);
+function cutoffMs() {
+  if (state.range === 'all') return -Infinity;
+  return Date.now() - Number(state.range) * 86400 * 1000;
 }
-
-function previousWindow(activities, days) {
-  const now = Date.now();
-  const start = now - days * 86400 * 1000;
-  const prevStart = start - days * 86400 * 1000;
-  return activities.filter((a) => {
-    const t = new Date(a.date).getTime();
-    return t >= prevStart && t < start;
-  });
+function runsInRange() {
+  const c = cutoffMs();
+  return state.activities.filter((a) => new Date(a.date).getTime() >= c);
+}
+function loadInRange() {
+  const c = cutoffMs();
+  return state.load.filter((d) => new Date(d.date).getTime() >= c);
+}
+// runs usable for aerobic-efficiency (steady effort, excl. trail & short reps)
+function efficiencyRuns(runs) {
+  return runs
+    .filter((r) => !r.trail && r.distanceKm >= 2 && r.avgHr > 0 && r.efficiency > 0)
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
 // ── Render ───────────────────────────────────────────────────────────────
 function render() {
-  const runs = inRange(state.all);
-  renderTiles(runs);
-  renderVolume(runs);
-  renderPace(runs);
+  const runs = runsInRange();
+  const load = loadInRange();
+  renderTiles(runs, load);
+  renderLoadChart(load);
   renderEfficiency(runs);
-  renderDistance(runs);
+  renderBalance(load);
+  renderVolume(runs);
+  renderPredictions();
   renderLog(runs);
 }
 
-function renderTiles(runs) {
-  const totalKm = sum(runs.map((r) => r.distanceKm));
-  const totalSec = sum(runs.map((r) => r.durationSec));
-  const quality = runs.filter((r) => r.quality);
-  const easy = runs.filter((r) => !r.quality && !r.trail);
+function renderTiles(runs, load) {
+  const f = state.fitness || {};
+  const latest = load[load.length - 1];
+  const first = load[0];
+  const eff = efficiencyRuns(runs);
+  const effNow = avg(eff.slice(-3).map((r) => r.efficiency));
+  const effThen = avg(eff.slice(0, 3).map((r) => r.efficiency));
 
-  let deltaHtml = '';
-  if (state.range !== 'all') {
-    const prevKm = sum(previousWindow(state.all, Number(state.range)).map((r) => r.distanceKm));
-    if (prevKm > 0) {
-      const pct = Math.round(((totalKm - prevKm) / prevKm) * 100);
-      const up = pct >= 0;
-      deltaHtml = `<span class="tile__delta ${up ? 'tile__delta--up' : 'tile__delta--down'}">${up ? '▲' : '▼'} ${Math.abs(pct)}% vs prev</span>`;
-    }
-  }
+  const status = latest ? latest.comment : '';
+  const statusClass = status === 'Excessive' ? 'tile__delta--down'
+    : status === 'Optimized' ? 'tile__delta--up' : '';
 
   const tiles = [
-    { label: 'Distance', value: fmt1(totalKm), unit: 'km', dot: 'var(--series-easy)', extra: deltaHtml },
-    { label: 'Runs', value: String(runs.length), unit: '' },
-    { label: 'Time', value: fmtHours(totalSec), unit: '' },
-    { label: 'Easy pace', value: fmtPace(weightedPace(easy)), unit: '/km', dot: 'var(--series-easy)' },
-    { label: 'Avg HR', value: String(Math.round(weightedHr(runs)) || 0), unit: 'bpm' },
-    { label: 'Quality', value: String(quality.length), unit: 'sessions', dot: 'var(--series-quality)' },
+    { label: 'VO₂max', value: f.vo2max != null ? String(f.vo2max) : '—', dot: 'var(--series-easy)' },
+    { label: 'Threshold', value: fmtPace(f.thresholdPaceSecPerKm), unit: '/km' },
+    fitnessTile(latest, first),
+    { label: 'Fatigue', value: latest ? String(latest.short) : '—', unit: 'acute', dot: 'var(--series-quality)' },
+    { label: 'Form', value: latest ? latest.ratio.toFixed(2) : '—',
+      extra: status ? `<span class="tile__delta ${statusClass}">${status}</span>` : '' },
+    effTile(effNow, effThen),
   ];
 
-  document.getElementById('tiles').innerHTML = tiles
-    .map(
-      (t) => `<div class="tile" ${t.dot ? `style="--dot:${t.dot}"` : ''}>
-        <span class="tile__label">${t.label}</span>
-        <span class="tile__value">${t.value}${t.unit ? `<small>${t.unit}</small>` : ''}</span>
-        ${t.extra || ''}
-      </div>`
-    )
-    .join('');
+  document.getElementById('tiles').innerHTML = tiles.map(tileHtml).join('');
+}
+
+function fitnessTile(latest, first) {
+  let extra = '';
+  if (latest && first && first.long > 0) {
+    const d = latest.long - first.long;
+    const up = d >= 0;
+    extra = `<span class="tile__delta ${up ? 'tile__delta--up' : 'tile__delta--down'}">${up ? '▲' : '▼'} ${Math.abs(d)} in range</span>`;
+  }
+  return { label: 'Fitness', value: latest ? String(latest.long) : '—', unit: 'chronic', dot: 'var(--series-easy)', extra };
+}
+
+function effTile(now, then) {
+  if (!now) return { label: 'Efficiency', value: '—', unit: 'm/beat' };
+  let extra = '';
+  if (then) {
+    const pct = Math.round(((now - then) / then) * 100);
+    const up = pct >= 0;
+    extra = `<span class="tile__delta ${up ? 'tile__delta--up' : 'tile__delta--down'}">${up ? '▲' : '▼'} ${Math.abs(pct)}% in range</span>`;
+  }
+  return { label: 'Efficiency', value: now.toFixed(2), unit: 'm/beat', dot: 'var(--series-easy)', extra };
+}
+
+function tileHtml(t) {
+  return `<div class="tile" ${t.dot ? `style="--dot:${t.dot}"` : ''}>
+    <span class="tile__label">${t.label}</span>
+    <span class="tile__value">${t.value}${t.unit ? `<small>${t.unit}</small>` : ''}</span>
+    ${t.extra || ''}
+  </div>`;
 }
 
 // ── Charts ───────────────────────────────────────────────────────────────
 function theme() {
   const s = getComputedStyle(document.documentElement);
   const v = (n) => s.getPropertyValue(n).trim();
-  return {
-    easy: v('--series-easy'),
-    quality: v('--series-quality'),
-    text: v('--text-2'),
-    muted: v('--muted'),
-    grid: v('--grid'),
-    surface: v('--surface'),
-  };
+  return { easy: v('--series-easy'), quality: v('--series-quality'), text: v('--text-2'), muted: v('--muted'), grid: v('--grid'), surface: v('--surface'), good: v('--good') };
 }
 
 function baseOptions(t) {
@@ -129,226 +163,194 @@ function baseOptions(t) {
     responsive: true,
     maintainAspectRatio: false,
     animation: { duration: 300 },
+    interaction: { mode: 'nearest', intersect: false },
     plugins: {
       legend: { display: false },
+      band: {},
       tooltip: {
-        backgroundColor: t.surface,
-        titleColor: t.text,
-        bodyColor: t.text,
-        borderColor: t.grid,
-        borderWidth: 1,
-        padding: 10,
-        cornerRadius: 8,
-        titleFont: { family: 'JetBrains Mono' },
-        bodyFont: { family: 'JetBrains Mono' },
+        backgroundColor: t.surface, titleColor: t.text, bodyColor: t.text,
+        borderColor: t.grid, borderWidth: 1, padding: 10, cornerRadius: 8,
+        titleFont: { family: 'JetBrains Mono' }, bodyFont: { family: 'JetBrains Mono' },
       },
     },
     font: { family: 'Space Grotesk' },
   };
 }
 
-function mount(id, config) {
-  if (state.charts[id]) state.charts[id].destroy();
-  state.charts[id] = new Chart(document.getElementById(id), config);
+function axis(t, extra = {}) {
+  return { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: t.grid, drawTicks: false }, border: { display: false }, ...extra };
 }
 
-function renderVolume(runs) {
-  const t = theme();
-  const weeks = groupByWeek(runs);
-  const labels = weeks.map((w) => w.label);
-  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: t.grid, drawTicks: false } };
+function mount(id, config) {
+  if (state.charts[id]) state.charts[id].destroy();
+  const el = document.getElementById(id);
+  if (el) state.charts[id] = new Chart(el, config);
+}
 
-  mount('chart-volume', {
-    type: 'bar',
+function renderLoadChart(load) {
+  const t = theme();
+  const pts = (key) => load.map((d) => ({ x: new Date(d.date).getTime(), y: d[key] }));
+  mount('chart-load', {
+    type: 'line',
     data: {
-      labels,
       datasets: [
-        { label: 'Easy', data: weeks.map((w) => round1(w.easyKm)), backgroundColor: t.easy, borderRadius: 3, stack: 'v' },
-        { label: 'Quality', data: weeks.map((w) => round1(w.qualityKm)), backgroundColor: t.quality, borderRadius: 3, stack: 'v' },
+        { label: 'Fitness', data: pts('long'), borderColor: t.easy, backgroundColor: t.easy, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, tension: 0.35 },
+        { label: 'Fatigue', data: pts('short'), borderColor: t.quality, backgroundColor: t.quality, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.35, borderDash: [4, 3] },
       ],
     },
     options: {
       ...baseOptions(t),
-      scales: {
-        x: { ...axis, stacked: true, grid: { display: false } },
-        y: { ...axis, stacked: true, border: { display: false }, title: { display: true, text: 'km', color: t.muted, font: { size: 10 } } },
-      },
-      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { label: (c) => `${c.dataset.label}: ${c.raw} km` } } },
-    },
-  });
-
-  document.getElementById('volume-legend').innerHTML = legend([
-    ['Easy', t.easy],
-    ['Quality', t.quality],
-  ]);
-}
-
-function renderPace(runs) {
-  const t = theme();
-  const easy = runs.filter((r) => !r.quality && !r.trail && r.distanceKm >= 2)
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
-  const points = easy.map((r) => ({ x: new Date(r.date).getTime(), y: r.paceSecPerKm }));
-  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: t.grid, drawTicks: false } };
-
-  mount('chart-pace', {
-    type: 'line',
-    data: { datasets: [{ data: points, borderColor: t.easy, backgroundColor: t.easy, borderWidth: 2, pointRadius: 2.5, pointHoverRadius: 5, tension: 0.3 }] },
-    options: {
-      ...baseOptions(t),
       parsing: false,
       scales: {
-        x: { ...axis, type: 'linear', grid: { display: false }, ticks: { ...axis.ticks, callback: (v) => shortDate(v), maxTicksLimit: 6 } },
-        // pace axis reversed so a faster (lower) pace sits higher = improvement up
-        y: { ...axis, reverse: true, border: { display: false }, ticks: { ...axis.ticks, callback: (v) => fmtPace(v) } },
+        x: axis(t, { type: 'linear', grid: { display: false }, ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 }, callback: (v) => shortDate(v), maxTicksLimit: 6 } }),
+        y: axis(t),
       },
-      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { title: (c) => shortDate(c[0].parsed.x), label: (c) => `${fmtPace(c.parsed.y)} /km` } } },
+      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { title: (c) => shortDate(c[0].parsed.x), label: (c) => `${c.dataset.label}: ${c.parsed.y}` } } },
     },
   });
+  document.getElementById('load-legend').innerHTML = legend([['Fitness', t.easy], ['Fatigue', t.quality]]);
 }
 
 function renderEfficiency(runs) {
   const t = theme();
-  const usable = runs.filter((r) => !r.trail && r.distanceKm >= 2 && r.avgHr > 0);
-  const easy = usable.filter((r) => !r.quality).map((r) => ({ x: r.paceSecPerKm, y: r.avgHr }));
-  const quality = usable.filter((r) => r.quality).map((r) => ({ x: r.paceSecPerKm, y: r.avgHr }));
-  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 } }, grid: { color: t.grid, drawTicks: false } };
+  const eff = efficiencyRuns(runs);
+  const points = eff.map((r) => ({ x: new Date(r.date).getTime(), y: r.efficiency }));
+  const trend = regressionLine(points);
 
   mount('chart-efficiency', {
     type: 'scatter',
     data: {
       datasets: [
-        { label: 'Easy', data: easy, backgroundColor: t.easy, pointRadius: 4, pointHoverRadius: 6 },
-        { label: 'Quality', data: quality, backgroundColor: t.quality, pointRadius: 4, pointHoverRadius: 6 },
+        { label: 'Run', data: points, backgroundColor: t.easy, pointRadius: 3, pointHoverRadius: 5 },
+        ...(trend ? [{ label: 'Trend', data: trend, type: 'line', borderColor: t.text, borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, tension: 0 }] : []),
       ],
     },
     options: {
       ...baseOptions(t),
+      parsing: false,
       scales: {
-        x: { ...axis, reverse: true, border: { display: false }, title: { display: true, text: 'pace  (faster →)', color: t.muted, font: { size: 10 } }, ticks: { ...axis.ticks, callback: (v) => fmtPace(v) } },
-        y: { ...axis, border: { display: false }, title: { display: true, text: 'avg HR', color: t.muted, font: { size: 10 } } },
+        x: axis(t, { type: 'linear', grid: { display: false }, ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 }, callback: (v) => shortDate(v), maxTicksLimit: 5 } }),
+        y: axis(t),
       },
-      plugins: {
-        ...baseOptions(t).plugins,
-        tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { label: (c) => `${fmtPace(c.parsed.x)} /km · ${c.parsed.y} bpm` } },
-      },
+      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, filter: (i) => i.datasetIndex === 0, callbacks: { title: (c) => shortDate(c[0].parsed.x), label: (c) => `${c.parsed.y.toFixed(2)} m/beat` } } },
     },
   });
 }
 
-function renderDistance(runs) {
+function renderBalance(load) {
   const t = theme();
-  const buckets = [
-    { label: '<2', min: 0, max: 2 },
-    { label: '2–4', min: 2, max: 4 },
-    { label: '4–6', min: 4, max: 6 },
-    { label: '6–8', min: 6, max: 8 },
-    { label: '8–12', min: 8, max: 12 },
-    { label: '12+', min: 12, max: Infinity },
-  ];
-  const counts = buckets.map((b) => runs.filter((r) => r.distanceKm >= b.min && r.distanceKm < b.max).length);
-  const axis = { ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 }, precision: 0 }, grid: { color: t.grid, drawTicks: false } };
+  const points = load.map((d) => ({ x: new Date(d.date).getTime(), y: d.ratio }));
+  const bandColor = hexToRgba(t.good, 0.13);
+  mount('chart-balance', {
+    type: 'line',
+    data: { datasets: [{ data: points, borderColor: t.muted, backgroundColor: t.muted, borderWidth: 2, pointRadius: 2, pointHoverRadius: 4, tension: 0.3, segment: { borderColor: (ctx) => (ctx.p1.parsed.y > 1.5 ? t.quality : t.muted) } }] },
+    options: {
+      ...baseOptions(t),
+      parsing: false,
+      scales: {
+        x: axis(t, { type: 'linear', grid: { display: false }, ticks: { color: t.muted, font: { family: 'JetBrains Mono', size: 10 }, callback: (v) => shortDate(v), maxTicksLimit: 6 } }),
+        y: axis(t, { suggestedMin: 0.7, suggestedMax: 1.6 }),
+      },
+      plugins: { ...baseOptions(t).plugins, band: { lo: 0.8, hi: 1.3, color: bandColor }, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { title: (c) => shortDate(c[0].parsed.x), label: (c) => `ratio ${c.parsed.y.toFixed(2)}` } } },
+    },
+  });
+}
 
-  mount('chart-distance', {
+function renderVolume(runs) {
+  const t = theme();
+  const weeks = groupByWeek(runs);
+  mount('chart-volume', {
     type: 'bar',
-    data: { labels: buckets.map((b) => b.label), datasets: [{ data: counts, backgroundColor: t.easy, borderRadius: 3 }] },
+    data: { labels: weeks.map((w) => w.label), datasets: [{ data: weeks.map((w) => round1(w.km)), backgroundColor: t.easy, borderRadius: 3 }] },
     options: {
       ...baseOptions(t),
       scales: {
-        x: { ...axis, grid: { display: false }, title: { display: true, text: 'km', color: t.muted, font: { size: 10 } } },
-        y: { ...axis, border: { display: false }, title: { display: true, text: 'runs', color: t.muted, font: { size: 10 } } },
+        x: axis(t, { grid: { display: false } }),
+        y: axis(t, { title: { display: true, text: 'km', color: t.muted, font: { size: 10 } } }),
       },
-      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { label: (c) => `${c.raw} run${c.raw === 1 ? '' : 's'}` } } },
+      plugins: { ...baseOptions(t).plugins, tooltip: { ...baseOptions(t).plugins.tooltip, callbacks: { label: (c) => `${c.raw} km` } } },
     },
   });
 }
 
-function renderLog(runs) {
-  const rows = runs.slice(0, 25);
-  document.getElementById('log-count').textContent = `${runs.length} runs`;
-  document.getElementById('log-body').innerHTML = rows
-    .map((r) => {
-      const tag = r.trail ? 'trail' : r.quality ? 'quality' : 'easy';
-      return `<tr>
-        <td class="num">${shortDate(new Date(r.date).getTime())}</td>
-        <td><div class="log__name">${escapeHtml(r.name)}</div><div class="log__loc">${r.sport}</div></td>
-        <td><span class="tag tag--${tag}">${tag}</span></td>
-        <td class="num">${fmt1(r.distanceKm)}</td>
-        <td class="num">${r.trail ? '—' : fmtPace(r.paceSecPerKm)}</td>
-        <td class="num">${r.avgHr || '—'}</td>
-        <td class="num">${fmtClock(r.durationSec)}</td>
-      </tr>`;
-    })
+function renderPredictions() {
+  const p = (state.fitness && state.fitness.predictions) || {};
+  const rows = [['5K', p['5k']], ['10K', p['10k']], ['Half', p.half], ['Marathon', p.marathon]];
+  document.getElementById('predictions').innerHTML = rows
+    .map(([k, v]) => `<div class="predict__row"><span class="predict__dist">${k}</span><span class="predict__time">${v || '—'}</span></div>`)
     .join('');
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────
+function renderLog(runs) {
+  document.getElementById('log-count').textContent = `${runs.length} runs`;
+  document.getElementById('log-body').innerHTML = runs.slice(0, 25)
+    .map((r) => `<tr>
+      <td class="num">${shortDate(new Date(r.date).getTime())}</td>
+      <td><div class="log__name">${escapeHtml(r.name)}</div></td>
+      <td><span class="log__loc">${r.sport}</span></td>
+      <td class="num">${fmt1(r.distanceKm)}</td>
+      <td class="num">${r.trail ? '—' : fmtPace(r.paceSecPerKm)}</td>
+      <td class="num">${r.avgHr || '—'}</td>
+      <td class="num">${r.efficiency ? r.efficiency.toFixed(2) : '—'}</td>
+      <td class="num">${fmtClock(r.durationSec)}</td>
+    </tr>`)
+    .join('');
+}
+
+// ── Math / helpers ─────────────────────────────────────────────────────────
+function regressionLine(points) {
+  if (points.length < 3) return null;
+  const n = points.length;
+  const xs = points.map((p) => p.x);
+  const mean = xs.reduce((a, b) => a + b, 0) / n;
+  let sxx = 0, sxy = 0;
+  const my = points.reduce((a, p) => a + p.y, 0) / n;
+  for (const p of points) { sxx += (p.x - mean) ** 2; sxy += (p.x - mean) * (p.y - my); }
+  if (sxx === 0) return null;
+  const slope = sxy / sxx;
+  const x0 = Math.min(...xs), x1 = Math.max(...xs);
+  return [{ x: x0, y: my + slope * (x0 - mean) }, { x: x1, y: my + slope * (x1 - mean) }];
+}
+
 function groupByWeek(runs) {
   const map = new Map();
   for (const r of runs) {
     const d = new Date(r.date);
     const monday = new Date(d);
-    const day = (d.getDay() + 6) % 7; // Mon=0
-    monday.setDate(d.getDate() - day);
+    monday.setDate(d.getDate() - ((d.getDay() + 6) % 7));
     monday.setHours(0, 0, 0, 0);
     const key = monday.getTime();
-    if (!map.has(key)) map.set(key, { key, label: shortDate(key), easyKm: 0, qualityKm: 0 });
-    const w = map.get(key);
-    if (r.quality) w.qualityKm += r.distanceKm;
-    else w.easyKm += r.distanceKm;
+    if (!map.has(key)) map.set(key, { key, label: shortDate(key), km: 0 });
+    map.get(key).km += r.distanceKm;
   }
   return [...map.values()].sort((a, b) => a.key - b.key);
 }
 
 function legend(items) {
-  return items
-    .map(([name, color]) => `<span class="legend__item"><span class="legend__swatch" style="background:${color}"></span>${name}</span>`)
-    .join('');
+  return items.map(([name, color]) => `<span class="legend__item"><span class="legend__swatch" style="background:${color}"></span>${name}</span>`).join('');
 }
-
-const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+function hexToRgba(hex, alpha) {
+  const h = (hex || '').replace('#', '');
+  if (h.length < 6) return `rgba(12,163,12,${alpha})`;
+  const n = parseInt(h.slice(0, 6), 16);
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+}
+const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
 const round1 = (n) => Math.round(n * 10) / 10;
 
-function weightedPace(runs) {
-  const dist = sum(runs.map((r) => r.distanceKm));
-  if (!dist) return 0;
-  return sum(runs.map((r) => r.paceSecPerKm * r.distanceKm)) / dist;
-}
-function weightedHr(runs) {
-  const withHr = runs.filter((r) => r.avgHr > 0);
-  const time = sum(withHr.map((r) => r.durationSec));
-  if (!time) return 0;
-  return sum(withHr.map((r) => r.avgHr * r.durationSec)) / time;
-}
-
-function fmt1(n) {
-  return (Math.round(n * 10) / 10).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-}
+function fmt1(n) { return (Math.round(n * 10) / 10).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
 function fmtPace(sec) {
   if (!sec || !isFinite(sec)) return '—';
-  const m = Math.floor(sec / 60);
-  const s = Math.round(sec % 60).toString().padStart(2, '0');
-  return `${m}:${s}`;
-}
-function fmtHours(sec) {
-  const h = Math.floor(sec / 3600);
-  const m = Math.round((sec % 3600) / 60);
-  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+  return `${Math.floor(sec / 60)}:${Math.round(sec % 60).toString().padStart(2, '0')}`;
 }
 function fmtClock(sec) {
-  const h = Math.floor(sec / 3600);
-  const m = Math.floor((sec % 3600) / 60);
-  const s = Math.floor(sec % 60);
-  if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  return `${m}:${s.toString().padStart(2, '0')}`;
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = Math.floor(sec % 60);
+  return h > 0 ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}` : `${m}:${s.toString().padStart(2, '0')}`;
 }
-function shortDate(ms) {
-  return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date(ms));
-}
+function shortDate(ms) { return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date(ms)); }
 function setSynced(iso) {
   if (!iso) return;
   const d = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date(iso));
   document.getElementById('synced').textContent = `Running telemetry · synced ${d}`;
 }
-function escapeHtml(str) {
-  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
+function escapeHtml(str) { return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }

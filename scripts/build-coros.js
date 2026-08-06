@@ -1,7 +1,7 @@
-// Turns client/data/raw.json (flat COROS fields, transcribed by the daily agent)
-// into client/data/activities.json: one normalized, sorted array the dashboard
-// reads and analyses entirely client-side. Keep this deterministic — the agent
-// only transcribes numbers, this file does the classifying.
+// Turns client/data/raw.json (COROS fields transcribed by the daily agent) into
+// client/data/activities.json — one payload the dashboard reads and analyses
+// client-side: normalised runs + COROS's own daily training-load series + the
+// current fitness snapshot. Deterministic; the agent only transcribes numbers.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
@@ -12,10 +12,7 @@ const SPORT = {
   100: 'Road', 101: 'Treadmill', 102: 'Trail', 103: 'Track',
   400: 'Cardio', 401: 'Cardio', 402: 'Strength',
 };
-const RUN_TYPES = new Set([100, 101, 102, 103]);
 const STRENGTH_TYPES = new Set([400, 401, 402]);
-// Names COROS gives structured sessions. Track runs (103) are always quality.
-const QUALITY_RE = /interval|tempo|threshold|vo2|fartlek|\bstrides?\b|\d+\s*[x×]\s*\d|pace\b/i;
 
 function normalise(a) {
   const durationSec = a.endTimestamp && a.startTimestamp
@@ -23,7 +20,12 @@ function normalise(a) {
     : a.durationSec || 0;
   const distanceKm = Number(a.distanceKm || 0);
   const paceSecPerKm = a.paceSecPerKm || (distanceKm > 0 ? durationSec / distanceKm : 0);
-  const quality = a.sportType === 103 || QUALITY_RE.test(a.name || '');
+  const avgHr = Number(a.avgHr || 0);
+  const distanceM = distanceKm * 1000;
+  // Efficiency = metres covered per heartbeat; rises as aerobic fitness improves.
+  const efficiency = avgHr > 0 && durationSec > 0
+    ? distanceM / (avgHr * (durationSec / 60))
+    : 0;
   return {
     id: String(a.labelId),
     date: new Date(Number(a.startTimestamp) * 1000).toISOString(),
@@ -33,10 +35,10 @@ function normalise(a) {
     distanceKm,
     durationSec,
     paceSecPerKm,
-    avgHr: Number(a.avgHr || 0),
+    avgHr,
     calories: Number(a.calories || 0),
+    efficiency: Math.round(efficiency * 1000) / 1000,
     kind: STRENGTH_TYPES.has(a.sportType) ? 'workout' : 'run',
-    quality,
     trail: a.sportType === 102,
   };
 }
@@ -48,29 +50,34 @@ function main() {
     .map(normalise)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
+  const load = (raw.load || [])
+    .filter((d) => d && d.date)
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
   fs.writeFileSync(
     path.join(DATA_DIR, 'activities.json'),
-    JSON.stringify({ generatedAt: raw.generatedAt || new Date().toISOString(), activities })
+    JSON.stringify({
+      generatedAt: raw.generatedAt || new Date().toISOString(),
+      fitness: raw.fitness || null,
+      load,
+      activities,
+    })
   );
 
   const runs = activities.filter((a) => a.kind === 'run').length;
-  console.log(`Built activities.json: ${activities.length} activities (${runs} runs)`);
+  console.log(`Built activities.json: ${activities.length} activities (${runs} runs), ${load.length} load days`);
 }
 
 function selfCheck() {
   const now = Math.floor(Date.now() / 1000);
-  const rows = [
-    normalise({ labelId: 'a', sportType: 100, name: 'Lucerne Run', startTimestamp: now - 3600, endTimestamp: now - 3300, distanceKm: 1, paceSecPerKm: 300, avgHr: 150, calories: 60 }),
-    normalise({ labelId: 'b', sportType: 103, name: '5K Pace Intervals', startTimestamp: now - 7200, endTimestamp: now - 6600, distanceKm: 2, paceSecPerKm: 300, avgHr: 165, calories: 120 }),
-    normalise({ labelId: 'c', sportType: 100, name: '4 x 1600m tempo', startTimestamp: now - 100, endTimestamp: now, distanceKm: 6, paceSecPerKm: 345, avgHr: 171, calories: 500 }),
-    normalise({ labelId: 'd', sportType: 102, name: 'Calvi Trail Run', startTimestamp: now - 200, endTimestamp: now - 100, distanceKm: 14, paceSecPerKm: 768, avgHr: 137, calories: 1600 }),
-  ];
-  assert.strictEqual(rows[0].quality, false, 'plain road run is not quality');
-  assert.strictEqual(rows[1].quality, true, 'track run is quality');
-  assert.strictEqual(rows[2].quality, true, 'name "tempo" is quality');
-  assert.strictEqual(rows[3].trail, true, 'sportType 102 is trail');
-  assert.strictEqual(rows[0].durationSec, 300, 'duration from timestamps');
-  assert.strictEqual(rows[0].kind, 'run', 'road run classified as run');
+  const road = normalise({ labelId: 'a', sportType: 100, name: 'Lucerne Run', startTimestamp: now - 3600, endTimestamp: now - 1800, distanceKm: 6, paceSecPerKm: 300, avgHr: 150, calories: 400 });
+  const trail = normalise({ labelId: 'b', sportType: 102, name: 'Calvi Trail', startTimestamp: now - 200, endTimestamp: now - 100, distanceKm: 14, paceSecPerKm: 768, avgHr: 137, calories: 1600 });
+  assert.strictEqual(road.trail, false, 'road run not trail');
+  assert.strictEqual(trail.trail, true, 'sportType 102 is trail');
+  assert.strictEqual(road.durationSec, 1800, 'duration from timestamps');
+  assert.ok(!('quality' in road), 'no name-based quality flag anymore');
+  // 6000 m / (150 bpm * 30 min) = 1.333 m/beat
+  assert.ok(Math.abs(road.efficiency - 1.333) < 0.01, 'efficiency = m per heartbeat');
   console.log('selfcheck ok');
 }
 
