@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-08-11T04:09:17.803Z",
+  "generatedAt": "2026-08-12T04:09:45Z",
   "fitness": {
     "vo2max": 57,
     "runningLevel": 82,
-    "thresholdPaceSecPerKm": 279,
+    "thresholdPaceSecPerKm": 278,
     "predictions": {
-      "5k": "22:14",
-      "10k": "46:10",
-      "half": "1:43:28",
-      "marathon": "3:38:08"
+      "5k": "22:12",
+      "10k": "46:05",
+      "half": "1:43:19",
+      "marathon": "3:37:54"
     }
   },
   "load": [
     {
+      "date": "2026-08-12",
+      "comment": "Optimized",
+      "short": 104,
+      "long": 99,
+      "ratio": 1.05
+    },
+    {
       "date": "2026-08-11",
-      "comment": "Maintaining",
-      "short": 90,
-      "long": 96,
-      "ratio": 0.93
+      "comment": "Optimized",
+      "short": 122,
+      "long": 102,
+      "ratio": 1.19
     },
     {
       "date": "2026-08-10",
@@ -221,18 +228,33 @@
       "short": 130,
       "long": 94,
       "ratio": 1.38
-    },
-    {
-      "date": "2026-07-12",
-      "comment": "Excessive",
-      "short": 151,
-      "long": 96,
-      "ratio": 1.57
     }
   ],
   "activities": [
     {
-      "labelId": "479516477154689000",
+      "labelId": "479540390458851634",
+      "sportType": 100,
+      "name": "Threshold intervals",
+      "startTimestamp": 1786423396,
+      "endTimestamp": 1786427121,
+      "distanceKm": 11.57,
+      "paceSecPerKm": 309,
+      "avgHr": 162,
+      "calories": 800
+    },
+    {
+      "labelId": "479539353490587753",
+      "sportType": 100,
+      "name": "Nottwil Run",
+      "startTimestamp": 1786422891,
+      "endTimestamp": 1786423288,
+      "distanceKm": 1.06,
+      "paceSecPerKm": 366,
+      "avgHr": 139,
+      "calories": 70
+    },
+    {
+      "labelId": "479516477154689025",
       "sportType": 100,
       "name": "Aerobic run",
       "startTimestamp": 1786335570,
@@ -243,7 +265,7 @@
       "calories": 460
     },
     {
-      "labelId": "479474621624647900",
+      "labelId": "479474621624647885",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1786181568,
@@ -254,7 +276,7 @@
       "calories": 122
     },
     {
-      "labelId": "479474451971342700",
+      "labelId": "479474451971342742",
       "sportType": 100,
       "name": "Half-Marathon pace",
       "startTimestamp": 1786177445,
@@ -265,7 +287,7 @@
       "calories": 953
     },
     {
-      "labelId": "479456542763024500",
+      "labelId": "479456542763024486",
       "sportType": 100,
       "name": "Aerobic run",
       "startTimestamp": 1786112424,
@@ -276,7 +298,7 @@
       "calories": 496
     },
     {
-      "labelId": "479436447686885400",
+      "labelId": "479436447686885377",
       "sportType": 100,
       "name": "Strides",
       "startTimestamp": 1786030413,
@@ -287,7 +309,7 @@
       "calories": 613
     },
     {
-      "labelId": "479400921864896640",
+      "labelId": "479400921864896615",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1785905449,
@@ -298,7 +320,7 @@
       "calories": 467
     },
     {
-      "labelId": "479377992106148350",
+      "labelId": "479377992106148342",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1785822022,
@@ -309,7 +331,7 @@
       "calories": 32
     },
     {
-      "labelId": "479377991837712400",
+      "labelId": "479377991837712387",
       "sportType": 103,
       "name": "Half-Marathon pace intervals",
       "startTimestamp": 1785819036,
@@ -320,7 +342,7 @@
       "calories": 699
     },
     {
-      "labelId": "479377133917995000",
+      "labelId": "479377133917995011",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1785818691,
@@ -331,7 +353,7 @@
       "calories": 51
     },
     {
-      "labelId": "479313591221125250",
+      "labelId": "479313591221125228",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1785577149,
@@ -342,7 +364,7 @@
       "calories": 1115
     },
     {
-      "labelId": "479300042476257400",
+      "labelId": "479300042476257384",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1785509324,
@@ -364,7 +386,7 @@
       "calories": 688
     },
     {
-      "labelId": "479224625536991360",
+      "labelId": "479224625536991334",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1785250694,
@@ -375,7 +397,7 @@
       "calories": 33
     },
     {
-      "labelId": "479224370254872900",
+      "labelId": "479224370254872878",
       "sportType": 103,
       "name": "5K Pace Intervals (Intermediate)",
       "startTimestamp": 1785249364,
@@ -386,7 +408,7 @@
       "calories": 286
     },
     {
-      "labelId": "479224150406234430",
+      "labelId": "479224150406234417",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1785248530,
@@ -397,7 +419,7 @@
       "calories": 118
     },
     {
-      "labelId": "479205213624893600",
+      "labelId": "479205213624893548",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1785176315,
@@ -408,7 +430,7 @@
       "calories": 485
     },
     {
-      "labelId": "479150657610219650",
+      "labelId": "479150657610219625",
       "sportType": 100,
       "name": "Schwyz Run",
       "startTimestamp": 1784967195,
@@ -419,7 +441,7 @@
       "calories": 1134
     },
     {
-      "labelId": "479112974372471100",
+      "labelId": "479112974372471085",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1784832731,
@@ -430,7 +452,7 @@
       "calories": 457
     },
     {
-      "labelId": "479086529451426000",
+      "labelId": "479086529451425996",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1784733887,
@@ -441,7 +463,7 @@
       "calories": 567
     },
     {
-      "labelId": "479063512186913100",
+      "labelId": "479063512186913069",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1784650481,
@@ -452,7 +474,7 @@
       "calories": 35
     },
     {
-      "labelId": "479063399978795400",
+      "labelId": "479063399978795411",
       "sportType": 100,
       "name": "Run",
       "startTimestamp": 1784648743,
@@ -463,7 +485,7 @@
       "calories": 401
     },
     {
-      "labelId": "479062886195429570",
+      "labelId": "479062886195429579",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1784647545,
@@ -474,7 +496,7 @@
       "calories": 102
     },
     {
-      "labelId": "479016469946990700",
+      "labelId": "479016469946990694",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1784471068,
@@ -485,7 +507,7 @@
       "calories": 946
     },
     {
-      "labelId": "478971179785290050",
+      "labelId": "478971179785290028",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1784304487,
@@ -496,7 +518,7 @@
       "calories": 466
     },
     {
-      "labelId": "478959123273121900",
+      "labelId": "478959123273121894",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1784217929,
@@ -507,7 +529,7 @@
       "calories": 66
     },
     {
-      "labelId": "478959123273121900",
+      "labelId": "478959123273121893",
       "sportType": 100,
       "name": "5x 1200m",
       "startTimestamp": 1784215534,
@@ -518,7 +540,7 @@
       "calories": 474
     },
     {
-      "labelId": "478946690687074400",
+      "labelId": "478946690687074409",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1784215051,
@@ -529,7 +551,7 @@
       "calories": 73
     },
     {
-      "labelId": "478925752182538240",
+      "labelId": "478925752182538241",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1784134799,
@@ -540,7 +562,7 @@
       "calories": 579
     },
     {
-      "labelId": "478784314614513860",
+      "labelId": "478784314614513870",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1783610300,
@@ -551,7 +573,7 @@
       "calories": 50
     },
     {
-      "labelId": "478784314614513860",
+      "labelId": "478784314614513869",
       "sportType": 100,
       "name": "4 x 1600m tempo",
       "startTimestamp": 1783608134,
@@ -562,7 +584,7 @@
       "calories": 500
     },
     {
-      "labelId": "478783638157164540",
+      "labelId": "478783638157164546",
       "sportType": 100,
       "name": "Nottwil Run",
       "startTimestamp": 1783607497,
@@ -573,7 +595,7 @@
       "calories": 86
     },
     {
-      "labelId": "478741296490512600",
+      "labelId": "478741296490512587",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1783447728,
@@ -584,7 +606,7 @@
       "calories": 516
     },
     {
-      "labelId": "478718562960179400",
+      "labelId": "478718562960179406",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1783361858,
@@ -595,7 +617,7 @@
       "calories": 683
     },
     {
-      "labelId": "478635911953809700",
+      "labelId": "478635911953809712",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1783055359,
@@ -606,7 +628,7 @@
       "calories": 507
     },
     {
-      "labelId": "478599912341143550",
+      "labelId": "478599912341143559",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1782921334,
@@ -617,7 +639,7 @@
       "calories": 481
     },
     {
-      "labelId": "478576660998815740",
+      "labelId": "478576660998815744",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1782834228,
@@ -628,7 +650,7 @@
       "calories": 501
     },
     {
-      "labelId": "478485844986986700",
+      "labelId": "478485844986986698",
       "sportType": 100,
       "name": "Schwyz Run",
       "startTimestamp": 1782495372,
@@ -639,7 +661,7 @@
       "calories": 870
     },
     {
-      "labelId": "478244652783272060",
+      "labelId": "478244652783272038",
       "sportType": 100,
       "name": "5 × 1km VO2",
       "startTimestamp": 1781599048,
@@ -650,7 +672,7 @@
       "calories": 295
     },
     {
-      "labelId": "478244349444915500",
+      "labelId": "478244349444915501",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1781598630,
@@ -661,7 +683,7 @@
       "calories": 82
     },
     {
-      "labelId": "478137184380027200",
+      "labelId": "478137184380027185",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1781196602,
@@ -672,7 +694,7 @@
       "calories": 604
     },
     {
-      "labelId": "477997525465333950",
+      "labelId": "477997525465333963",
       "sportType": 100,
       "name": "Training",
       "startTimestamp": 1780677250,
@@ -683,7 +705,7 @@
       "calories": 500
     },
     {
-      "labelId": "477916573116432800",
+      "labelId": "477916573116432791",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1780377476,
@@ -694,7 +716,7 @@
       "calories": 67
     },
     {
-      "labelId": "477916573116432800",
+      "labelId": "477916573116432788",
       "sportType": 100,
       "name": "Training",
       "startTimestamp": 1780375579,
@@ -705,7 +727,7 @@
       "calories": 412
     },
     {
-      "labelId": "477904376208326800",
+      "labelId": "477904376208326756",
       "sportType": 100,
       "name": "Training",
       "startTimestamp": 1780330019,
@@ -716,7 +738,7 @@
       "calories": 534
     },
     {
-      "labelId": "477800680933851460",
+      "labelId": "477800680933851440",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1779946000,
@@ -727,7 +749,7 @@
       "calories": 47
     },
     {
-      "labelId": "477800591813279900",
+      "labelId": "477800591813279844",
       "sportType": 100,
       "name": "Tempo",
       "startTimestamp": 1779944430,
@@ -738,7 +760,7 @@
       "calories": 401
     },
     {
-      "labelId": "477800169295872300",
+      "labelId": "477800169295872302",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1779943897,
@@ -749,7 +771,7 @@
       "calories": 73
     },
     {
-      "labelId": "477788193859600600",
+      "labelId": "477788193859600588",
       "sportType": 100,
       "name": "Training",
       "startTimestamp": 1779897347,
@@ -760,7 +782,7 @@
       "calories": 506
     },
     {
-      "labelId": "477711349372190700",
+      "labelId": "477711349372190723",
       "sportType": 100,
       "name": "Bern Run",
       "startTimestamp": 1779608825,
@@ -771,7 +793,7 @@
       "calories": 928
     },
     {
-      "labelId": "477594287085748400",
+      "labelId": "477594287085748428",
       "sportType": 100,
       "name": "Risch-Rotkreuz Run",
       "startTimestamp": 1779176907,
@@ -782,7 +804,7 @@
       "calories": 94
     },
     {
-      "labelId": "477594287085748400",
+      "labelId": "477594287085748427",
       "sportType": 100,
       "name": "4 x 8min tempo",
       "startTimestamp": 1779174239,
@@ -793,7 +815,7 @@
       "calories": 615
     },
     {
-      "labelId": "477593438299128000",
+      "labelId": "477593438299128009",
       "sportType": 100,
       "name": "Risch-Rotkreuz Run",
       "startTimestamp": 1779173662,
@@ -804,7 +826,7 @@
       "calories": 89
     },
     {
-      "labelId": "477569675849400450",
+      "labelId": "477569675849400424",
       "sportType": 100,
       "name": "Training",
       "startTimestamp": 1779083960,
@@ -815,7 +837,7 @@
       "calories": 341
     },
     {
-      "labelId": "477548838010257400",
+      "labelId": "477548838010257412",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1779002515,
@@ -826,7 +848,7 @@
       "calories": 1042
     },
     {
-      "labelId": "477507134951555400",
+      "labelId": "477507134951555374",
       "sportType": 100,
       "name": "Training",
       "startTimestamp": 1778849855,
@@ -837,7 +859,7 @@
       "calories": 634
     },
     {
-      "labelId": "477486308386701800",
+      "labelId": "477486308386701813",
       "sportType": 100,
       "name": "Training",
       "startTimestamp": 1778772338,
@@ -848,7 +870,7 @@
       "calories": 615
     },
     {
-      "labelId": "477431428636770500",
+      "labelId": "477431428636770506",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1778568186,
@@ -859,7 +881,7 @@
       "calories": 508
     },
     {
-      "labelId": "477389464927240200",
+      "labelId": "477389464927240197",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1778410920,
@@ -870,7 +892,7 @@
       "calories": 615
     },
     {
-      "labelId": "477341796702126300",
+      "labelId": "477341796702126283",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1778234536,
@@ -881,7 +903,7 @@
       "calories": 509
     },
     {
-      "labelId": "477313662512562500",
+      "labelId": "477313662512562480",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1778130234,
@@ -892,7 +914,7 @@
       "calories": 329
     },
     {
-      "labelId": "477209721089065100",
+      "labelId": "477209721089065063",
       "sportType": 100,
       "name": "Sursee Run",
       "startTimestamp": 1777737915,
@@ -903,7 +925,7 @@
       "calories": 1957
     },
     {
-      "labelId": "477207606891413500",
+      "labelId": "477207606891413507",
       "sportType": 100,
       "name": "Sursee Run",
       "startTimestamp": 1777736682,
@@ -914,7 +936,7 @@
       "calories": 29
     },
     {
-      "labelId": "477184694845210800",
+      "labelId": "477184694845210824",
       "sportType": 100,
       "name": "Shakeout pre-race",
       "startTimestamp": 1777650306,
@@ -925,7 +947,7 @@
       "calories": 255
     },
     {
-      "labelId": "477138743526981800",
+      "labelId": "477138743526981844",
       "sportType": 100,
       "name": "Aerobic run",
       "startTimestamp": 1777478307,
@@ -936,7 +958,7 @@
       "calories": 388
     },
     {
-      "labelId": "477117526388539700",
+      "labelId": "477117526388539693",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1777400485,
@@ -947,7 +969,7 @@
       "calories": 89
     },
     {
-      "labelId": "477117280501662000",
+      "labelId": "477117280501662001",
       "sportType": 100,
       "name": "Strides",
       "startTimestamp": 1777398132,
@@ -958,7 +980,7 @@
       "calories": 509
     },
     {
-      "labelId": "477081966743683100",
+      "labelId": "477081966743683073",
       "sportType": 100,
       "name": "Aerobic run",
       "startTimestamp": 1777266153,
@@ -969,7 +991,7 @@
       "calories": 491
     },
     {
-      "labelId": "477039180547915900",
+      "labelId": "477039180547915879",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1777108934,
@@ -980,7 +1002,7 @@
       "calories": 104
     },
     {
-      "labelId": "477039180547915900",
+      "labelId": "477039180547915876",
       "sportType": 100,
       "name": "Half-Marathon pace intervals",
       "startTimestamp": 1777106137,
@@ -991,7 +1013,7 @@
       "calories": 647
     },
     {
-      "labelId": "477039180279480640",
+      "labelId": "477039180279480632",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1777105134,
@@ -1002,7 +1024,7 @@
       "calories": 141
     },
     {
-      "labelId": "476999489949827600",
+      "labelId": "476999489949827572",
       "sportType": 100,
       "name": "Aerobic run",
       "startTimestamp": 1776958948,
@@ -1013,7 +1035,7 @@
       "calories": 592
     },
     {
-      "labelId": "476946782654333100",
+      "labelId": "476946782654333128",
       "sportType": 100,
       "name": "Half-Marathon pace",
       "startTimestamp": 1776759204,
@@ -1024,7 +1046,7 @@
       "calories": 1449
     },
     {
-      "labelId": "476907332568121540",
+      "labelId": "476907332568121549",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1776616043,
@@ -1035,7 +1057,7 @@
       "calories": 488
     },
     {
-      "labelId": "476881478744047600",
+      "labelId": "476881478744047617",
       "sportType": 100,
       "name": "Lucerne Run",
       "startTimestamp": 1776519162,
@@ -1046,7 +1068,7 @@
       "calories": 660
     },
     {
-      "labelId": "476783239151780000",
+      "labelId": "476783239151779940",
       "sportType": 103,
       "name": "Half-Marathon pace intervals",
       "startTimestamp": 1776153971,
@@ -1057,7 +1079,7 @@
       "calories": 356
     },
     {
-      "labelId": "476782678933274940",
+      "labelId": "476782678933274926",
       "sportType": 100,
       "name": "Risch-Rotkreuz Run",
       "startTimestamp": 1776153122,
@@ -1068,79 +1090,56 @@
       "calories": 121
     },
     {
-      "labelId": "476769084818620540",
-      "sportType": 101,
-      "name": "Aerobic run",
-      "startTimestamp": 1776101206,
-      "endTimestamp": 1776103188,
-      "distanceKm": 4.87,
-      "paceSecPerKm": 378,
-      "avgHr": 154,
-      "calories": 326
-    },
-    {
-      "labelId": "477922059393990800",
+      "labelId": "477922059393990757",
       "sportType": 402,
       "name": "Legday v2",
       "startTimestamp": 1780392776,
       "endTimestamp": 1780394714,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
       "avgHr": 93,
       "calories": 129
     },
     {
-      "labelId": "477812957292560600",
+      "labelId": "477812957292560586",
       "sportType": 402,
       "name": "Legday v2",
       "startTimestamp": 1779989300,
       "endTimestamp": 1779991672,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
       "avgHr": 97,
       "calories": 154
     },
     {
-      "labelId": "477601620473970800",
+      "labelId": "477601620473970790",
       "sportType": 402,
       "name": "Core",
       "startTimestamp": 1779202087,
       "endTimestamp": 1779202654,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
       "avgHr": 106,
       "calories": 48
     },
     {
-      "labelId": "477600915830898900",
+      "labelId": "477600915830898898",
       "sportType": 402,
       "name": "Legday v2",
       "startTimestamp": 1779199544,
       "endTimestamp": 1779201968,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
       "avgHr": 100,
       "calories": 152
     },
     {
-      "labelId": "477439477137047740",
+      "labelId": "477439477137047759",
       "sportType": 402,
       "name": "Core",
       "startTimestamp": 1778598348,
       "endTimestamp": 1778599105,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
       "avgHr": 96,
       "calories": 64
     },
     {
-      "labelId": "477438844166242700",
+      "labelId": "477438844166242707",
       "sportType": 402,
       "name": "Legday v2",
       "startTimestamp": 1778595682,
       "endTimestamp": 1778598255,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
       "avgHr": 105,
       "calories": 155
     }
