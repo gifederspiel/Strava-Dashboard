@@ -176,7 +176,7 @@ body {
 /* ── Telemetry strip ─────────────────────────────────────────────────── */
 .strip {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1px;
   background: var(--border);
   border: 1px solid var(--border);
@@ -362,6 +362,61 @@ canvas { max-width: 100%; }
   letter-spacing: -0.02em;
   color: var(--text);
   font-variant-numeric: tabular-nums;
+}
+
+/* Best efforts & records */
+.records {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  flex: 1;
+}
+.record {
+  background: var(--surface);
+  padding: 0.85rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.record__label {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.record__value {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.record__value small { font-size: 0.66rem; font-weight: 500; color: var(--muted); }
+.record__sub {
+  font-size: 0.68rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card__foot {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--text-2);
+  line-height: 1.4;
+}
+.card__foot strong { color: var(--text); font-weight: 600; }
+
+@media (max-width: 520px) {
+  .records { grid-template-columns: repeat(2, 1fr); }
 }
 
 .status {

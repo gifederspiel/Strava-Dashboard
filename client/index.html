@@ -52,6 +52,15 @@
           <div class="card__canvas"><canvas id="chart-load"></canvas></div>
         </figure>
 
+        <figure class="card card--wide">
+          <figcaption class="card__head">
+            <h2 class="card__title">Intensity distribution</h2>
+            <div class="legend" id="intensity-legend"></div>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-intensity"></canvas></div>
+          <p class="card__foot" id="polar-note"></p>
+        </figure>
+
         <figure class="card">
           <figcaption class="card__head">
             <h2 class="card__title">Aerobic efficiency</h2>
@@ -62,18 +71,34 @@
 
         <figure class="card">
           <figcaption class="card__head">
+            <h2 class="card__title">Heart-rate zones</h2>
+            <span class="card__note" id="hrmax-note">est. max HR</span>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-zones"></canvas></div>
+        </figure>
+
+        <figure class="card">
+          <figcaption class="card__head">
+            <h2 class="card__title">Weekly load</h2>
+            <span class="card__note">effort units · monotony flags risk</span>
+          </figcaption>
+          <div class="card__canvas"><canvas id="chart-weekly-load"></canvas></div>
+        </figure>
+
+        <figure class="card">
+          <figcaption class="card__head">
             <h2 class="card__title">Training balance</h2>
             <span class="card__note">load ratio · 0.8–1.3 optimal</span>
           </figcaption>
           <div class="card__canvas"><canvas id="chart-balance"></canvas></div>
         </figure>
 
-        <figure class="card">
+        <figure class="card card--panel">
           <figcaption class="card__head">
-            <h2 class="card__title">Weekly volume</h2>
-            <span class="card__note">km per week</span>
+            <h2 class="card__title">Best efforts &amp; records</h2>
+            <span class="card__note">in range</span>
           </figcaption>
-          <div class="card__canvas"><canvas id="chart-volume"></canvas></div>
+          <div class="records" id="records"></div>
         </figure>
 
         <figure class="card card--predict">
