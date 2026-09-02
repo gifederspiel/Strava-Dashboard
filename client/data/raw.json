@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-09-01T04:09:41.793Z",
+  "generatedAt": "2026-09-02T04:08:43.428Z",
   "fitness": {
     "vo2max": 57,
     "runningLevel": 83,
     "thresholdPaceSecPerKm": 276,
     "predictions": {
-      "5k": "22:00",
-      "10k": "45:41",
-      "half": "1:42:23",
-      "marathon": "3:36:03"
+      "5k": "21:59",
+      "10k": "45:39",
+      "half": "1:42:18",
+      "marathon": "3:35:59"
     }
   },
   "load": [
     {
+      "date": "2026-09-02",
+      "comment": "Optimized",
+      "short": 106,
+      "long": 104,
+      "ratio": 1.01
+    },
+    {
       "date": "2026-09-01",
-      "comment": "Maintaining",
-      "short": 88,
-      "long": 101,
-      "ratio": 0.87
+      "comment": "Optimized",
+      "short": 124,
+      "long": 107,
+      "ratio": 1.15
     },
     {
       "date": "2026-08-31",
@@ -221,16 +228,42 @@
       "short": 119,
       "long": 98,
       "ratio": 1.21
-    },
-    {
-      "date": "2026-08-02",
-      "comment": "Optimized",
-      "short": 139,
-      "long": 100,
-      "ratio": 1.39
     }
   ],
   "activities": [
+    {
+      "labelId": "480027965344743625",
+      "sportType": 100,
+      "name": "Lucerne Run",
+      "startTimestamp": 1788242874,
+      "endTimestamp": 1788243507,
+      "distanceKm": 1.79,
+      "paceSecPerKm": 353,
+      "avgHr": 159,
+      "calories": 148
+    },
+    {
+      "labelId": "480026867982696647",
+      "sportType": 100,
+      "name": "Threshold intervals",
+      "startTimestamp": 1788238695,
+      "endTimestamp": 1788242647,
+      "distanceKm": 13.02,
+      "paceSecPerKm": 303,
+      "avgHr": 161,
+      "calories": 946
+    },
+    {
+      "labelId": "480026670682636488",
+      "sportType": 100,
+      "name": "Lucerne Run",
+      "startTimestamp": 1788237563,
+      "endTimestamp": 1788238659,
+      "distanceKm": 2.4,
+      "paceSecPerKm": 438,
+      "avgHr": 146,
+      "calories": 215
+    },
     {
       "labelId": "480003987618168832",
       "sportType": 100,
@@ -340,17 +373,6 @@
       "paceSecPerKm": 349,
       "avgHr": 117,
       "calories": 13
-    },
-    {
-      "labelId": "479864791754637314",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1787634342,
-      "endTimestamp": 1787635640,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 89,
-      "calories": 108
     },
     {
       "labelId": "479823239825096704",
@@ -980,17 +1002,6 @@
       "calories": 500
     },
     {
-      "labelId": "477922059393990757",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1780392776,
-      "endTimestamp": 1780394714,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 93,
-      "calories": 129
-    },
-    {
       "labelId": "477916573116432791",
       "sportType": 100,
       "name": "Lucerne Run",
@@ -1022,17 +1033,6 @@
       "paceSecPerKm": 371,
       "avgHr": 151,
       "calories": 534
-    },
-    {
-      "labelId": "477812957292560586",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1779989300,
-      "endTimestamp": 1779991672,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 97,
-      "calories": 154
     },
     {
       "labelId": "477800680933851440",
@@ -1088,28 +1088,6 @@
       "paceSecPerKm": 386,
       "avgHr": 155,
       "calories": 928
-    },
-    {
-      "labelId": "477601620473970790",
-      "sportType": 402,
-      "name": "Core",
-      "startTimestamp": 1779202087,
-      "endTimestamp": 1779202654,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 106,
-      "calories": 48
-    },
-    {
-      "labelId": "477600915830898898",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1779199544,
-      "endTimestamp": 1779201968,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 100,
-      "calories": 152
     },
     {
       "labelId": "477594287085748428",
@@ -1189,28 +1167,6 @@
       "calories": 615
     },
     {
-      "labelId": "477439477137047759",
-      "sportType": 402,
-      "name": "Core",
-      "startTimestamp": 1778598348,
-      "endTimestamp": 1778599105,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 96,
-      "calories": 64
-    },
-    {
-      "labelId": "477438844166242707",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1778595682,
-      "endTimestamp": 1778598255,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 105,
-      "calories": 155
-    },
-    {
       "labelId": "477431428636770506",
       "sportType": 100,
       "name": "Lucerne Run",
@@ -1253,6 +1209,78 @@
       "paceSecPerKm": 365,
       "avgHr": 152,
       "calories": 329
+    },
+    {
+      "labelId": "480037332668416103",
+      "sportType": 402,
+      "name": "Strength",
+      "startTimestamp": 1788277848,
+      "endTimestamp": 1788280411,
+      "avgHr": 95,
+      "calories": 209
+    },
+    {
+      "labelId": "479864791754637314",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1787634342,
+      "endTimestamp": 1787635640,
+      "avgHr": 89,
+      "calories": 108
+    },
+    {
+      "labelId": "477922059393990757",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1780392776,
+      "endTimestamp": 1780394714,
+      "avgHr": 93,
+      "calories": 129
+    },
+    {
+      "labelId": "477812957292560586",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1779989300,
+      "endTimestamp": 1779991672,
+      "avgHr": 97,
+      "calories": 154
+    },
+    {
+      "labelId": "477601620473970790",
+      "sportType": 402,
+      "name": "Core",
+      "startTimestamp": 1779202087,
+      "endTimestamp": 1779202654,
+      "avgHr": 106,
+      "calories": 48
+    },
+    {
+      "labelId": "477600915830898898",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1779199544,
+      "endTimestamp": 1779201968,
+      "avgHr": 100,
+      "calories": 152
+    },
+    {
+      "labelId": "477439477137047759",
+      "sportType": 402,
+      "name": "Core",
+      "startTimestamp": 1778598348,
+      "endTimestamp": 1778599105,
+      "avgHr": 96,
+      "calories": 64
+    },
+    {
+      "labelId": "477438844166242707",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1778595682,
+      "endTimestamp": 1778598255,
+      "avgHr": 105,
+      "calories": 155
     }
   ]
 }
