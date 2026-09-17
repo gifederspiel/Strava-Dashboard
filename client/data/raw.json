@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-09-16T04:09:08.615Z",
+  "generatedAt": "2026-09-17T04:08:31.703Z",
   "fitness": {
-    "vo2max": 57,
+    "vo2max": 58,
     "runningLevel": 87,
     "thresholdPaceSecPerKm": 262,
     "predictions": {
-      "5k": "20:54",
-      "10k": "43:18",
-      "half": "1:36:37",
-      "marathon": "3:23:04"
+      "5k": "20:52",
+      "10k": "43:13",
+      "half": "1:36:27",
+      "marathon": "3:22:44"
     }
   },
   "load": [
     {
+      "date": "2026-09-17",
+      "comment": "Optimized",
+      "short": 122,
+      "long": 112,
+      "ratio": 1.08
+    },
+    {
       "date": "2026-09-16",
-      "comment": "Maintaining",
-      "short": 106,
-      "long": 109,
-      "ratio": 0.97
+      "comment": "Optimized",
+      "short": 143,
+      "long": 115,
+      "ratio": 1.24
     },
     {
       "date": "2026-09-15",
@@ -43,9 +50,9 @@
     {
       "date": "2026-09-12",
       "comment": "Optimized",
-      "short": 120,
+      "short": 121,
       "long": 109,
-      "ratio": 1.1
+      "ratio": 1.11
     },
     {
       "date": "2026-09-11",
@@ -85,9 +92,9 @@
     {
       "date": "2026-09-06",
       "comment": "Optimized",
-      "short": 138,
+      "short": 139,
       "long": 110,
-      "ratio": 1.25
+      "ratio": 1.26
     },
     {
       "date": "2026-09-05",
@@ -142,15 +149,15 @@
       "date": "2026-08-29",
       "comment": "Optimized",
       "short": 110,
-      "long": 105,
-      "ratio": 1.04
+      "long": 104,
+      "ratio": 1.05
     },
     {
       "date": "2026-08-28",
       "comment": "Maintaining",
-      "short": 100,
+      "short": 99,
       "long": 103,
-      "ratio": 0.97
+      "ratio": 0.96
     },
     {
       "date": "2026-08-27",
@@ -169,9 +176,9 @@
     {
       "date": "2026-08-25",
       "comment": "Optimized",
-      "short": 111,
+      "short": 110,
       "long": 104,
-      "ratio": 1.06
+      "ratio": 1.05
     },
     {
       "date": "2026-08-24",
@@ -221,16 +228,42 @@
       "short": 116,
       "long": 103,
       "ratio": 1.12
-    },
-    {
-      "date": "2026-08-17",
-      "comment": "Optimized",
-      "short": 108,
-      "long": 101,
-      "ratio": 1.06
     }
   ],
   "activities": [
+    {
+      "labelId": "480376154587431412",
+      "sportType": 100,
+      "name": "Risch-Rotkreuz Run",
+      "startTimestamp": 1789540304,
+      "endTimestamp": 1789540608,
+      "distanceKm": 0.88,
+      "paceSecPerKm": 345,
+      "avgHr": 148,
+      "calories": 60
+    },
+    {
+      "labelId": "480375151173599532",
+      "sportType": 103,
+      "name": "Threshold intervals",
+      "startTimestamp": 1789536160,
+      "endTimestamp": 1789540100,
+      "distanceKm": 13.01,
+      "paceSecPerKm": 302,
+      "avgHr": 167,
+      "calories": 899
+    },
+    {
+      "labelId": "480374939648557658",
+      "sportType": 100,
+      "name": "Risch-Rotkreuz Run",
+      "startTimestamp": 1789535437,
+      "endTimestamp": 1789536091,
+      "distanceKm": 1.34,
+      "paceSecPerKm": 466,
+      "avgHr": 136,
+      "calories": 110
+    },
     {
       "labelId": "480353235029229774",
       "sportType": 100,
@@ -1255,44 +1288,13 @@
       "calories": 928
     },
     {
-      "labelId": "477594287085748428",
-      "sportType": 100,
-      "name": "Risch-Rotkreuz Run",
-      "startTimestamp": 1779176907,
-      "endTimestamp": 1779177345,
-      "distanceKm": 1.2,
-      "paceSecPerKm": 367,
-      "avgHr": 154,
-      "calories": 94
-    },
-    {
-      "labelId": "477594287085748427",
-      "sportType": 100,
-      "name": "4 x 8min tempo",
-      "startTimestamp": 1779174239,
-      "endTimestamp": 1779176617,
-      "distanceKm": 7.51,
-      "paceSecPerKm": 317,
-      "avgHr": 168,
-      "calories": 615
-    },
-    {
-      "labelId": "477593438299128009",
-      "sportType": 100,
-      "name": "Risch-Rotkreuz Run",
-      "startTimestamp": 1779173662,
-      "endTimestamp": 1779174135,
-      "distanceKm": 1.2,
-      "paceSecPerKm": 352,
-      "avgHr": 147,
-      "calories": 89
-    },
-    {
       "labelId": "480037332668416103",
       "sportType": 402,
       "name": "Strength",
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 95,
       "calories": 209
     },
@@ -1302,6 +1304,8 @@
       "name": "Legday v2",
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 89,
       "calories": 108
     },
@@ -1311,6 +1315,8 @@
       "name": "Legday v2",
       "startTimestamp": 1780392776,
       "endTimestamp": 1780394714,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 93,
       "calories": 129
     },
@@ -1320,26 +1326,10 @@
       "name": "Legday v2",
       "startTimestamp": 1779989300,
       "endTimestamp": 1779991672,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 97,
       "calories": 154
-    },
-    {
-      "labelId": "477601620473970790",
-      "sportType": 402,
-      "name": "Core",
-      "startTimestamp": 1779202087,
-      "endTimestamp": 1779202654,
-      "avgHr": 106,
-      "calories": 48
-    },
-    {
-      "labelId": "477600915830898898",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1779199544,
-      "endTimestamp": 1779201968,
-      "avgHr": 100,
-      "calories": 152
     }
   ]
 }
