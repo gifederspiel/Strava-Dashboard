@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-23T04:18:34.054Z",
+  "generatedAt": "2026-09-24T04:18:25.297Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 87,
@@ -12,6 +12,13 @@
     }
   },
   "load": [
+    {
+      "date": "2026-09-24",
+      "comment": "Performance",
+      "short": 64,
+      "long": 100,
+      "ratio": 0.64
+    },
     {
       "date": "2026-09-23",
       "comment": "Performance",
@@ -221,13 +228,6 @@
       "short": 110,
       "long": 104,
       "ratio": 1.05
-    },
-    {
-      "date": "2026-08-24",
-      "comment": "Optimized",
-      "short": 113,
-      "long": 104,
-      "ratio": 1.08
     }
   ],
   "activities": [
