@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T04:19:22Z",
+  "generatedAt": "2026-09-29T04:18:09.539Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 87,
@@ -12,6 +12,13 @@
     }
   },
   "load": [
+    {
+      "date": "2026-09-29",
+      "comment": "Performance",
+      "short": 56,
+      "long": 95,
+      "ratio": 0.58
+    },
     {
       "date": "2026-09-28",
       "comment": "Performance",
@@ -221,13 +228,6 @@
       "short": 101,
       "long": 103,
       "ratio": 0.98
-    },
-    {
-      "date": "2026-08-29",
-      "comment": "Optimized",
-      "short": 110,
-      "long": 104,
-      "ratio": 1.05
     }
   ],
   "activities": [
@@ -1315,8 +1315,8 @@
       "name": "Strength",
       "startTimestamp": 1789659529,
       "endTimestamp": 1789661174,
-      "distanceKm": null,
-      "paceSecPerKm": null,
+      "distanceKm": 0,
+      "paceSecPerKm": 0,
       "avgHr": 81,
       "calories": 187
     },
@@ -1326,8 +1326,8 @@
       "name": "Strength",
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
-      "distanceKm": null,
-      "paceSecPerKm": null,
+      "distanceKm": 0,
+      "paceSecPerKm": 0,
       "avgHr": 95,
       "calories": 209
     },
@@ -1337,8 +1337,8 @@
       "name": "Legday v2",
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
-      "distanceKm": null,
-      "paceSecPerKm": null,
+      "distanceKm": 0,
+      "paceSecPerKm": 0,
       "avgHr": 89,
       "calories": 108
     },
@@ -1348,8 +1348,8 @@
       "name": "Legday v2",
       "startTimestamp": 1780392776,
       "endTimestamp": 1780394714,
-      "distanceKm": null,
-      "paceSecPerKm": null,
+      "distanceKm": 0,
+      "paceSecPerKm": 0,
       "avgHr": 93,
       "calories": 129
     }
