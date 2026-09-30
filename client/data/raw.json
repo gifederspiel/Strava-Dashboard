@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-09-29T04:18:09.539Z",
+  "generatedAt": "2026-09-30T04:17:30Z",
   "fitness": {
     "vo2max": 58,
-    "runningLevel": 87,
+    "runningLevel": 86,
     "thresholdPaceSecPerKm": 263,
     "predictions": {
-      "5k": "20:56",
-      "10k": "43:21",
-      "half": "1:36:44",
-      "marathon": "3:23:19"
+      "5k": "20:57",
+      "10k": "43:23",
+      "half": "1:36:50",
+      "marathon": "3:23:35"
     }
   },
   "load": [
     {
-      "date": "2026-09-29",
+      "date": "2026-09-30",
       "comment": "Performance",
-      "short": 56,
-      "long": 95,
-      "ratio": 0.58
+      "short": 77,
+      "long": 98,
+      "ratio": 0.78
+    },
+    {
+      "date": "2026-09-29",
+      "comment": "Maintaining",
+      "short": 89,
+      "long": 101,
+      "ratio": 0.88
     },
     {
       "date": "2026-09-28",
@@ -185,7 +192,7 @@
       "comment": "Optimized",
       "short": 105,
       "long": 105,
-      "ratio": 1
+      "ratio": 1.0
     },
     {
       "date": "2026-09-04",
@@ -221,16 +228,31 @@
       "short": 102,
       "long": 103,
       "ratio": 0.99
-    },
-    {
-      "date": "2026-08-30",
-      "comment": "Maintaining",
-      "short": 101,
-      "long": 103,
-      "ratio": 0.98
     }
   ],
   "activities": [
+    {
+      "labelId": "480679441287119150",
+      "sportType": 103,
+      "name": "Half-Marathon pace intervals",
+      "startTimestamp": 1790669458,
+      "endTimestamp": 1790673003,
+      "distanceKm": 11.21,
+      "paceSecPerKm": 316,
+      "avgHr": 170,
+      "calories": 839
+    },
+    {
+      "labelId": "480679119701442661",
+      "sportType": 100,
+      "name": "Lucerne Run",
+      "startTimestamp": 1790668539,
+      "endTimestamp": 1790669290,
+      "distanceKm": 1.68,
+      "paceSecPerKm": 447,
+      "avgHr": 150,
+      "calories": 155
+    },
     {
       "labelId": "480634488278253869",
       "sportType": 100,
@@ -413,7 +435,7 @@
       "name": "Locarno Run",
       "startTimestamp": 1788947551,
       "endTimestamp": 1788947923,
-      "distanceKm": 1,
+      "distanceKm": 1.0,
       "paceSecPerKm": 372,
       "avgHr": 148,
       "calories": 75
@@ -732,7 +754,7 @@
       "name": "Aerobic run",
       "startTimestamp": 1786942667,
       "endTimestamp": 1786945534,
-      "distanceKm": 8,
+      "distanceKm": 8.0,
       "paceSecPerKm": 358,
       "avgHr": 154,
       "calories": 636
@@ -952,7 +974,7 @@
       "name": "Nottwil Run",
       "startTimestamp": 1785421398,
       "endTimestamp": 1785424533,
-      "distanceKm": 8,
+      "distanceKm": 8.0,
       "paceSecPerKm": 384,
       "avgHr": 154,
       "calories": 688
@@ -1235,7 +1257,7 @@
     {
       "labelId": "478244652783272038",
       "sportType": 100,
-      "name": "5 × 1km VO2",
+      "name": "5 \u00d7 1km VO2",
       "startTimestamp": 1781599048,
       "endTimestamp": 1781600140,
       "distanceKm": 3.34,
@@ -1271,7 +1293,7 @@
       "name": "Training",
       "startTimestamp": 1780677250,
       "endTimestamp": 1780679522,
-      "distanceKm": 6,
+      "distanceKm": 6.0,
       "paceSecPerKm": 379,
       "avgHr": 153,
       "calories": 500
@@ -1299,24 +1321,13 @@
       "calories": 412
     },
     {
-      "labelId": "477904376208326756",
-      "sportType": 100,
-      "name": "Training",
-      "startTimestamp": 1780330019,
-      "endTimestamp": 1780332510,
-      "distanceKm": 6.5,
-      "paceSecPerKm": 371,
-      "avgHr": 151,
-      "calories": 534
-    },
-    {
       "labelId": "480412243316473956",
       "sportType": 402,
       "name": "Strength",
       "startTimestamp": 1789659529,
       "endTimestamp": 1789661174,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 81,
       "calories": 187
     },
@@ -1326,8 +1337,8 @@
       "name": "Strength",
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 95,
       "calories": 209
     },
@@ -1337,8 +1348,8 @@
       "name": "Legday v2",
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 89,
       "calories": 108
     },
@@ -1348,8 +1359,8 @@
       "name": "Legday v2",
       "startTimestamp": 1780392776,
       "endTimestamp": 1780394714,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 93,
       "calories": 129
     }
