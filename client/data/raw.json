@@ -1,18 +1,19 @@
 {
-  "generatedAt": "2026-10-07T00:00:00.000Z",
+  "generatedAt": "2026-10-08T00:00:00.000Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
     "thresholdPaceSecPerKm": 264,
     "predictions": {
-      "5k": "21:00",
-      "10k": "43:31",
-      "half": "1:37:08",
-      "marathon": "3:24:17"
+      "5k": "21:02",
+      "10k": "43:34",
+      "half": "1:37:16",
+      "marathon": "3:24:33"
     }
   },
   "load": [
-    { "date": "2026-10-07", "comment": "Performance", "short": 75, "long": 95, "ratio": 0.78 },
+    { "date": "2026-10-08", "comment": "Maintaining", "short": 84, "long": 97, "ratio": 0.86 },
+    { "date": "2026-10-07", "comment": "Maintaining", "short": 98, "long": 99, "ratio": 0.98 },
     { "date": "2026-10-06", "comment": "Maintaining", "short": 87, "long": 98, "ratio": 0.88 },
     { "date": "2026-10-05", "comment": "Maintaining", "short": 85, "long": 98, "ratio": 0.86 },
     { "date": "2026-10-04", "comment": "Maintaining", "short": 99, "long": 100, "ratio": 0.99 },
@@ -41,10 +42,12 @@
     { "date": "2026-09-11", "comment": "Optimized", "short": 128, "long": 110, "ratio": 1.16 },
     { "date": "2026-09-10", "comment": "Optimized", "short": 126, "long": 109, "ratio": 1.15 },
     { "date": "2026-09-09", "comment": "Optimized", "short": 132, "long": 110, "ratio": 1.2 },
-    { "date": "2026-09-08", "comment": "Optimized", "short": 116, "long": 107, "ratio": 1.08 },
-    { "date": "2026-09-07", "comment": "Optimized", "short": 119, "long": 107, "ratio": 1.11 }
+    { "date": "2026-09-08", "comment": "Optimized", "short": 116, "long": 107, "ratio": 1.08 }
   ],
   "activities": [
+    { "labelId": "480862916919197703", "sportType": 100, "name": "Risch-Rotkreuz Run", "startTimestamp": 1791353638, "endTimestamp": 1791353949, "distanceKm": 0.84, "paceSecPerKm": 370, "avgHr": 144, "calories": 60 },
+    { "labelId": "480862799881338979", "sportType": 103, "name": "Threshold 4x1600 m (track)", "startTimestamp": 1791351219, "endTimestamp": 1791353436, "distanceKm": 7.62, "paceSecPerKm": 291, "avgHr": 170, "calories": 565 },
+    { "labelId": "480862028666273894", "sportType": 100, "name": "Risch-Rotkreuz Run", "startTimestamp": 1791350348, "endTimestamp": 1791351072, "distanceKm": 1.62, "paceSecPerKm": 429, "avgHr": 145, "calories": 133 },
     { "labelId": "480842287388065993", "sportType": 100, "name": "Lucerne Run", "startTimestamp": 1791273846, "endTimestamp": 1791276711, "distanceKm": 8.12, "paceSecPerKm": 352, "avgHr": 154, "calories": 621 },
     { "labelId": "480793610642555085", "sportType": 100, "name": "Turin Run", "startTimestamp": 1791089991, "endTimestamp": 1791095328, "distanceKm": 17.51, "paceSecPerKm": 304, "avgHr": 166, "calories": 1304 },
     { "labelId": "480746418078777450", "sportType": 100, "name": "Turin Run", "startTimestamp": 1790919425, "endTimestamp": 1790922681, "distanceKm": 9.21, "paceSecPerKm": 346, "avgHr": 151, "calories": 676 },
