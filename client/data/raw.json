@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T04:18:17.007Z",
+  "generatedAt": "2026-10-17T04:17:52.443Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
@@ -13,11 +13,18 @@
   },
   "load": [
     {
+      "date": "2026-10-17",
+      "comment": "Maintaining",
+      "short": 81,
+      "long": 97,
+      "ratio": 0.83
+    },
+    {
       "date": "2026-10-16",
       "comment": "Maintaining",
-      "short": 85,
-      "long": 97,
-      "ratio": 0.87
+      "short": 95,
+      "long": 99,
+      "ratio": 0.95
     },
     {
       "date": "2026-10-15",
@@ -221,16 +228,20 @@
       "short": 133,
       "long": 114,
       "ratio": 1.16
-    },
-    {
-      "date": "2026-09-16",
-      "comment": "Optimized",
-      "short": 143,
-      "long": 115,
-      "ratio": 1.24
     }
   ],
   "activities": [
+    {
+      "labelId": "481082831592783875",
+      "sportType": 100,
+      "name": "Nottwil Run",
+      "startTimestamp": 1792145584,
+      "endTimestamp": 1792147583,
+      "distanceKm": 5.76,
+      "paceSecPerKm": 347,
+      "avgHr": 153,
+      "calories": 428
+    },
     {
       "labelId": "481052700788686951",
       "sportType": 100,
