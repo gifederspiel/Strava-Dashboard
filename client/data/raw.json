@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-10-17T04:17:52.443Z",
+  "generatedAt": "2026-10-18T04:05:54.090Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
     "thresholdPaceSecPerKm": 265,
     "predictions": {
-      "5k": "21:09",
-      "10k": "43:50",
-      "half": "1:37:52",
-      "marathon": "3:25:46"
+      "5k": "21:08",
+      "10k": "43:48",
+      "half": "1:37:45",
+      "marathon": "3:25:27"
     }
   },
   "load": [
     {
-      "date": "2026-10-17",
+      "date": "2026-10-18",
       "comment": "Maintaining",
-      "short": 81,
-      "long": 97,
-      "ratio": 0.83
+      "short": 93,
+      "long": 99,
+      "ratio": 0.93
+    },
+    {
+      "date": "2026-10-17",
+      "comment": "Optimized",
+      "short": 108,
+      "long": 101,
+      "ratio": 1.06
     },
     {
       "date": "2026-10-16",
@@ -221,16 +228,20 @@
       "short": 114,
       "long": 111,
       "ratio": 1.02
-    },
-    {
-      "date": "2026-09-17",
-      "comment": "Optimized",
-      "short": 133,
-      "long": 114,
-      "ratio": 1.16
     }
   ],
   "activities": [
+    {
+      "labelId": "481096782988739060",
+      "sportType": 100,
+      "name": "Longrun",
+      "startTimestamp": 1792220627,
+      "endTimestamp": 1792225142,
+      "distanceKm": 14.02,
+      "paceSecPerKm": 320,
+      "avgHr": 160,
+      "calories": 1034
+    },
     {
       "labelId": "481082831592783875",
       "sportType": 100,
