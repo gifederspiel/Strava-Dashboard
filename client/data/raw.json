@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-10-18T04:05:54.090Z",
+  "generatedAt": "2026-10-19T04:05:59.584Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
     "thresholdPaceSecPerKm": 265,
     "predictions": {
-      "5k": "21:08",
-      "10k": "43:48",
-      "half": "1:37:45",
-      "marathon": "3:25:27"
+      "5k": "21:09",
+      "10k": "43:51",
+      "half": "1:37:53",
+      "marathon": "3:25:43"
     }
   },
   "load": [
     {
-      "date": "2026-10-18",
+      "date": "2026-10-19",
       "comment": "Maintaining",
-      "short": 93,
-      "long": 99,
-      "ratio": 0.93
+      "short": 90,
+      "long": 98,
+      "ratio": 0.91
+    },
+    {
+      "date": "2026-10-18",
+      "comment": "Optimized",
+      "short": 105,
+      "long": 101,
+      "ratio": 1.03
     },
     {
       "date": "2026-10-17",
@@ -221,16 +228,31 @@
       "short": 98,
       "long": 108,
       "ratio": 0.9
-    },
-    {
-      "date": "2026-09-18",
-      "comment": "Optimized",
-      "short": 114,
-      "long": 111,
-      "ratio": 1.02
     }
   ],
   "activities": [
+    {
+      "labelId": "481121887074681232",
+      "sportType": 100,
+      "name": "Schwyz Run",
+      "startTimestamp": 1792317019,
+      "endTimestamp": 1792317871,
+      "distanceKm": 2.77,
+      "paceSecPerKm": 278,
+      "avgHr": 154,
+      "calories": 166
+    },
+    {
+      "labelId": "481121886804148528",
+      "sportType": 100,
+      "name": "Schwyz Run",
+      "startTimestamp": 1792314259,
+      "endTimestamp": 1792314979,
+      "distanceKm": 1.07,
+      "paceSecPerKm": 628,
+      "avgHr": 127,
+      "calories": 106
+    },
     {
       "labelId": "481096782988739060",
       "sportType": 100,
