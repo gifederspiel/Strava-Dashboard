@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T04:06:22.558Z",
+  "generatedAt": "2026-10-24T04:06:11.094Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
@@ -12,6 +12,13 @@
     }
   },
   "load": [
+    {
+      "date": "2026-10-24",
+      "comment": "Performance",
+      "short": 64,
+      "long": 93,
+      "ratio": 0.68
+    },
     {
       "date": "2026-10-23",
       "comment": "Performance",
@@ -221,13 +228,6 @@
       "short": 64,
       "long": 100,
       "ratio": 0.64
-    },
-    {
-      "date": "2026-09-23",
-      "comment": "Performance",
-      "short": 75,
-      "long": 103,
-      "ratio": 0.72
     }
   ],
   "activities": [
@@ -366,7 +366,7 @@
     {
       "labelId": "480935295978603100",
       "sportType": 100,
-      "name": "Long run 10 easy + 10 race effort (cour se)",
+      "name": "Long run 10 easy + 10 race effort (course)",
       "startTimestamp": 1791616329,
       "endTimestamp": 1791622959,
       "distanceKm": 20.01,
