@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-10-25T04:05:45.694Z",
+  "generatedAt": "2026-10-26T04:06:16Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
-    "thresholdPaceSecPerKm": 266,
+    "thresholdPaceSecPerKm": 263,
     "predictions": {
-      "5k": "21:15",
-      "10k": "44:03",
-      "half": "1:38:20",
-      "marathon": "3:26:38"
+      "5k": "20:59",
+      "10k": "43:29",
+      "half": "1:37:03",
+      "marathon": "3:24:00"
     }
   },
   "load": [
     {
+      "date": "2026-10-26",
+      "comment": "Optimized",
+      "short": 117,
+      "long": 105,
+      "ratio": 1.11
+    },
+    {
       "date": "2026-10-25",
-      "comment": "Performance",
-      "short": 65,
-      "long": 92,
-      "ratio": 0.7
+      "comment": "Optimized",
+      "short": 137,
+      "long": 108,
+      "ratio": 1.26
     },
     {
       "date": "2026-10-24",
@@ -87,14 +94,14 @@
       "comment": "Optimized",
       "short": 100,
       "long": 100,
-      "ratio": 1
+      "ratio": 1.0
     },
     {
       "date": "2026-10-14",
       "comment": "Optimized",
       "short": 100,
       "long": 100,
-      "ratio": 1
+      "ratio": 1.0
     },
     {
       "date": "2026-10-13",
@@ -221,16 +228,31 @@
       "short": 77,
       "long": 101,
       "ratio": 0.76
-    },
-    {
-      "date": "2026-09-25",
-      "comment": "Performance",
-      "short": 60,
-      "long": 99,
-      "ratio": 0.6
     }
   ],
   "activities": [
+    {
+      "labelId": "481285118380507439",
+      "sportType": 100,
+      "name": "Lucerne Run",
+      "startTimestamp": 1792920006,
+      "endTimestamp": 1792925891,
+      "distanceKm": 21.31,
+      "paceSecPerKm": 276,
+      "avgHr": 179,
+      "calories": 1616
+    },
+    {
+      "labelId": "481285118380507438",
+      "sportType": 100,
+      "name": "Lucerne Run",
+      "startTimestamp": 1792918049,
+      "endTimestamp": 1792919067,
+      "distanceKm": 1.7,
+      "paceSecPerKm": 382,
+      "avgHr": 148,
+      "calories": 132
+    },
     {
       "labelId": "481260382856445960",
       "sportType": 100,
@@ -377,7 +399,7 @@
     {
       "labelId": "480935295978603100",
       "sportType": 100,
-      "name": "Long run 10 easy + 10 race effort (course)",
+      "name": "Long run 10 easy + 10 race effort (cour se)",
       "startTimestamp": 1791616329,
       "endTimestamp": 1791622959,
       "distanceKm": 20.01,
@@ -688,7 +710,7 @@
       "name": "Locarno Run",
       "startTimestamp": 1788947551,
       "endTimestamp": 1788947923,
-      "distanceKm": 1,
+      "distanceKm": 1.0,
       "paceSecPerKm": 372,
       "avgHr": 148,
       "calories": 75
@@ -1007,7 +1029,7 @@
       "name": "Aerobic run",
       "startTimestamp": 1786942667,
       "endTimestamp": 1786945534,
-      "distanceKm": 8,
+      "distanceKm": 8.0,
       "paceSecPerKm": 358,
       "avgHr": 154,
       "calories": 636
@@ -1227,7 +1249,7 @@
       "name": "Nottwil Run",
       "startTimestamp": 1785421398,
       "endTimestamp": 1785424533,
-      "distanceKm": 8,
+      "distanceKm": 8.0,
       "paceSecPerKm": 384,
       "avgHr": 154,
       "calories": 688
@@ -1502,6 +1524,8 @@
       "name": "Strength",
       "startTimestamp": 1789659529,
       "endTimestamp": 1789661174,
+      "distanceKm": 0,
+      "paceSecPerKm": 0,
       "avgHr": 81,
       "calories": 187
     },
@@ -1511,6 +1535,8 @@
       "name": "Strength",
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
+      "distanceKm": 0,
+      "paceSecPerKm": 0,
       "avgHr": 95,
       "calories": 209
     },
@@ -1520,6 +1546,8 @@
       "name": "Legday v2",
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
+      "distanceKm": 0,
+      "paceSecPerKm": 0,
       "avgHr": 89,
       "calories": 108
     }
