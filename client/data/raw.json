@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T04:06:16Z",
+  "generatedAt": "2026-10-27T04:04:57.217Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
@@ -12,6 +12,13 @@
     }
   },
   "load": [
+    {
+      "date": "2026-10-27",
+      "comment": "Maintaining",
+      "short": 100,
+      "long": 103,
+      "ratio": 0.97
+    },
     {
       "date": "2026-10-26",
       "comment": "Optimized",
@@ -221,13 +228,6 @@
       "short": 76,
       "long": 100,
       "ratio": 0.76
-    },
-    {
-      "date": "2026-09-26",
-      "comment": "Performance",
-      "short": 77,
-      "long": 101,
-      "ratio": 0.76
     }
   ],
   "activities": [
@@ -399,7 +399,7 @@
     {
       "labelId": "480935295978603100",
       "sportType": 100,
-      "name": "Long run 10 easy + 10 race effort (cour se)",
+      "name": "Long run 10 easy + 10 race effort (course)",
       "startTimestamp": 1791616329,
       "endTimestamp": 1791622959,
       "distanceKm": 20.01,
@@ -1525,7 +1525,7 @@
       "startTimestamp": 1789659529,
       "endTimestamp": 1789661174,
       "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "paceSecPerKm": null,
       "avgHr": 81,
       "calories": 187
     },
@@ -1536,7 +1536,7 @@
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
       "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "paceSecPerKm": null,
       "avgHr": 95,
       "calories": 209
     },
@@ -1547,7 +1547,7 @@
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
       "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "paceSecPerKm": null,
       "avgHr": 89,
       "calories": 108
     }
