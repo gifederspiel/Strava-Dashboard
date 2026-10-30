@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T04:05:51Z",
+  "generatedAt": "2026-10-30T04:05:48Z",
   "fitness": {
     "vo2max": 58,
     "runningLevel": 86,
@@ -12,6 +12,13 @@
     }
   },
   "load": [
+    {
+      "date": "2026-10-30",
+      "comment": "Performance",
+      "short": 69,
+      "long": 97,
+      "ratio": 0.71
+    },
     {
       "date": "2026-10-29",
       "comment": "Maintaining",
@@ -221,13 +228,6 @@
       "short": 85,
       "long": 100,
       "ratio": 0.85
-    },
-    {
-      "date": "2026-09-29",
-      "comment": "Maintaining",
-      "short": 89,
-      "long": 101,
-      "ratio": 0.88
     }
   ],
   "activities": [
@@ -1495,17 +1495,6 @@
       "paceSecPerKm": 373,
       "avgHr": 154,
       "calories": 507
-    },
-    {
-      "labelId": "478599912341143559",
-      "sportType": 100,
-      "name": "Lucerne Run",
-      "startTimestamp": 1782921334,
-      "endTimestamp": 1782923591,
-      "distanceKm": 5.81,
-      "paceSecPerKm": 389,
-      "avgHr": 150,
-      "calories": 481
     },
     {
       "labelId": "480412243316473956",
