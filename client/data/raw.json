@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-05T05:08:35.832Z",
+  "generatedAt": "2026-11-06T05:07:22.380Z",
   "fitness": {
-    "vo2max": 58,
+    "vo2max": 59,
     "runningLevel": 86,
     "thresholdPaceSecPerKm": 266,
     "predictions": {
@@ -13,11 +13,18 @@
   },
   "load": [
     {
+      "date": "2026-11-06",
+      "comment": "Performance",
+      "short": 64,
+      "long": 93,
+      "ratio": 0.68
+    },
+    {
       "date": "2026-11-05",
       "comment": "Performance",
-      "short": 60,
-      "long": 92,
-      "ratio": 0.65
+      "short": 75,
+      "long": 95,
+      "ratio": 0.78
     },
     {
       "date": "2026-11-04",
@@ -221,16 +228,31 @@
       "short": 98,
       "long": 99,
       "ratio": 0.98
-    },
-    {
-      "date": "2026-10-06",
-      "comment": "Maintaining",
-      "short": 87,
-      "long": 98,
-      "ratio": 0.88
     }
   ],
   "activities": [
+    {
+      "labelId": "481536365914259460",
+      "sportType": 100,
+      "name": "Lucerne Run",
+      "startTimestamp": 1793861991,
+      "endTimestamp": 1793862602,
+      "distanceKm": 1.73,
+      "avgHr": 160,
+      "calories": 142,
+      "paceSecPerKm": 348
+    },
+    {
+      "labelId": "481536365914259458",
+      "sportType": 100,
+      "name": "Threshold 5×1000 m",
+      "startTimestamp": 1793859724,
+      "endTimestamp": 1793861761,
+      "distanceKm": 5.74,
+      "avgHr": 152,
+      "calories": 415,
+      "paceSecPerKm": 341
+    },
     {
       "labelId": "481512841841508455",
       "sportType": 100,
@@ -238,9 +260,9 @@
       "startTimestamp": 1793772820,
       "endTimestamp": 1793775095,
       "distanceKm": 6.14,
-      "paceSecPerKm": 356,
       "avgHr": 152,
-      "calories": 466
+      "calories": 466,
+      "paceSecPerKm": 356
     },
     {
       "labelId": "481285118380507439",
@@ -249,9 +271,9 @@
       "startTimestamp": 1792920006,
       "endTimestamp": 1792925891,
       "distanceKm": 21.31,
-      "paceSecPerKm": 276,
       "avgHr": 179,
-      "calories": 1616
+      "calories": 1616,
+      "paceSecPerKm": 276
     },
     {
       "labelId": "481285118380507438",
@@ -260,9 +282,9 @@
       "startTimestamp": 1792918049,
       "endTimestamp": 1792919067,
       "distanceKm": 1.7,
-      "paceSecPerKm": 382,
       "avgHr": 148,
-      "calories": 132
+      "calories": 132,
+      "paceSecPerKm": 382
     },
     {
       "labelId": "481260382856445960",
@@ -271,9 +293,9 @@
       "startTimestamp": 1792831922,
       "endTimestamp": 1792834623,
       "distanceKm": 5.88,
-      "paceSecPerKm": 389,
       "avgHr": 150,
-      "calories": 478
+      "calories": 478,
+      "paceSecPerKm": 389
     },
     {
       "labelId": "481214475832164353",
@@ -282,9 +304,9 @@
       "startTimestamp": 1792661532,
       "endTimestamp": 1792663463,
       "distanceKm": 6.25,
-      "paceSecPerKm": 306,
       "avgHr": 162,
-      "calories": 451
+      "calories": 451,
+      "paceSecPerKm": 306
     },
     {
       "labelId": "481200766833426535",
@@ -293,9 +315,9 @@
       "startTimestamp": 1792560732,
       "endTimestamp": 1792562587,
       "distanceKm": 5.17,
-      "paceSecPerKm": 346,
       "avgHr": 155,
-      "calories": 391
+      "calories": 391,
+      "paceSecPerKm": 346
     },
     {
       "labelId": "481163873869660168",
@@ -304,9 +326,9 @@
       "startTimestamp": 1792474579,
       "endTimestamp": 1792474781,
       "distanceKm": 0.558,
-      "paceSecPerKm": 363,
       "avgHr": 157,
-      "calories": 45
+      "calories": 45,
+      "paceSecPerKm": 363
     },
     {
       "labelId": "481163873869660165",
@@ -315,9 +337,9 @@
       "startTimestamp": 1792472315,
       "endTimestamp": 1792474537,
       "distanceKm": 6.02,
-      "paceSecPerKm": 369,
       "avgHr": 151,
-      "calories": 468
+      "calories": 468,
+      "paceSecPerKm": 369
     },
     {
       "labelId": "481121887074681232",
@@ -326,9 +348,9 @@
       "startTimestamp": 1792317019,
       "endTimestamp": 1792317871,
       "distanceKm": 2.77,
-      "paceSecPerKm": 278,
       "avgHr": 154,
-      "calories": 166
+      "calories": 166,
+      "paceSecPerKm": 278
     },
     {
       "labelId": "481121886804148528",
@@ -337,9 +359,9 @@
       "startTimestamp": 1792314259,
       "endTimestamp": 1792314979,
       "distanceKm": 1.07,
-      "paceSecPerKm": 628,
       "avgHr": 127,
-      "calories": 106
+      "calories": 106,
+      "paceSecPerKm": 628
     },
     {
       "labelId": "481096782988739060",
@@ -348,9 +370,9 @@
       "startTimestamp": 1792220627,
       "endTimestamp": 1792225142,
       "distanceKm": 14.02,
-      "paceSecPerKm": 320,
       "avgHr": 160,
-      "calories": 1034
+      "calories": 1034,
+      "paceSecPerKm": 320
     },
     {
       "labelId": "481082831592783875",
@@ -359,9 +381,9 @@
       "startTimestamp": 1792145584,
       "endTimestamp": 1792147583,
       "distanceKm": 5.76,
-      "paceSecPerKm": 347,
       "avgHr": 153,
-      "calories": 428
+      "calories": 428,
+      "paceSecPerKm": 347
     },
     {
       "labelId": "481052700788686951",
@@ -370,9 +392,9 @@
       "startTimestamp": 1792058243,
       "endTimestamp": 1792060939,
       "distanceKm": 7.83,
-      "paceSecPerKm": 344,
       "avgHr": 156,
-      "calories": 597
+      "calories": 597,
+      "paceSecPerKm": 344
     },
     {
       "labelId": "481025753627001033",
@@ -381,9 +403,9 @@
       "startTimestamp": 1791958141,
       "endTimestamp": 1791960281,
       "distanceKm": 7.21,
-      "paceSecPerKm": 297,
       "avgHr": 164,
-      "calories": 513
+      "calories": 513,
+      "paceSecPerKm": 297
     },
     {
       "labelId": "481025036365365352",
@@ -392,9 +414,9 @@
       "startTimestamp": 1791957357,
       "endTimestamp": 1791957889,
       "distanceKm": 1.32,
-      "paceSecPerKm": 394,
       "avgHr": 143,
-      "calories": 97
+      "calories": 97,
+      "paceSecPerKm": 394
     },
     {
       "labelId": "481003616828686438",
@@ -403,9 +425,9 @@
       "startTimestamp": 1791875099,
       "endTimestamp": 1791878032,
       "distanceKm": 8.16,
-      "paceSecPerKm": 353,
       "avgHr": 153,
-      "calories": 617
+      "calories": 617,
+      "paceSecPerKm": 353
     },
     {
       "labelId": "480935295978603100",
@@ -414,9 +436,9 @@
       "startTimestamp": 1791616329,
       "endTimestamp": 1791622959,
       "distanceKm": 20.01,
-      "paceSecPerKm": 322,
       "avgHr": 164,
-      "calories": 1546
+      "calories": 1546,
+      "paceSecPerKm": 322
     },
     {
       "labelId": "480913347621978211",
@@ -425,9 +447,9 @@
       "startTimestamp": 1791539561,
       "endTimestamp": 1791541804,
       "distanceKm": 6.35,
-      "paceSecPerKm": 353,
       "avgHr": 155,
-      "calories": 491
+      "calories": 491,
+      "paceSecPerKm": 353
     },
     {
       "labelId": "480885988680302694",
@@ -436,9 +458,9 @@
       "startTimestamp": 1791437279,
       "endTimestamp": 1791439892,
       "distanceKm": 7.23,
-      "paceSecPerKm": 353,
       "avgHr": 152,
-      "calories": 540
+      "calories": 540,
+      "paceSecPerKm": 353
     },
     {
       "labelId": "480862916919197703",
@@ -447,9 +469,9 @@
       "startTimestamp": 1791353638,
       "endTimestamp": 1791353949,
       "distanceKm": 0.84,
-      "paceSecPerKm": 370,
       "avgHr": 144,
-      "calories": 60
+      "calories": 60,
+      "paceSecPerKm": 370
     },
     {
       "labelId": "480862799881338979",
@@ -458,9 +480,9 @@
       "startTimestamp": 1791351219,
       "endTimestamp": 1791353436,
       "distanceKm": 7.62,
-      "paceSecPerKm": 291,
       "avgHr": 170,
-      "calories": 565
+      "calories": 565,
+      "paceSecPerKm": 291
     },
     {
       "labelId": "480862028666273894",
@@ -469,9 +491,9 @@
       "startTimestamp": 1791350348,
       "endTimestamp": 1791351072,
       "distanceKm": 1.62,
-      "paceSecPerKm": 429,
       "avgHr": 145,
-      "calories": 133
+      "calories": 133,
+      "paceSecPerKm": 429
     },
     {
       "labelId": "480842287388065993",
@@ -480,9 +502,9 @@
       "startTimestamp": 1791273846,
       "endTimestamp": 1791276711,
       "distanceKm": 8.12,
-      "paceSecPerKm": 352,
       "avgHr": 154,
-      "calories": 621
+      "calories": 621,
+      "paceSecPerKm": 352
     },
     {
       "labelId": "480793610642555085",
@@ -491,9 +513,9 @@
       "startTimestamp": 1791089991,
       "endTimestamp": 1791095328,
       "distanceKm": 17.51,
-      "paceSecPerKm": 304,
       "avgHr": 166,
-      "calories": 1304
+      "calories": 1304,
+      "paceSecPerKm": 304
     },
     {
       "labelId": "480746418078777450",
@@ -502,9 +524,9 @@
       "startTimestamp": 1790919425,
       "endTimestamp": 1790922681,
       "distanceKm": 9.21,
-      "paceSecPerKm": 346,
       "avgHr": 151,
-      "calories": 676
+      "calories": 676,
+      "paceSecPerKm": 346
     },
     {
       "labelId": "480699984918905033",
@@ -513,9 +535,9 @@
       "startTimestamp": 1790744551,
       "endTimestamp": 1790746971,
       "distanceKm": 6.68,
-      "paceSecPerKm": 362,
       "avgHr": 144,
-      "calories": 473
+      "calories": 473,
+      "paceSecPerKm": 362
     },
     {
       "labelId": "480679441287119150",
@@ -524,9 +546,9 @@
       "startTimestamp": 1790669458,
       "endTimestamp": 1790673003,
       "distanceKm": 11.21,
-      "paceSecPerKm": 316,
       "avgHr": 170,
-      "calories": 839
+      "calories": 839,
+      "paceSecPerKm": 316
     },
     {
       "labelId": "480679119701442661",
@@ -535,9 +557,9 @@
       "startTimestamp": 1790668539,
       "endTimestamp": 1790669290,
       "distanceKm": 1.68,
-      "paceSecPerKm": 447,
       "avgHr": 150,
-      "calories": 155
+      "calories": 155,
+      "paceSecPerKm": 447
     },
     {
       "labelId": "480634488278253869",
@@ -546,9 +568,9 @@
       "startTimestamp": 1790498766,
       "endTimestamp": 1790501527,
       "distanceKm": 7.72,
-      "paceSecPerKm": 357,
       "avgHr": 147,
-      "calories": 552
+      "calories": 552,
+      "paceSecPerKm": 357
     },
     {
       "labelId": "480610069510128024",
@@ -557,9 +579,9 @@
       "startTimestamp": 1790410740,
       "endTimestamp": 1790415184,
       "distanceKm": 12.4,
-      "paceSecPerKm": 351,
       "avgHr": 159,
-      "calories": 989
+      "calories": 989,
+      "paceSecPerKm": 351
     },
     {
       "labelId": "480517470822629680",
@@ -568,9 +590,9 @@
       "startTimestamp": 1790065104,
       "endTimestamp": 1790065257,
       "distanceKm": 0.448,
-      "paceSecPerKm": 341,
       "avgHr": 148,
-      "calories": 30
+      "calories": 30,
+      "paceSecPerKm": 341
     },
     {
       "labelId": "480517470822629679",
@@ -579,9 +601,9 @@
       "startTimestamp": 1790062994,
       "endTimestamp": 1790064997,
       "distanceKm": 6.55,
-      "paceSecPerKm": 306,
       "avgHr": 166,
-      "calories": 477
+      "calories": 477,
+      "paceSecPerKm": 306
     },
     {
       "labelId": "480516369698291714",
@@ -590,9 +612,9 @@
       "startTimestamp": 1790062044,
       "endTimestamp": 1790062951,
       "distanceKm": 2.02,
-      "paceSecPerKm": 429,
       "avgHr": 147,
-      "calories": 174
+      "calories": 174,
+      "paceSecPerKm": 429
     },
     {
       "labelId": "480504831807619073",
@@ -601,9 +623,9 @@
       "startTimestamp": 1790002655,
       "endTimestamp": 1790004180,
       "distanceKm": 4.44,
-      "paceSecPerKm": 338,
       "avgHr": 146,
-      "calories": 299
+      "calories": 299,
+      "paceSecPerKm": 338
     },
     {
       "labelId": "480398651357692105",
@@ -612,9 +634,9 @@
       "startTimestamp": 1789621517,
       "endTimestamp": 1789624412,
       "distanceKm": 8.01,
-      "paceSecPerKm": 352,
       "avgHr": 147,
-      "calories": 570
+      "calories": 570,
+      "paceSecPerKm": 352
     },
     {
       "labelId": "480376154587431412",
@@ -623,9 +645,9 @@
       "startTimestamp": 1789540304,
       "endTimestamp": 1789540608,
       "distanceKm": 0.88,
-      "paceSecPerKm": 345,
       "avgHr": 148,
-      "calories": 60
+      "calories": 60,
+      "paceSecPerKm": 345
     },
     {
       "labelId": "480375151173599532",
@@ -634,9 +656,9 @@
       "startTimestamp": 1789536160,
       "endTimestamp": 1789540100,
       "distanceKm": 13.01,
-      "paceSecPerKm": 302,
       "avgHr": 167,
-      "calories": 899
+      "calories": 899,
+      "paceSecPerKm": 302
     },
     {
       "labelId": "480374939648557658",
@@ -645,9 +667,9 @@
       "startTimestamp": 1789535437,
       "endTimestamp": 1789536091,
       "distanceKm": 1.34,
-      "paceSecPerKm": 466,
       "avgHr": 136,
-      "calories": 110
+      "calories": 110,
+      "paceSecPerKm": 466
     },
     {
       "labelId": "480353235029229774",
@@ -656,9 +678,9 @@
       "startTimestamp": 1789451635,
       "endTimestamp": 1789455223,
       "distanceKm": 10.01,
-      "paceSecPerKm": 351,
       "avgHr": 151,
-      "calories": 726
+      "calories": 726,
+      "paceSecPerKm": 351
     },
     {
       "labelId": "480309444350083275",
@@ -667,9 +689,9 @@
       "startTimestamp": 1789286366,
       "endTimestamp": 1789292068,
       "distanceKm": 18.03,
-      "paceSecPerKm": 310,
       "avgHr": 167,
-      "calories": 1356
+      "calories": 1356,
+      "paceSecPerKm": 310
     },
     {
       "labelId": "480286196226883795",
@@ -678,9 +700,9 @@
       "startTimestamp": 1789203074,
       "endTimestamp": 1789205451,
       "distanceKm": 6.5,
-      "paceSecPerKm": 352,
       "avgHr": 154,
-      "calories": 487
+      "calories": 487,
+      "paceSecPerKm": 352
     },
     {
       "labelId": "480261397891022851",
@@ -689,9 +711,9 @@
       "startTimestamp": 1789112698,
       "endTimestamp": 1789113088,
       "distanceKm": 1.01,
-      "paceSecPerKm": 387,
       "avgHr": 144,
-      "calories": 75
+      "calories": 75,
+      "paceSecPerKm": 387
     },
     {
       "labelId": "480261049463898116",
@@ -700,9 +722,9 @@
       "startTimestamp": 1789108703,
       "endTimestamp": 1789112565,
       "distanceKm": 9.53,
-      "paceSecPerKm": 345,
       "avgHr": 151,
-      "calories": 658
+      "calories": 658,
+      "paceSecPerKm": 345
     },
     {
       "labelId": "480237287286800486",
@@ -711,9 +733,9 @@
       "startTimestamp": 1789020303,
       "endTimestamp": 1789023166,
       "distanceKm": 8.01,
-      "paceSecPerKm": 348,
       "avgHr": 152,
-      "calories": 582
+      "calories": 582,
+      "paceSecPerKm": 348
     },
     {
       "labelId": "480217054769610953",
@@ -722,9 +744,9 @@
       "startTimestamp": 1788947551,
       "endTimestamp": 1788947923,
       "distanceKm": 1,
-      "paceSecPerKm": 372,
       "avgHr": 148,
-      "calories": 75
+      "calories": 75,
+      "paceSecPerKm": 372
     },
     {
       "labelId": "480216911964045417",
@@ -733,9 +755,9 @@
       "startTimestamp": 1788943340,
       "endTimestamp": 1788947169,
       "distanceKm": 12.42,
-      "paceSecPerKm": 307,
       "avgHr": 168,
-      "calories": 861
+      "calories": 861,
+      "paceSecPerKm": 307
     },
     {
       "labelId": "480216911964045413",
@@ -744,9 +766,9 @@
       "startTimestamp": 1788942328,
       "endTimestamp": 1788943282,
       "distanceKm": 1.52,
-      "paceSecPerKm": 495,
       "avgHr": 133,
-      "calories": 112
+      "calories": 112,
+      "paceSecPerKm": 495
     },
     {
       "labelId": "480194824289419465",
@@ -755,9 +777,9 @@
       "startTimestamp": 1788857763,
       "endTimestamp": 1788863342,
       "distanceKm": 10.01,
-      "paceSecPerKm": 390,
       "avgHr": 145,
-      "calories": 754
+      "calories": 754,
+      "paceSecPerKm": 390
     },
     {
       "labelId": "480146207943983121",
@@ -766,9 +788,9 @@
       "startTimestamp": 1788681608,
       "endTimestamp": 1788684224,
       "distanceKm": 10.07,
-      "paceSecPerKm": 260,
       "avgHr": 188,
-      "calories": 752
+      "calories": 752,
+      "paceSecPerKm": 260
     },
     {
       "labelId": "480145392973938994",
@@ -777,9 +799,9 @@
       "startTimestamp": 1788679512,
       "endTimestamp": 1788680794,
       "distanceKm": 2.49,
-      "paceSecPerKm": 385,
       "avgHr": 154,
-      "calories": 201
+      "calories": 201,
+      "paceSecPerKm": 385
     },
     {
       "labelId": "480122180284219395",
@@ -788,9 +810,9 @@
       "startTimestamp": 1788592561,
       "endTimestamp": 1788594373,
       "distanceKm": 4.94,
-      "paceSecPerKm": 367,
       "avgHr": 152,
-      "calories": 397
+      "calories": 397,
+      "paceSecPerKm": 367
     },
     {
       "labelId": "480073389187301977",
@@ -799,9 +821,9 @@
       "startTimestamp": 1788410387,
       "endTimestamp": 1788414733,
       "distanceKm": 12.04,
-      "paceSecPerKm": 348,
       "avgHr": 150,
-      "calories": 900
+      "calories": 900,
+      "paceSecPerKm": 348
     },
     {
       "labelId": "480050120130331024",
@@ -810,9 +832,9 @@
       "startTimestamp": 1788323650,
       "endTimestamp": 1788326394,
       "distanceKm": 7.71,
-      "paceSecPerKm": 356,
       "avgHr": 155,
-      "calories": 621
+      "calories": 621,
+      "paceSecPerKm": 356
     },
     {
       "labelId": "480027965344743625",
@@ -821,9 +843,9 @@
       "startTimestamp": 1788242874,
       "endTimestamp": 1788243507,
       "distanceKm": 1.79,
-      "paceSecPerKm": 353,
       "avgHr": 159,
-      "calories": 148
+      "calories": 148,
+      "paceSecPerKm": 353
     },
     {
       "labelId": "480026867982696647",
@@ -832,9 +854,9 @@
       "startTimestamp": 1788238695,
       "endTimestamp": 1788242647,
       "distanceKm": 13.02,
-      "paceSecPerKm": 303,
       "avgHr": 161,
-      "calories": 946
+      "calories": 946,
+      "paceSecPerKm": 303
     },
     {
       "labelId": "480026670682636488",
@@ -843,9 +865,9 @@
       "startTimestamp": 1788237563,
       "endTimestamp": 1788238659,
       "distanceKm": 2.4,
-      "paceSecPerKm": 438,
       "avgHr": 146,
-      "calories": 215
+      "calories": 215,
+      "paceSecPerKm": 438
     },
     {
       "labelId": "480003987618168832",
@@ -854,9 +876,9 @@
       "startTimestamp": 1788150723,
       "endTimestamp": 1788154178,
       "distanceKm": 10.01,
-      "paceSecPerKm": 345,
       "avgHr": 152,
-      "calories": 755
+      "calories": 755,
+      "paceSecPerKm": 345
     },
     {
       "labelId": "479961505557676139",
@@ -865,9 +887,9 @@
       "startTimestamp": 1787989763,
       "endTimestamp": 1787995312,
       "distanceKm": 15.01,
-      "paceSecPerKm": 354,
       "avgHr": 152,
-      "calories": 1160
+      "calories": 1160,
+      "paceSecPerKm": 354
     },
     {
       "labelId": "479921724230500461",
@@ -876,9 +898,9 @@
       "startTimestamp": 1787844927,
       "endTimestamp": 1787847373,
       "distanceKm": 6.19,
-      "paceSecPerKm": 395,
       "avgHr": 144,
-      "calories": 491
+      "calories": 491,
+      "paceSecPerKm": 395
     },
     {
       "labelId": "479900478637899978",
@@ -887,9 +909,9 @@
       "startTimestamp": 1787767771,
       "endTimestamp": 1787768569,
       "distanceKm": 2.28,
-      "paceSecPerKm": 349,
       "avgHr": 153,
-      "calories": 175
+      "calories": 175,
+      "paceSecPerKm": 349
     },
     {
       "labelId": "479900221206200326",
@@ -898,9 +920,9 @@
       "startTimestamp": 1787767111,
       "endTimestamp": 1787767235,
       "distanceKm": 0.175,
-      "paceSecPerKm": 709,
       "avgHr": 121,
-      "calories": 18
+      "calories": 18,
+      "paceSecPerKm": 709
     },
     {
       "labelId": "479900221206200324",
@@ -909,9 +931,9 @@
       "startTimestamp": 1787765175,
       "endTimestamp": 1787767085,
       "distanceKm": 4.7,
-      "paceSecPerKm": 358,
       "avgHr": 153,
-      "calories": 377
+      "calories": 377,
+      "paceSecPerKm": 358
     },
     {
       "labelId": "479899507167887367",
@@ -920,9 +942,9 @@
       "startTimestamp": 1787764063,
       "endTimestamp": 1787764539,
       "distanceKm": 1.33,
-      "paceSecPerKm": 357,
       "avgHr": 149,
-      "calories": 98
+      "calories": 98,
+      "paceSecPerKm": 357
     },
     {
       "labelId": "479899124649459720",
@@ -931,9 +953,9 @@
       "startTimestamp": 1787762104,
       "endTimestamp": 1787763530,
       "distanceKm": 3.81,
-      "paceSecPerKm": 328,
       "avgHr": 152,
-      "calories": 273
+      "calories": 273,
+      "paceSecPerKm": 328
     },
     {
       "labelId": "479875998129619247",
@@ -942,9 +964,9 @@
       "startTimestamp": 1787671586,
       "endTimestamp": 1787674537,
       "distanceKm": 8.01,
-      "paceSecPerKm": 358,
       "avgHr": 151,
-      "calories": 621
+      "calories": 621,
+      "paceSecPerKm": 358
     },
     {
       "labelId": "479874429124378625",
@@ -953,9 +975,9 @@
       "startTimestamp": 1787671452,
       "endTimestamp": 1787671534,
       "distanceKm": 0.233,
-      "paceSecPerKm": 349,
       "avgHr": 117,
-      "calories": 13
+      "calories": 13,
+      "paceSecPerKm": 349
     },
     {
       "labelId": "479823239825096704",
@@ -964,9 +986,9 @@
       "startTimestamp": 1787480366,
       "endTimestamp": 1787480846,
       "distanceKm": 1.24,
-      "paceSecPerKm": 387,
       "avgHr": 158,
-      "calories": 111
+      "calories": 111,
+      "paceSecPerKm": 387
     },
     {
       "labelId": "479822196416479336",
@@ -975,9 +997,9 @@
       "startTimestamp": 1787475537,
       "endTimestamp": 1787480275,
       "distanceKm": 15.02,
-      "paceSecPerKm": 313,
       "avgHr": 166,
-      "calories": 1175
+      "calories": 1175,
+      "paceSecPerKm": 313
     },
     {
       "labelId": "479771621834391552",
@@ -986,9 +1008,9 @@
       "startTimestamp": 1787286611,
       "endTimestamp": 1787288550,
       "distanceKm": 5.01,
-      "paceSecPerKm": 380,
       "avgHr": 147,
-      "calories": 393
+      "calories": 393,
+      "paceSecPerKm": 380
     },
     {
       "labelId": "479758423397793897",
@@ -997,9 +1019,9 @@
       "startTimestamp": 1787235577,
       "endTimestamp": 1787238313,
       "distanceKm": 7.5,
-      "paceSecPerKm": 347,
       "avgHr": 157,
-      "calories": 574
+      "calories": 574,
+      "paceSecPerKm": 347
     },
     {
       "labelId": "479725582735671699",
@@ -1008,9 +1030,9 @@
       "startTimestamp": 1787114759,
       "endTimestamp": 1787117044,
       "distanceKm": 6.64,
-      "paceSecPerKm": 344,
       "avgHr": 149,
-      "calories": 477
+      "calories": 477,
+      "paceSecPerKm": 344
     },
     {
       "labelId": "479702697541402724",
@@ -1019,9 +1041,9 @@
       "startTimestamp": 1787031322,
       "endTimestamp": 1787031581,
       "distanceKm": 0.727,
-      "paceSecPerKm": 355,
       "avgHr": 147,
-      "calories": 51
+      "calories": 51,
+      "paceSecPerKm": 355
     },
     {
       "labelId": "479702697270870219",
@@ -1030,9 +1052,9 @@
       "startTimestamp": 1787027387,
       "endTimestamp": 1787031297,
       "distanceKm": 12.08,
-      "paceSecPerKm": 311,
       "avgHr": 159,
-      "calories": 814
+      "calories": 814,
+      "paceSecPerKm": 311
     },
     {
       "labelId": "479680372567736420",
@@ -1041,9 +1063,9 @@
       "startTimestamp": 1786942667,
       "endTimestamp": 1786945534,
       "distanceKm": 8,
-      "paceSecPerKm": 358,
       "avgHr": 154,
-      "calories": 636
+      "calories": 636,
+      "paceSecPerKm": 358
     },
     {
       "labelId": "479634536408318155",
@@ -1052,9 +1074,9 @@
       "startTimestamp": 1786777674,
       "endTimestamp": 1786777872,
       "distanceKm": 0.506,
-      "paceSecPerKm": 391,
       "avgHr": 155,
-      "calories": 44
+      "calories": 44,
+      "paceSecPerKm": 391
     },
     {
       "labelId": "479634406753992906",
@@ -1063,9 +1085,9 @@
       "startTimestamp": 1786773142,
       "endTimestamp": 1786777374,
       "distanceKm": 13.02,
-      "paceSecPerKm": 319,
       "avgHr": 165,
-      "calories": 1039
+      "calories": 1039,
+      "paceSecPerKm": 319
     },
     {
       "labelId": "479609117451780298",
@@ -1074,9 +1096,9 @@
       "startTimestamp": 1786680770,
       "endTimestamp": 1786683168,
       "distanceKm": 6.2,
-      "paceSecPerKm": 356,
       "avgHr": 153,
-      "calories": 486
+      "calories": 486,
+      "paceSecPerKm": 356
     },
     {
       "labelId": "479586296409391405",
@@ -1085,9 +1107,9 @@
       "startTimestamp": 1786597808,
       "endTimestamp": 1786599525,
       "distanceKm": 5.04,
-      "paceSecPerKm": 341,
       "avgHr": 153,
-      "calories": 380
+      "calories": 380,
+      "paceSecPerKm": 341
     },
     {
       "labelId": "479586136153423876",
@@ -1096,9 +1118,9 @@
       "startTimestamp": 1786596416,
       "endTimestamp": 1786597750,
       "distanceKm": 3.74,
-      "paceSecPerKm": 347,
       "avgHr": 150,
-      "calories": 272
+      "calories": 272,
+      "paceSecPerKm": 347
     },
     {
       "labelId": "479562868436533448",
@@ -1107,9 +1129,9 @@
       "startTimestamp": 1786509162,
       "endTimestamp": 1786510887,
       "distanceKm": 5.01,
-      "paceSecPerKm": 344,
       "avgHr": 152,
-      "calories": 379
+      "calories": 379,
+      "paceSecPerKm": 344
     },
     {
       "labelId": "479540390458851634",
@@ -1118,9 +1140,9 @@
       "startTimestamp": 1786423396,
       "endTimestamp": 1786427121,
       "distanceKm": 11.57,
-      "paceSecPerKm": 309,
       "avgHr": 162,
-      "calories": 800
+      "calories": 800,
+      "paceSecPerKm": 309
     },
     {
       "labelId": "479539353490587753",
@@ -1129,9 +1151,9 @@
       "startTimestamp": 1786422891,
       "endTimestamp": 1786423288,
       "distanceKm": 1.06,
-      "paceSecPerKm": 366,
       "avgHr": 139,
-      "calories": 70
+      "calories": 70,
+      "paceSecPerKm": 366
     },
     {
       "labelId": "479516477154689025",
@@ -1140,9 +1162,9 @@
       "startTimestamp": 1786335570,
       "endTimestamp": 1786338072,
       "distanceKm": 6.5,
-      "paceSecPerKm": 384,
       "avgHr": 137,
-      "calories": 460
+      "calories": 460,
+      "paceSecPerKm": 384
     },
     {
       "labelId": "479474621624647885",
@@ -1151,9 +1173,9 @@
       "startTimestamp": 1786181568,
       "endTimestamp": 1786182144,
       "distanceKm": 1.22,
-      "paceSecPerKm": 472,
       "avgHr": 150,
-      "calories": 122
+      "calories": 122,
+      "paceSecPerKm": 472
     },
     {
       "labelId": "479474451971342742",
@@ -1162,9 +1184,9 @@
       "startTimestamp": 1786177445,
       "endTimestamp": 1786181482,
       "distanceKm": 12.01,
-      "paceSecPerKm": 335,
       "avgHr": 160,
-      "calories": 953
+      "calories": 953,
+      "paceSecPerKm": 335
     },
     {
       "labelId": "479456542763024486",
@@ -1173,9 +1195,9 @@
       "startTimestamp": 1786112424,
       "endTimestamp": 1786114578,
       "distanceKm": 6.01,
-      "paceSecPerKm": 358,
       "avgHr": 157,
-      "calories": 496
+      "calories": 496,
+      "paceSecPerKm": 358
     },
     {
       "labelId": "479436447686885377",
@@ -1184,9 +1206,9 @@
       "startTimestamp": 1786030413,
       "endTimestamp": 1786033406,
       "distanceKm": 8.22,
-      "paceSecPerKm": 344,
       "avgHr": 151,
-      "calories": 613
+      "calories": 613,
+      "paceSecPerKm": 344
     },
     {
       "labelId": "479400921864896615",
@@ -1195,9 +1217,9 @@
       "startTimestamp": 1785905449,
       "endTimestamp": 1785907590,
       "distanceKm": 6.15,
-      "paceSecPerKm": 348,
       "avgHr": 152,
-      "calories": 467
+      "calories": 467,
+      "paceSecPerKm": 348
     },
     {
       "labelId": "479377992106148342",
@@ -1206,9 +1228,9 @@
       "startTimestamp": 1785822022,
       "endTimestamp": 1785822305,
       "distanceKm": 0.4,
-      "paceSecPerKm": 401,
       "avgHr": 145,
-      "calories": 32
+      "calories": 32,
+      "paceSecPerKm": 401
     },
     {
       "labelId": "479377991837712387",
@@ -1217,9 +1239,9 @@
       "startTimestamp": 1785819036,
       "endTimestamp": 1785821917,
       "distanceKm": 8.82,
-      "paceSecPerKm": 322,
       "avgHr": 164,
-      "calories": 699
+      "calories": 699,
+      "paceSecPerKm": 322
     },
     {
       "labelId": "479377133917995011",
@@ -1228,9 +1250,9 @@
       "startTimestamp": 1785818691,
       "endTimestamp": 1785818962,
       "distanceKm": 0.797,
-      "paceSecPerKm": 340,
       "avgHr": 144,
-      "calories": 51
+      "calories": 51,
+      "paceSecPerKm": 340
     },
     {
       "labelId": "479313591221125228",
@@ -1239,9 +1261,9 @@
       "startTimestamp": 1785577149,
       "endTimestamp": 1785582258,
       "distanceKm": 13.01,
-      "paceSecPerKm": 389,
       "avgHr": 153,
-      "calories": 1115
+      "calories": 1115,
+      "paceSecPerKm": 389
     },
     {
       "labelId": "479300042476257384",
@@ -1250,9 +1272,9 @@
       "startTimestamp": 1785509324,
       "endTimestamp": 1785511190,
       "distanceKm": 5.25,
-      "paceSecPerKm": 356,
       "avgHr": 151,
-      "calories": 403
+      "calories": 403,
+      "paceSecPerKm": 356
     },
     {
       "labelId": "479270508133646340",
@@ -1261,9 +1283,9 @@
       "startTimestamp": 1785421398,
       "endTimestamp": 1785424533,
       "distanceKm": 8,
-      "paceSecPerKm": 384,
       "avgHr": 154,
-      "calories": 688
+      "calories": 688,
+      "paceSecPerKm": 384
     },
     {
       "labelId": "479224625536991334",
@@ -1272,9 +1294,9 @@
       "startTimestamp": 1785250694,
       "endTimestamp": 1785250837,
       "distanceKm": 0.417,
-      "paceSecPerKm": 342,
       "avgHr": 157,
-      "calories": 33
+      "calories": 33,
+      "paceSecPerKm": 342
     },
     {
       "labelId": "479224370254872878",
@@ -1283,9 +1305,9 @@
       "startTimestamp": 1785249364,
       "endTimestamp": 1785250507,
       "distanceKm": 3.53,
-      "paceSecPerKm": 324,
       "avgHr": 163,
-      "calories": 286
+      "calories": 286,
+      "paceSecPerKm": 324
     },
     {
       "labelId": "479224150406234417",
@@ -1294,9 +1316,9 @@
       "startTimestamp": 1785248530,
       "endTimestamp": 1785249066,
       "distanceKm": 1.61,
-      "paceSecPerKm": 334,
       "avgHr": 153,
-      "calories": 118
+      "calories": 118,
+      "paceSecPerKm": 334
     },
     {
       "labelId": "479205213624893548",
@@ -1305,9 +1327,9 @@
       "startTimestamp": 1785176315,
       "endTimestamp": 1785178512,
       "distanceKm": 6.11,
-      "paceSecPerKm": 358,
       "avgHr": 155,
-      "calories": 485
+      "calories": 485,
+      "paceSecPerKm": 358
     },
     {
       "labelId": "479150657610219625",
@@ -1316,9 +1338,9 @@
       "startTimestamp": 1784967195,
       "endTimestamp": 1784974064,
       "distanceKm": 14.5,
-      "paceSecPerKm": 389,
       "avgHr": 144,
-      "calories": 1134
+      "calories": 1134,
+      "paceSecPerKm": 389
     },
     {
       "labelId": "479112974372471085",
@@ -1327,9 +1349,9 @@
       "startTimestamp": 1784832731,
       "endTimestamp": 1784834890,
       "distanceKm": 6.05,
-      "paceSecPerKm": 352,
       "avgHr": 150,
-      "calories": 457
+      "calories": 457,
+      "paceSecPerKm": 352
     },
     {
       "labelId": "479086529451425996",
@@ -1338,9 +1360,9 @@
       "startTimestamp": 1784733887,
       "endTimestamp": 1784736378,
       "distanceKm": 6.96,
-      "paceSecPerKm": 358,
       "avgHr": 156,
-      "calories": 567
+      "calories": 567,
+      "paceSecPerKm": 358
     },
     {
       "labelId": "479063512186913069",
@@ -1349,9 +1371,9 @@
       "startTimestamp": 1784650481,
       "endTimestamp": 1784650637,
       "distanceKm": 0.398,
-      "paceSecPerKm": 393,
       "avgHr": 156,
-      "calories": 35
+      "calories": 35,
+      "paceSecPerKm": 393
     },
     {
       "labelId": "479063399978795411",
@@ -1360,9 +1382,9 @@
       "startTimestamp": 1784648743,
       "endTimestamp": 1784650206,
       "distanceKm": 5.23,
-      "paceSecPerKm": 279,
       "avgHr": 174,
-      "calories": 401
+      "calories": 401,
+      "paceSecPerKm": 279
     },
     {
       "labelId": "479062886195429579",
@@ -1371,9 +1393,9 @@
       "startTimestamp": 1784647545,
       "endTimestamp": 1784648023,
       "distanceKm": 1.49,
-      "paceSecPerKm": 321,
       "avgHr": 151,
-      "calories": 102
+      "calories": 102,
+      "paceSecPerKm": 321
     },
     {
       "labelId": "479016469946990694",
@@ -1382,9 +1404,9 @@
       "startTimestamp": 1784471068,
       "endTimestamp": 1784475375,
       "distanceKm": 12.01,
-      "paceSecPerKm": 357,
       "avgHr": 153,
-      "calories": 946
+      "calories": 946,
+      "paceSecPerKm": 357
     },
     {
       "labelId": "478971179785290028",
@@ -1393,9 +1415,9 @@
       "startTimestamp": 1784304487,
       "endTimestamp": 1784306673,
       "distanceKm": 6.01,
-      "paceSecPerKm": 361,
       "avgHr": 150,
-      "calories": 466
+      "calories": 466,
+      "paceSecPerKm": 361
     },
     {
       "labelId": "478959123273121894",
@@ -1404,9 +1426,9 @@
       "startTimestamp": 1784217929,
       "endTimestamp": 1784218229,
       "distanceKm": 0.801,
-      "paceSecPerKm": 374,
       "avgHr": 159,
-      "calories": 66
+      "calories": 66,
+      "paceSecPerKm": 374
     },
     {
       "labelId": "478959123273121893",
@@ -1415,9 +1437,9 @@
       "startTimestamp": 1784215534,
       "endTimestamp": 1784217855,
       "distanceKm": 6.68,
-      "paceSecPerKm": 345,
       "avgHr": 154,
-      "calories": 474
+      "calories": 474,
+      "paceSecPerKm": 345
     },
     {
       "labelId": "478946690687074409",
@@ -1426,9 +1448,9 @@
       "startTimestamp": 1784215051,
       "endTimestamp": 1784215449,
       "distanceKm": 1.14,
-      "paceSecPerKm": 348,
       "avgHr": 144,
-      "calories": 73
+      "calories": 73,
+      "paceSecPerKm": 348
     },
     {
       "labelId": "478925752182538241",
@@ -1437,9 +1459,9 @@
       "startTimestamp": 1784134799,
       "endTimestamp": 1784137412,
       "distanceKm": 7.23,
-      "paceSecPerKm": 361,
       "avgHr": 153,
-      "calories": 579
+      "calories": 579,
+      "paceSecPerKm": 361
     },
     {
       "labelId": "478784314614513870",
@@ -1448,9 +1470,9 @@
       "startTimestamp": 1783610300,
       "endTimestamp": 1783610540,
       "distanceKm": 0.628,
-      "paceSecPerKm": 381,
       "avgHr": 153,
-      "calories": 50
+      "calories": 50,
+      "paceSecPerKm": 381
     },
     {
       "labelId": "478784314614513869",
@@ -1459,9 +1481,9 @@
       "startTimestamp": 1783608134,
       "endTimestamp": 1783610208,
       "distanceKm": 5.97,
-      "paceSecPerKm": 345,
       "avgHr": 171,
-      "calories": 500
+      "calories": 500,
+      "paceSecPerKm": 345
     },
     {
       "labelId": "478783638157164546",
@@ -1470,9 +1492,9 @@
       "startTimestamp": 1783607497,
       "endTimestamp": 1783607918,
       "distanceKm": 1.32,
-      "paceSecPerKm": 321,
       "avgHr": 151,
-      "calories": 86
+      "calories": 86,
+      "paceSecPerKm": 321
     },
     {
       "labelId": "480412243316473956",
@@ -1480,8 +1502,7 @@
       "name": "Strength",
       "startTimestamp": 1789659529,
       "endTimestamp": 1789661174,
-      "distanceKm": null,
-      "paceSecPerKm": null,
+      "distanceKm": 0,
       "avgHr": 81,
       "calories": 187
     },
@@ -1491,8 +1512,7 @@
       "name": "Strength",
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
-      "distanceKm": null,
-      "paceSecPerKm": null,
+      "distanceKm": 0,
       "avgHr": 95,
       "calories": 209
     },
@@ -1502,8 +1522,7 @@
       "name": "Legday v2",
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
-      "distanceKm": null,
-      "paceSecPerKm": null,
+      "distanceKm": 0,
       "avgHr": 89,
       "calories": 108
     }
