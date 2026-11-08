@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-07T05:05:35Z",
+  "generatedAt": "2026-11-08T05:06:16.966Z",
   "fitness": {
     "vo2max": 59,
     "runningLevel": 86,
@@ -13,11 +13,18 @@
   },
   "load": [
     {
-      "date": "2026-11-07",
+      "date": "2026-11-08",
       "comment": "Performance",
-      "short": 64,
-      "long": 92,
-      "ratio": 0.69
+      "short": 70,
+      "long": 93,
+      "ratio": 0.75
+    },
+    {
+      "date": "2026-11-07",
+      "comment": "Maintaining",
+      "short": 81,
+      "long": 95,
+      "ratio": 0.85
     },
     {
       "date": "2026-11-06",
@@ -178,14 +185,14 @@
       "comment": "Optimized",
       "short": 100,
       "long": 100,
-      "ratio": 1.0
+      "ratio": 1
     },
     {
       "date": "2026-10-14",
       "comment": "Optimized",
       "short": 100,
       "long": 100,
-      "ratio": 1.0
+      "ratio": 1
     },
     {
       "date": "2026-10-13",
@@ -221,13 +228,6 @@
       "short": 93,
       "long": 98,
       "ratio": 0.94
-    },
-    {
-      "date": "2026-10-08",
-      "comment": "Maintaining",
-      "short": 96,
-      "long": 99,
-      "ratio": 0.96
     }
   ],
   "activities": [
@@ -245,7 +245,7 @@
     {
       "labelId": "481536365914259458",
       "sportType": 100,
-      "name": "Threshold 5\u00d71000 m",
+      "name": "Threshold 5×1000 m",
       "startTimestamp": 1793859724,
       "endTimestamp": 1793861761,
       "distanceKm": 5.74,
@@ -743,7 +743,7 @@
       "name": "Locarno Run",
       "startTimestamp": 1788947551,
       "endTimestamp": 1788947923,
-      "distanceKm": 1.0,
+      "distanceKm": 1,
       "paceSecPerKm": 372,
       "avgHr": 148,
       "calories": 75
@@ -1062,7 +1062,7 @@
       "name": "Aerobic run",
       "startTimestamp": 1786942667,
       "endTimestamp": 1786945534,
-      "distanceKm": 8.0,
+      "distanceKm": 8,
       "paceSecPerKm": 358,
       "avgHr": 154,
       "calories": 636
@@ -1282,7 +1282,7 @@
       "name": "Nottwil Run",
       "startTimestamp": 1785421398,
       "endTimestamp": 1785424533,
-      "distanceKm": 8.0,
+      "distanceKm": 8,
       "paceSecPerKm": 384,
       "avgHr": 154,
       "calories": 688
