@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T05:05:55Z",
+  "generatedAt": "2026-11-11T05:06:02.703Z",
   "fitness": {
     "vo2max": 59,
     "runningLevel": 86,
@@ -13,11 +13,18 @@
   },
   "load": [
     {
-      "date": "2026-11-10",
+      "date": "2026-11-11",
       "comment": "Maintaining",
-      "short": 76,
-      "long": 94,
-      "ratio": 0.8
+      "short": 85,
+      "long": 95,
+      "ratio": 0.89
+    },
+    {
+      "date": "2026-11-10",
+      "comment": "Optimized",
+      "short": 99,
+      "long": 98,
+      "ratio": 1.01
     },
     {
       "date": "2026-11-09",
@@ -199,14 +206,14 @@
       "comment": "Optimized",
       "short": 100,
       "long": 100,
-      "ratio": 1.0
+      "ratio": 1
     },
     {
       "date": "2026-10-14",
       "comment": "Optimized",
       "short": 100,
       "long": 100,
-      "ratio": 1.0
+      "ratio": 1
     },
     {
       "date": "2026-10-13",
@@ -221,13 +228,6 @@
       "short": 94,
       "long": 99,
       "ratio": 0.94
-    },
-    {
-      "date": "2026-10-11",
-      "comment": "Optimized",
-      "short": 110,
-      "long": 102,
-      "ratio": 1.07
     }
   ],
   "activities": [
@@ -256,7 +256,7 @@
     {
       "labelId": "481536365914259458",
       "sportType": 100,
-      "name": "Threshold 5\u00d71000 m",
+      "name": "Threshold 5×1000 m",
       "startTimestamp": 1793859724,
       "endTimestamp": 1793861761,
       "distanceKm": 5.74,
@@ -754,7 +754,7 @@
       "name": "Locarno Run",
       "startTimestamp": 1788947551,
       "endTimestamp": 1788947923,
-      "distanceKm": 1.0,
+      "distanceKm": 1,
       "paceSecPerKm": 372,
       "avgHr": 148,
       "calories": 75
@@ -1073,7 +1073,7 @@
       "name": "Aerobic run",
       "startTimestamp": 1786942667,
       "endTimestamp": 1786945534,
-      "distanceKm": 8.0,
+      "distanceKm": 8,
       "paceSecPerKm": 358,
       "avgHr": 154,
       "calories": 636
@@ -1293,7 +1293,7 @@
       "name": "Nottwil Run",
       "startTimestamp": 1785421398,
       "endTimestamp": 1785424533,
-      "distanceKm": 8.0,
+      "distanceKm": 8,
       "paceSecPerKm": 384,
       "avgHr": 154,
       "calories": 688
@@ -1473,6 +1473,28 @@
       "paceSecPerKm": 361,
       "avgHr": 153,
       "calories": 579
+    },
+    {
+      "labelId": "481661529312231823",
+      "sportType": 402,
+      "name": "Calf Prehab",
+      "startTimestamp": 1794325893,
+      "endTimestamp": 1794326795,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 80,
+      "calories": 69
+    },
+    {
+      "labelId": "481660631932502016",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1794324402,
+      "endTimestamp": 1794325662,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 96,
+      "calories": 60
     },
     {
       "labelId": "481638844907684046",
