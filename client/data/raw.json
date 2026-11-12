@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T05:06:02.703Z",
+  "generatedAt": "2026-11-12T05:05:59.985Z",
   "fitness": {
     "vo2max": 59,
     "runningLevel": 86,
@@ -13,11 +13,18 @@
   },
   "load": [
     {
-      "date": "2026-11-11",
+      "date": "2026-11-12",
       "comment": "Maintaining",
       "short": 85,
       "long": 95,
       "ratio": 0.89
+    },
+    {
+      "date": "2026-11-11",
+      "comment": "Optimized",
+      "short": 99,
+      "long": 98,
+      "ratio": 1.01
     },
     {
       "date": "2026-11-10",
@@ -221,16 +228,20 @@
       "short": 94,
       "long": 99,
       "ratio": 0.94
-    },
-    {
-      "date": "2026-10-12",
-      "comment": "Maintaining",
-      "short": 94,
-      "long": 99,
-      "ratio": 0.94
     }
   ],
   "activities": [
+    {
+      "labelId": "481675281262739856",
+      "sportType": 100,
+      "name": "Easy run 8 km",
+      "startTimestamp": 1794377240,
+      "endTimestamp": 1794380233,
+      "distanceKm": 8.02,
+      "paceSecPerKm": 367,
+      "avgHr": 152,
+      "calories": 636
+    },
     {
       "labelId": "481612886662217733",
       "sportType": 100,
