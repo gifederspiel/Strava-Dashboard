@@ -1,23 +1,30 @@
 {
-  "generatedAt": "2026-11-13T05:05:46Z",
+  "generatedAt": "2026-11-14T05:05:57Z",
   "fitness": {
     "vo2max": 59,
     "runningLevel": 86,
     "thresholdPaceSecPerKm": 266,
     "predictions": {
-      "5k": "21:11",
-      "10k": "43:55",
-      "half": "1:37:59",
-      "marathon": "3:25:47"
+      "5k": "21:12",
+      "10k": "43:57",
+      "half": "1:38:04",
+      "marathon": "3:25:57"
     }
   },
   "load": [
     {
+      "date": "2026-11-14",
+      "comment": "Maintaining",
+      "short": 80,
+      "long": 94,
+      "ratio": 0.85
+    },
+    {
       "date": "2026-11-13",
       "comment": "Maintaining",
-      "short": 81,
-      "long": 95,
-      "ratio": 0.85
+      "short": 94,
+      "long": 97,
+      "ratio": 0.96
     },
     {
       "date": "2026-11-12",
@@ -221,37 +228,19 @@
       "short": 100,
       "long": 100,
       "ratio": 1.0
-    },
-    {
-      "date": "2026-10-14",
-      "comment": "Optimized",
-      "short": 100,
-      "long": 100,
-      "ratio": 1.0
     }
   ],
   "activities": [
     {
-      "labelId": "481708633829179493",
-      "sportType": 402,
-      "name": "Core",
-      "startTimestamp": 1794503372,
-      "endTimestamp": 1794504383,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 97,
-      "calories": 107
-    },
-    {
-      "labelId": "481708302313488484",
-      "sportType": 402,
-      "name": "Jeff Nippard Upper",
-      "startTimestamp": 1794501299,
-      "endTimestamp": 1794503255,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 90,
-      "calories": 102
+      "labelId": "481731202003272179",
+      "sportType": 100,
+      "name": "Easy run 8 km",
+      "startTimestamp": 1794585758,
+      "endTimestamp": 1794588543,
+      "distanceKm": 8.27,
+      "paceSecPerKm": 335,
+      "avgHr": 151,
+      "calories": 595
     },
     {
       "labelId": "481675281262739856",
@@ -263,39 +252,6 @@
       "paceSecPerKm": 367,
       "avgHr": 152,
       "calories": 636
-    },
-    {
-      "labelId": "481661529312231823",
-      "sportType": 402,
-      "name": "Calf Prehab",
-      "startTimestamp": 1794325893,
-      "endTimestamp": 1794326795,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 80,
-      "calories": 69
-    },
-    {
-      "labelId": "481660631932502016",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1794324402,
-      "endTimestamp": 1794325662,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 96,
-      "calories": 60
-    },
-    {
-      "labelId": "481638844907684046",
-      "sportType": 402,
-      "name": "Core",
-      "startTimestamp": 1794243279,
-      "endTimestamp": 1794244319,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 88,
-      "calories": 110
     },
     {
       "labelId": "481612886662217733",
@@ -705,17 +661,6 @@
       "calories": 299
     },
     {
-      "labelId": "480412243316473956",
-      "sportType": 402,
-      "name": "Strength",
-      "startTimestamp": 1789659529,
-      "endTimestamp": 1789661174,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 81,
-      "calories": 187
-    },
-    {
       "labelId": "480398651357692105",
       "sportType": 100,
       "name": "Aerobic run",
@@ -925,17 +870,6 @@
       "calories": 621
     },
     {
-      "labelId": "480037332668416103",
-      "sportType": 402,
-      "name": "Strength",
-      "startTimestamp": 1788277848,
-      "endTimestamp": 1788280411,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 95,
-      "calories": 209
-    },
-    {
       "labelId": "480027965344743625",
       "sportType": 100,
       "name": "Lucerne Run",
@@ -1077,17 +1011,6 @@
       "paceSecPerKm": 349,
       "avgHr": 117,
       "calories": 13
-    },
-    {
-      "labelId": "479864791754637314",
-      "sportType": 402,
-      "name": "Legday v2",
-      "startTimestamp": 1787634342,
-      "endTimestamp": 1787635640,
-      "distanceKm": null,
-      "paceSecPerKm": null,
-      "avgHr": 89,
-      "calories": 108
     },
     {
       "labelId": "479823239825096704",
@@ -1530,37 +1453,92 @@
       "calories": 466
     },
     {
-      "labelId": "478959123273121894",
-      "sportType": 100,
-      "name": "Nottwil Run",
-      "startTimestamp": 1784217929,
-      "endTimestamp": 1784218229,
-      "distanceKm": 0.801,
-      "paceSecPerKm": 374,
-      "avgHr": 159,
-      "calories": 66
+      "labelId": "481708633829179493",
+      "sportType": 402,
+      "name": "Core",
+      "startTimestamp": 1794503372,
+      "endTimestamp": 1794504383,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 97,
+      "calories": 107
     },
     {
-      "labelId": "478959123273121893",
-      "sportType": 100,
-      "name": "5x 1200m",
-      "startTimestamp": 1784215534,
-      "endTimestamp": 1784217855,
-      "distanceKm": 6.68,
-      "paceSecPerKm": 345,
-      "avgHr": 154,
-      "calories": 474
+      "labelId": "481708302313488484",
+      "sportType": 402,
+      "name": "Jeff Nippard Upper",
+      "startTimestamp": 1794501299,
+      "endTimestamp": 1794503255,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 90,
+      "calories": 102
     },
     {
-      "labelId": "478946690687074409",
-      "sportType": 100,
-      "name": "Nottwil Run",
-      "startTimestamp": 1784215051,
-      "endTimestamp": 1784215449,
-      "distanceKm": 1.14,
-      "paceSecPerKm": 348,
-      "avgHr": 144,
-      "calories": 73
+      "labelId": "481661529312231823",
+      "sportType": 402,
+      "name": "Calf Prehab",
+      "startTimestamp": 1794325893,
+      "endTimestamp": 1794326795,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 80,
+      "calories": 69
+    },
+    {
+      "labelId": "481660631932502016",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1794324402,
+      "endTimestamp": 1794325662,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 96,
+      "calories": 60
+    },
+    {
+      "labelId": "481638844907684046",
+      "sportType": 402,
+      "name": "Core",
+      "startTimestamp": 1794243279,
+      "endTimestamp": 1794244319,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 88,
+      "calories": 110
+    },
+    {
+      "labelId": "480412243316473956",
+      "sportType": 402,
+      "name": "Strength",
+      "startTimestamp": 1789659529,
+      "endTimestamp": 1789661174,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 81,
+      "calories": 187
+    },
+    {
+      "labelId": "480037332668416103",
+      "sportType": 402,
+      "name": "Strength",
+      "startTimestamp": 1788277848,
+      "endTimestamp": 1788280411,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 95,
+      "calories": 209
+    },
+    {
+      "labelId": "479864791754637314",
+      "sportType": 402,
+      "name": "Legday v2",
+      "startTimestamp": 1787634342,
+      "endTimestamp": 1787635640,
+      "distanceKm": null,
+      "paceSecPerKm": null,
+      "avgHr": 89,
+      "calories": 108
     }
   ]
 }
