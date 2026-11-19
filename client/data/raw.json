@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T05:06:02.072Z",
+  "generatedAt": "2026-11-19T05:06:40.776Z",
   "fitness": {
     "vo2max": 59,
     "runningLevel": 86,
@@ -13,11 +13,18 @@
   },
   "load": [
     {
-      "date": "2026-11-18",
+      "date": "2026-11-19",
       "comment": "Maintaining",
-      "short": 94,
+      "short": 84,
+      "long": 96,
+      "ratio": 0.87
+    },
+    {
+      "date": "2026-11-18",
+      "comment": "Optimized",
+      "short": 98,
       "long": 98,
-      "ratio": 0.95
+      "ratio": 1
     },
     {
       "date": "2026-11-17",
@@ -221,16 +228,20 @@
       "short": 91,
       "long": 98,
       "ratio": 0.92
-    },
-    {
-      "date": "2026-10-19",
-      "comment": "Maintaining",
-      "short": 90,
-      "long": 98,
-      "ratio": 0.91
     }
   ],
   "activities": [
+    {
+      "labelId": "481837115894694189",
+      "sportType": 100,
+      "name": "Easy run 9 km (+ optional strides)",
+      "startTimestamp": 1794982270,
+      "endTimestamp": 1794983070,
+      "distanceKm": 2.29,
+      "paceSecPerKm": 350,
+      "avgHr": 151,
+      "calories": 169
+    },
     {
       "labelId": "481772671523127499",
       "sportType": 100,
@@ -1409,46 +1420,13 @@
       "calories": 567
     },
     {
-      "labelId": "479063512186913069",
-      "sportType": 100,
-      "name": "Nottwil Run",
-      "startTimestamp": 1784650481,
-      "endTimestamp": 1784650637,
-      "distanceKm": 0.398,
-      "paceSecPerKm": 393,
-      "avgHr": 156,
-      "calories": 35
-    },
-    {
-      "labelId": "479063399978795411",
-      "sportType": 100,
-      "name": "Run",
-      "startTimestamp": 1784648743,
-      "endTimestamp": 1784650206,
-      "distanceKm": 5.23,
-      "paceSecPerKm": 279,
-      "avgHr": 174,
-      "calories": 401
-    },
-    {
-      "labelId": "479062886195429579",
-      "sportType": 100,
-      "name": "Nottwil Run",
-      "startTimestamp": 1784647545,
-      "endTimestamp": 1784648023,
-      "distanceKm": 1.49,
-      "paceSecPerKm": 321,
-      "avgHr": 151,
-      "calories": 102
-    },
-    {
       "labelId": "481801535313969252",
       "sportType": 402,
       "name": "Core",
       "startTimestamp": 1794849481,
       "endTimestamp": 1794850548,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 79,
       "calories": 100
     },
@@ -1458,8 +1436,8 @@
       "name": "Core",
       "startTimestamp": 1794503372,
       "endTimestamp": 1794504383,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 97,
       "calories": 107
     },
@@ -1469,8 +1447,8 @@
       "name": "Jeff Nippard Upper",
       "startTimestamp": 1794501299,
       "endTimestamp": 1794503255,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 90,
       "calories": 102
     },
@@ -1480,8 +1458,8 @@
       "name": "Calf Prehab",
       "startTimestamp": 1794325893,
       "endTimestamp": 1794326795,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 80,
       "calories": 69
     },
@@ -1491,8 +1469,8 @@
       "name": "Legday v2",
       "startTimestamp": 1794324402,
       "endTimestamp": 1794325662,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 96,
       "calories": 60
     },
@@ -1502,8 +1480,8 @@
       "name": "Core",
       "startTimestamp": 1794243279,
       "endTimestamp": 1794244319,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 88,
       "calories": 110
     },
@@ -1513,8 +1491,8 @@
       "name": "Strength",
       "startTimestamp": 1789659529,
       "endTimestamp": 1789661174,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 81,
       "calories": 187
     },
@@ -1524,8 +1502,8 @@
       "name": "Strength",
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 95,
       "calories": 209
     },
@@ -1535,8 +1513,8 @@
       "name": "Legday v2",
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
-      "distanceKm": 0,
-      "paceSecPerKm": 0,
+      "distanceKm": null,
+      "paceSecPerKm": null,
       "avgHr": 89,
       "calories": 108
     }
