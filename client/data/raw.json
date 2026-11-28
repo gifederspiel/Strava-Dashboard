@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-27T05:05:50.978Z",
+  "generatedAt": "2026-11-28T05:05:40.849Z",
   "fitness": {
     "vo2max": 59,
     "runningLevel": 86,
@@ -13,11 +13,18 @@
   },
   "load": [
     {
+      "date": "2026-11-28",
+      "comment": "Maintaining",
+      "short": 80,
+      "long": 93,
+      "ratio": 0.86
+    },
+    {
       "date": "2026-11-27",
       "comment": "Maintaining",
-      "short": 79,
-      "long": 93,
-      "ratio": 0.84
+      "short": 94,
+      "long": 95,
+      "ratio": 0.98
     },
     {
       "date": "2026-11-26",
@@ -221,13 +228,6 @@
       "short": 80,
       "long": 100,
       "ratio": 0.8
-    },
-    {
-      "date": "2026-10-28",
-      "comment": "Maintaining",
-      "short": 94,
-      "long": 102,
-      "ratio": 0.92
     }
   ],
   "activities": [
@@ -509,7 +509,7 @@
     {
       "labelId": "480935295978603100",
       "sportType": 100,
-      "name": "Long run 10 easy + 10 race effort (course)",
+      "name": "Long run 10 easy + 10 race effort (cour se)",
       "startTimestamp": 1791616329,
       "endTimestamp": 1791622959,
       "avgHr": 164,
@@ -1354,26 +1354,13 @@
       "paceSecPerKm": 356
     },
     {
-      "labelId": "479270508133646340",
-      "sportType": 100,
-      "name": "Nottwil Run",
-      "startTimestamp": 1785421398,
-      "endTimestamp": 1785424533,
-      "avgHr": 154,
-      "calories": 688,
-      "distanceKm": 8,
-      "paceSecPerKm": 384
-    },
-    {
       "labelId": "481801535313969252",
       "sportType": 402,
       "name": "Core",
       "startTimestamp": 1794849481,
       "endTimestamp": 1794850548,
       "avgHr": 79,
-      "calories": 100,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 100
     },
     {
       "labelId": "481708633829179493",
@@ -1382,9 +1369,7 @@
       "startTimestamp": 1794503372,
       "endTimestamp": 1794504383,
       "avgHr": 97,
-      "calories": 107,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 107
     },
     {
       "labelId": "481708302313488484",
@@ -1393,9 +1378,7 @@
       "startTimestamp": 1794501299,
       "endTimestamp": 1794503255,
       "avgHr": 90,
-      "calories": 102,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 102
     },
     {
       "labelId": "481661529312231823",
@@ -1404,9 +1387,7 @@
       "startTimestamp": 1794325893,
       "endTimestamp": 1794326795,
       "avgHr": 80,
-      "calories": 69,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 69
     },
     {
       "labelId": "481660631932502016",
@@ -1415,9 +1396,7 @@
       "startTimestamp": 1794324402,
       "endTimestamp": 1794325662,
       "avgHr": 96,
-      "calories": 60,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 60
     },
     {
       "labelId": "481638844907684046",
@@ -1426,9 +1405,7 @@
       "startTimestamp": 1794243279,
       "endTimestamp": 1794244319,
       "avgHr": 88,
-      "calories": 110,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 110
     },
     {
       "labelId": "480412243316473956",
@@ -1437,9 +1414,7 @@
       "startTimestamp": 1789659529,
       "endTimestamp": 1789661174,
       "avgHr": 81,
-      "calories": 187,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 187
     },
     {
       "labelId": "480037332668416103",
@@ -1448,9 +1423,7 @@
       "startTimestamp": 1788277848,
       "endTimestamp": 1788280411,
       "avgHr": 95,
-      "calories": 209,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 209
     },
     {
       "labelId": "479864791754637314",
@@ -1459,9 +1432,7 @@
       "startTimestamp": 1787634342,
       "endTimestamp": 1787635640,
       "avgHr": 89,
-      "calories": 108,
-      "distanceKm": 0,
-      "paceSecPerKm": 0
+      "calories": 108
     }
   ]
 }
